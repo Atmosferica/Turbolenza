@@ -3,17 +3,17 @@
 # This is the definition of class turbulence
 turbulence <- setClass('turbulence', slots=c(u='numeric', v='numeric', w='numeric', t='numeric'))
 
-setGeneric('get_hvel', function(x){ # To define an S4 method, I must create a generic first
+setGeneric('get_hvel', function(object){ # To define an S4 method, I must create a generic first
   standardGeneric('get_hvel')       # standardGeneric is the S4 equivalent of UseMethod
 })
 
 setMethod('get_hvel', signature='turbulence', 
-          function(turb_data){
-            x_vel <- turb_data@u # wind x velocity (west to east)
-            y_vel <- turb_data@v # wind y velocity (south to north)
+          function(object){
+            x_vel <- object@u # wind x velocity (west to east)
+            y_vel <- object@v # wind y velocity (south to north)
             h_vel <- c(1:length(x_vel))
             h_vel <- sqrt(x_vel^2 + y_vel^2) # horizontal velocity
-            return(h_vel)
+            return(h_vel*2)
           }
           , sealed=FALSE)
 
