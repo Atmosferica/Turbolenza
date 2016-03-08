@@ -1,7 +1,25 @@
 # Here I try to define a S4 class for data of ultrasonic anemometer
 
 # This is the definition of class turbulence
-turbulence <- setClass('turbulence', slots=c(u='numeric', v='numeric', w='numeric', t='numeric'))
+turbulence <- setClass('turbulence', slots=c(u='numeric', v='numeric', w='numeric', t='numeric', h_vel='numeric', dir='numeric'))
+
+# Method for filling the slot corresponding to horizontal velocity from class turbulence
+setGeneric('set_hvel', function(object){
+  standardGeneric('set_hvel')
+})
+
+setMethod('set_hvel', signature='turbulence',
+          function(object){
+            x_vel <- object@u # wind x velocity (west to east)
+            y_vel <- object@v # wind y velocity (south to north)
+            h_vel <- c(1:length(x_vel))
+            h_vel <- sqrt(x_vel^2 + y_vel^2) # horizontal velocity
+            object@h_vel <- h_vel
+            return(object)
+          })
+
+
+# Method for extracting the slot corresponding to horizontal velocity from class turbulence
 
 setGeneric('get_hvel', function(object){ # To define an S4 method, I must create a generic first
   standardGeneric('get_hvel')       # standardGeneric is the S4 equivalent of UseMethod
@@ -9,11 +27,12 @@ setGeneric('get_hvel', function(object){ # To define an S4 method, I must create
 
 setMethod('get_hvel', signature='turbulence', 
           function(object){
-            x_vel <- object@u # wind x velocity (west to east)
-            y_vel <- object@v # wind y velocity (south to north)
-            h_vel <- c(1:length(x_vel))
-            h_vel <- sqrt(x_vel^2 + y_vel^2) # horizontal velocity
-            return(h_vel*2)
+            h_vel <- object@h_vel
+            time <- object@t
+            h_vel <- cbind(h_vel, time)
+            # Checking if slot @h_vel has already been filled with set_hvel
+            if(length(object@h_vel)==0) stop('Slot empty! Did you set the value with set_hvel()?')
+            return(h_vel)
           }
           , sealed=FALSE)
 
