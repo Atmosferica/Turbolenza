@@ -44,13 +44,12 @@ ampiezze <- Mod(X.k[1:(length(X.k))/2])/Npoint
 frequenze <- seq(0, acq.freq/2, length.out=length(ampiezze))
 X.k[20:Npoint] <- 0+0i
 hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
-
 residuals=hor_velocity - hvel2
 
 
 par(mfrow = c(2,2))
-plot(hor_velocity ~ ts(1:length(hor_velocity)-1),t='l',xlab="Tempi[s]", ylab="Velocita`[m/s]")
-plot(hvel2 ~ ts(1:length(hor_velocity)-1), t='l',xlab="Tempi[s]", ylab="Velocita` smooth [m/s]")
-plot(residuals ~ ts(1:length(hor_velocity)-1), t='l' )
+plot(hor_velocity ~ ts(1:length(hor_velocity)-1),t='l',xlab="Tempi[s]", ylab="Velocita`[m/s]", ylim=c(0,4))
+plot(hvel2 ~ ts(1:length(hor_velocity)-1), t='l',xlab="Tempi[s]", ylab="Velocita` smooth [m/s]",ylim=c(0,4))
+plot(residuals ~ ts(1:length(hor_velocity)-1), xlab="Tempi[s]", ylab="V1-V2[m/s]", t='l' ,ylim=c(-2,2))
 plot(ampiezze ~ frequenze, t="l", xlim=c(0,acq.freq/2),log="y", xlab="Frequenze[Hz]", ylab = "Potenza")
 
