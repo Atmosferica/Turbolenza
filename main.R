@@ -23,7 +23,8 @@ data <- read.csv('./20160129.15r.dat')
 # Converted data (of class data.frame) into an object of class turbulence
 turb <- as.turbulence(data)
 
-hor_velocity <- get_hvel(turb)
+turb <- set_hvel(turb) # for setting horizontal_velocity in turbulence class
+hor_velocity <- get_hvel(turb) 
 
 
 acq.freq <- 10.
@@ -48,3 +49,5 @@ plot(hvel2 ~ ts(1:length(hor_velocity)-1), t='l',xlab="Tempi[s]", ylab="Velocita
 plot(residuals ~ ts(1:length(hor_velocity)-1), t='l' )
 plot(ampiezze ~ frequenze, t="l", xlim=c(0,acq.freq/2),log="y", xlab="Frequenze[Hz]", ylab = "Potenza")
 
+# This is only an attempt to make a first main for our project, it should be changed 
+# during the work.
