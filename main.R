@@ -36,8 +36,8 @@ w <- 2*pi*f.0
 X.k <- fft(hor_velocity)
 ampiezze <- Mod(X.k[1:(length(X.k))/2])/Npoint
 frequenze <- seq(0, acq.freq/2, length.out=length(ampiezze))
-X.k[100:Npoint] <- 0+0i
-hvel2 <- Mod(fft(X.k, inverse = TRUE)/Npoint)
+X.k[20:Npoint] <- 0+0i
+hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
 
 residuals=hor_velocity - hvel2
 

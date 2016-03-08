@@ -13,8 +13,8 @@ setMethod('get_hvel', signature='turbulence',
             y_vel <- object@v # wind y velocity (south to north)
             h_vel <- c(1:length(x_vel))
             h_vel <- sqrt(x_vel^2 + y_vel^2) # horizontal velocity
-            return(h_vel*2)
-          }
+            return(h_vel*2) #Perche` ritorna moltipicata per 2?
+}
           , sealed=FALSE)
 
 
