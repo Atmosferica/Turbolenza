@@ -1,9 +1,9 @@
 #!/usr/bin/awk -f
 
 ##
-##Parser inline for sonic data reduction. Convert the raw style data in CSV format.  
+##Parser inline for data reduction. Convert the raw style data in CSV format.  
 ##Usage: ./convert_cvs.awk inputfilename.dat > outputfilename.dat
-##
+##Date: 6-3-2016
 
 BEGIN{	
 	print "x,y,z,t";
