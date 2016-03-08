@@ -16,7 +16,9 @@ def f(f,sig2,fknee,alpha):
 
 def DO_FFT(x,y):
     
-    Freq_campionamento = 1./(x[1]-x[0])
+    #Freq_campionamento = 1./(x[1]-x[0])
+
+    Freq_campionamento = 10
     punti = y.shape[-1]
     
     h_vel = np.sqrt(x*x+y*y)
@@ -35,21 +37,20 @@ def DO_FFT(x,y):
     h_vel2=np.sqrt(h_vel2_i*h_vel2_i+h_vel2_r*h_vel2_r)
 
 
-    plt.subplot(311)
+    plt.subplot(411)
     plt.title("Velocita`")
     plt.plot(h_vel,'k')
 
 
-    #plt.subplot(412)
-    #plt.yscale('log')
-    #plt.xscale('log')
-    #plt.plot(F,A,'k',F,A,'bo')
+    plt.subplot(412)
+    plt.yscale('log')
+    plt.plot(F,A,'k',F,A,'bo')
 
-    plt.subplot(312)
+    plt.subplot(413)
     plt.title("Applicazione filtro con FFT")
     plt.plot(h_vel,"red",h_vel2,'.')
 
-    plt.subplot(313)
+    plt.subplot(414)
     plt.title("Sottrazione componente a bassa frequenza")
     plt.plot(h_vel-h_vel2,"k")
 

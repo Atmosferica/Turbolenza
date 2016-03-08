@@ -6,7 +6,7 @@
 ##Date: 6-3-2016
 
 BEGIN{	
-	print "x,y,z,t";
+	print "#x,y,z,t";
 	a=0;
 }
 
