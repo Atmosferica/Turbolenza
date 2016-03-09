@@ -29,13 +29,10 @@ hor_velocity <- hor_vel[,1]
 
 
 
-#commento --- e` cambiato il type quindi questa cosa non vale piu`
-
-
 acq.freq <- 10.
 Npoint <- length(hor_velocity)
 time <- Npoint*(1/acq.freq)
-ts <- seq(0,time,1/acq.freq)
+ts <- seq(0,time,1/acq.freq) 
 f.0 <- 1/time
 w <- 2*pi*f.0
 
@@ -44,12 +41,18 @@ ampiezze <- Mod(X.k[1:(length(X.k))/2])/Npoint
 frequenze <- seq(0, acq.freq/2, length.out=length(ampiezze))
 X.k[20:Npoint] <- 0+0i
 hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
-residuals=hor_velocity - hvel2
+
+residuals <- hor_velocity - hvel2
 
 
-par(mfrow = c(2,2))
-plot(hor_velocity ~ ts(1:length(hor_velocity)-1),t='l',xlab="Tempi[s]", ylab="Velocita`[m/s]", ylim=c(0,4))
-plot(hvel2 ~ ts(1:length(hor_velocity)-1), t='l',xlab="Tempi[s]", ylab="Velocita` smooth [m/s]",ylim=c(0,4))
-plot(residuals ~ ts(1:length(hor_velocity)-1), xlab="Tempi[s]", ylab="V1-V2[m/s]", t='l' ,ylim=c(-2,2))
-plot(ampiezze ~ frequenze, t="l", xlim=c(0,acq.freq/2),log="y", xlab="Frequenze[Hz]", ylab = "Potenza")
+XX.k <- fft(residuals)
 
+ampiezze2 <- Mod(XX.k[1:(length(XX.k))/2])/Npoint
+
+par(mfrow = c(1,1))
+#plot(hor_velocity ~ ts(1:length(hor_velocity)-1),t='l',xlab="Tempi[s]", ylab="Velocita`[m/s]", ylim=c(0,4))
+#lines(hvel2, col="red",lwd=4)
+#plot(hvel2 ~ ts(1:length(hor_velocity)-1), t='l',xlab="Tempi[s]", ylab="Velocita` smooth [m/s]",ylim=c(0,4))
+#plot(residuals ~ ts(1:length(hor_velocity)-1), xlab="Tempi[s]", ylab="V1-V2[m/s]", t='l' )#,ylim=c(-2,2))
+#plot(ampiezze ~ frequenze, t="l", xlim=c(0,acq.freq/2),log="y", xlab="Frequenze[Hz]", ylab = "Potenza")
+plot(ampiezze2 ~ frequenze, xlim=c(0.7,acq.freq/2), xlab="Frequenze[Hz]", ylab = "Potenza", lwd=0.2, ylim=c(0.0001,0.002), log=c("x","y"), type="l",cex=0.4)
