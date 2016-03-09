@@ -31,6 +31,7 @@ setMethod('get_hvel', signature='turbulence',
           function(object){
             h_vel <- object@h_vel
             temperature <- object@t
+	          h_vel <- cbind(h_vel,temperature)
             if(length(object@h_vel)==0) stop('Slot empty! Did you set the value with set_hvel()?')
             return(h_vel)
           }
@@ -47,6 +48,8 @@ setGeneric('get_zvel', function(object){    # To define an S4 method, I must cre
 setMethod('get_zvel', signature='turbulence', 
           function(object){
             z_vel <- object@w
+            temperature <-object@t
+            z_vel <- cbind(z_vel,temperature)
             return(z_vel)
           }
           , sealed=FALSE)
