@@ -10,19 +10,21 @@ setGeneric('set_hvel', function(object){
 
 setMethod('set_hvel', signature='turbulence',
           function(object){
-            x_vel <- object@u # wind x velocity (west to east)
-            y_vel <- object@v # wind y velocity (south to north)
-            h_vel <- c(1:length(x_vel))
+            x_vel <- object@u                # wind x velocity (west to east)
+            y_vel <- object@v                # wind y velocity (south to north)
+            h_vel <- c(1:length(x_vel))      
             h_vel <- sqrt(x_vel^2 + y_vel^2) # horizontal velocity
             object@h_vel <- h_vel
             return(object)
           })
 
+#******************************************************************************
+# Method for extracting the slot corresponding 
+# to horizontal velocity from class turbulence
+#******************************************************************************
 
-# Method for extracting the slot corresponding to horizontal velocity from class turbulence
-
-setGeneric('get_hvel', function(object){ # To define an S4 method, I must create a generic first
-  standardGeneric('get_hvel')       # standardGeneric is the S4 equivalent of UseMethod
+setGeneric('get_hvel', function(object){     # To define an S4 method, I must create a generic first
+  standardGeneric('get_hvel')                # standardGeneric is the S4 equivalent of UseMethod
 })
 
 setMethod('get_hvel', signature='turbulence', 
@@ -36,9 +38,25 @@ setMethod('get_hvel', signature='turbulence',
           }
           , sealed=FALSE)
 
+#******************************************************************************
+# Method for extracting vertical velocity slot
+#******************************************************************************
 
+setGeneric('get_zvel', function(object){    # To define an S4 method, I must create a generic first
+  standardGeneric('get_zvel')               # standardGeneric is the S4 equivalent of UseMethod
+})
 
+setMethod('get_zvel', signature='turbulence', 
+          function(object){
+            z_vel <- object@w
+            return(z_vel)
+          }
+          , sealed=FALSE)
+
+#******************************************************************************
 # S3 method for casting an object into an object of class turbulence
+#******************************************************************************
+
 as.turbulence <- function(x, ...){
   UseMethod('as.turbulence')
 }
@@ -61,8 +79,10 @@ as.turbulence.matrix <- function(data){
   return(turb)
 }
 
-
+#******************************************************************************
 # Default method: probably we can optimize the control on the length
+#******************************************************************************
+
 as.turbulence.default <- function(x, y, z, time){
   # If length of the elements passed differs, returns error (you must have the same number of data)
   if(length(u)!=length(v) | length(u)!=length(w) | length(u)!=length(t)

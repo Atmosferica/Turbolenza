@@ -14,14 +14,15 @@ def f(f,sig2,fknee,alpha):
     return sig2*(1+(fknee/f)^alpha)
 
 
-def DO_FFT(x,y):
+def DO_FFT(x,y,z):
     
     #Freq_campionamento = 1./(x[1]-x[0])
 
     Freq_campionamento = 10
     punti = y.shape[-1]
     
-    h_vel = np.sqrt(x*x+y*y)
+    #h_vel = np.sqrt(x*x+y*y)
+    h_vel = z + 2
 
     t = np.arange(punti)
     freq = np.fft.fftfreq(t.shape[-1],d=1./(Freq_campionamento) )
@@ -31,28 +32,34 @@ def DO_FFT(x,y):
 
     #filtra
     S2=S
-    S2[26:-26]=0
+    S2[100:-100]=0
     h_vel2_i=fftp.ifft(S2).imag
     h_vel2_r=fftp.ifft(S2).real
     h_vel2=np.sqrt(h_vel2_i*h_vel2_i+h_vel2_r*h_vel2_r)
+    residui=(h_vel-h_vel2)
 
+    SFR = np.fft.fft(residui)
+    AFR = np.abs(SFR*2/punti)
 
-    plt.subplot(411)
-    plt.title("Velocita`")
-    plt.plot(h_vel,'k')
-
-
-    plt.subplot(412)
-    plt.yscale('log')
-    plt.plot(F,A,'k',F,A,'bo')
-
-    plt.subplot(413)
+    plt.subplot(221)
     plt.title("Applicazione filtro con FFT")
     plt.plot(h_vel,"red",h_vel2,'.')
 
-    plt.subplot(414)
-    plt.title("Sottrazione componente a bassa frequenza")
-    plt.plot(h_vel-h_vel2,"k")
+    plt.subplot(222)
+    plt.ylim([0.001,0.015])
+    plt.xlim([0.009,0.1])
+    plt.title("FFT della velocita`")
+    plt.loglog(F,A,"k")
+    
+    plt.subplot(223)
+    plt.title("Residui")
+    plt.plot(residui,"k")
+
+    plt.subplot(224)
+    plt.ylim([0.001,0.015])
+    plt.xlim([0.009,0.1])
+    plt.title("FFT-residui")
+    plt.loglog(F,AFR,"k")
 
 
     plt.show()
@@ -103,6 +110,6 @@ if __name__ == '__main__':
         exit(2)
     
     x,y,z=load_file(sys.argv[1])
-    DO_FFT(x,y)
+    DO_FFT(x,y,z)
 
 
