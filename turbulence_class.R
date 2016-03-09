@@ -30,9 +30,7 @@ setGeneric('get_hvel', function(object){     # To define an S4 method, I must cr
 setMethod('get_hvel', signature='turbulence', 
           function(object){
             h_vel <- object@h_vel
-            time <- object@t
-            h_vel <- cbind(h_vel, time)
-            # Checking if slot @h_vel has already been filled with set_hvel
+            temperature <- object@t
             if(length(object@h_vel)==0) stop('Slot empty! Did you set the value with set_hvel()?')
             return(h_vel)
           }
@@ -52,6 +50,35 @@ setMethod('get_zvel', signature='turbulence',
             return(z_vel)
           }
           , sealed=FALSE)
+
+#******************************************************************************
+# S3 Perform the periodigram of a velocity vector
+#******************************************************************************
+
+filter.data <- function(velocity,acq.freq,Ncut){
+  Npoint=length(velocity)
+	time <- Npoint*(1/acq.freq)                    #Time window
+	ts <- seq(0,time,1/acq.freq)		               #vector of times
+	f.0 <- 1/time                                  #max freq. detectables
+	X.k <- fft(velocity)		                       #perform fft
+	peaks <- Mod(X.k[1:(length(X.k))/2])/Npoint    #compute the peack
+	Freq <- seq(0, 
+			 acq.freq/2, 
+			 length.out=length(peaks)                  #Freq.
+			 )
+	X.k[Ncut:Npoint] <- 0+0i
+	hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
+	res <- velocity - hvel2
+	XX.k <- fft(res)
+	peaks2 <- Mod(XX.k[1:(length(XX.k))/2])/Npoint
+	tsV <- ts[1:Npoint-1]
+	
+	filtered <-c(1:Npoint-1)
+	
+	filtered <- cbind(tsV,res,Freq,peaks,peaks2,hvel2)
+	return(filtered)
+	
+}
 
 #******************************************************************************
 # S3 method for casting an object into an object of class turbulence
