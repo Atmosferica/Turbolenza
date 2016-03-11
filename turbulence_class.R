@@ -18,6 +18,40 @@ setMethod('set_hvel', signature='turbulence',
             return(object)
           })
 
+#*****************************************************************************
+# Method for setting the slot corresponding to direction of wind
+#*****************************************************************************
+
+setGeneric('set_direction', function(object){
+  standardGeneric('set_direction')
+})
+
+setMethod('set_direction', signature='turbulence',
+	function(object){
+	  x_vel <- object@u
+	  y_vel <- object@v
+	  dir <- c(1:length(x_vel))
+	  dir <- atan2(y_vel, x_vel) # direction of wind from the North
+	  object@dir <- dir
+	  return(object)
+})
+
+
+#******************************************************************************
+# Method for extracting wind direction slot
+#******************************************************************************
+
+setGeneric('get_direction', function(object){    # To define an S4 method, I must create a generic first
+  standardGeneric('get_direction')               # standardGeneric is the S4 equivalent of UseMethod
+})
+
+setMethod('get_direction', signature='turbulence', 
+          function(object){
+            dir <- object@dir
+            return(dir)
+          }
+          , sealed=FALSE)
+
 #******************************************************************************
 # Method for extracting the slot corresponding 
 # to horizontal velocity from class turbulence
@@ -30,8 +64,8 @@ setGeneric('get_hvel', function(object){     # To define an S4 method, I must cr
 setMethod('get_hvel', signature='turbulence', 
           function(object){
             h_vel <- object@h_vel
-            time <- object@t
-            h_vel <- cbind(h_vel, time)
+            temp <- object@t
+            h_vel <- cbind(h_vel, temp)
             # Checking if slot @h_vel has already been filled with set_hvel
             if(length(object@h_vel)==0) stop('Slot empty! Did you set the value with set_hvel()?')
             return(h_vel)
