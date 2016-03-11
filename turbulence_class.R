@@ -32,7 +32,7 @@ setMethod('set_direction', signature='turbulence',
 	  y_vel <- object@v
 	  dir <- c(1:length(x_vel))
 	  dir <- atan2(y_vel, x_vel) # direction of wind from the North
-	  object@dir <- dir
+	  object@dir <- dir*(180/pi)
 	  return(object)
 })
 
