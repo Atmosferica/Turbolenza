@@ -32,37 +32,18 @@ def DO_FFT(x,y,z):
 
     #filtra
     S2=S
-    S2[100:-100]=0
-    h_vel2_i=fftp.ifft(S2).imag
-    h_vel2_r=fftp.ifft(S2).real
+    S2[20:-20]=0
+    h_vel2_c=fftp.ifft(S2)
+    h_vel2_i=h_vel2_c.imag
+    h_vel2_r=h_vel2_c.real
+
     h_vel2=np.sqrt(h_vel2_i*h_vel2_i+h_vel2_r*h_vel2_r)
     residui=(h_vel-h_vel2)
 
     SFR = np.fft.fft(residui)
     AFR = np.abs(SFR*2/punti)
 
-    plt.subplot(221)
-    plt.title("Applicazione filtro con FFT")
-    plt.plot(h_vel,"red",h_vel2,'.')
-
-    plt.subplot(222)
-    plt.ylim([0.001,0.015])
-    plt.xlim([0.009,0.1])
-    plt.title("FFT della velocita`")
-    plt.loglog(F,A,"k")
-    
-    plt.subplot(223)
-    plt.title("Residui")
-    plt.plot(residui,"k")
-
-    plt.subplot(224)
-    plt.ylim([0.001,0.015])
-    plt.xlim([0.009,0.1])
-    plt.title("FFT-residui")
-    plt.loglog(F,AFR,"k")
-
-
-    plt.show()
+    return F,AFR,A,residui,h_vel,h_vel2
 
 
 def load_file(nome_file):
@@ -73,8 +54,9 @@ def load_file(nome_file):
         print "I/O error({0}): {1}".format(e.errno, e.strerror) 
         exit(7)
 
-    x,y,z= dati[:,0], dati[:,1], dati[:,2]
-    return x,y,z
+    x,y,z,t= dati[:,0], dati[:,1], dati[:,2], dati[:,3]
+    return x,y,z,t
+
 
 def return_peak(F,A):
     peak = np.array([]);
@@ -93,11 +75,6 @@ def return_peak(F,A):
 
 
 
-
-
-
-
-
 if __name__ == '__main__':
     print "FFT - build periodigram"
     print "Usage: ./FFTLAB.py [File]\n"
@@ -109,7 +86,56 @@ if __name__ == '__main__':
         print "Error: too many arguments"
         exit(2)
     
-    x,y,z=load_file(sys.argv[1])
-    DO_FFT(x,y,z)
+    x,y,z,t=load_file(sys.argv[1])
+    #F,AFR,A,residui,h_vel,h_vel2=DO_FFT(x,y,z)
+
+
+    Vwind = 313.3*np.sqrt(1+t/273.15)
+    #for i in xrange(1,len(deltaV)):
+    #    deltaV[i]=deltaV[i]-deltaV[i-1]
+    #deltaV[0]=0
+   
+    z+=Vwind
+
+    #--------------------------------------------------------------------------
+    #FFT - velocity and residuals
+    #--------------------------------------------------------------------------
+    #plt.figure()
+
+    #plt.subplot(221)
+    #plt.title("Applicazione filtro con FFT")
+    #plt.plot(h_vel,"red",h_vel2,'.')
+
+    #plt.subplot(222)
+    #plt.ylim([0.001,0.015])
+    #plt.xlim([0.009,0.1])
+    #plt.title("FFT della velocita`")
+    #plt.loglog(F,A,"k")
+    
+    #plt.subplot(223)
+    #plt.title("Residui")
+    #plt.plot(residui,"k")
+
+    #plt.subplot(224)
+    #plt.ylim([0.001,0.015])
+    #plt.xlim([0.009,0.1])
+    #plt.title("FFT-residui")
+    #plt.loglog(F,AFR,"k")
+
+    ##-------------------------------------------------------------------------
+    ##Correlation
+    ##-------------------------------------------------------------------------
+
+    plt.figure()
+    
+    #plt.subplot(121)
+    #plt.title("Correlation VH-temp")
+    #plt.plot(np.sqrt(x*x+y*y),t,".")
+    
+    #plt.subplot(122)
+    plt.title("Correlation VZ-temp")
+    plt.plot(t,z,".")
+    
+    plt.show()
 
 
