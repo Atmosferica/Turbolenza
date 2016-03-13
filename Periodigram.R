@@ -5,7 +5,7 @@ source('functions.R')
 source('turbulence_class.R')
 
 # Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('./data/20151218.10r.dat')
+data <- read.csv('20160129.15r.dat')
 
 # Converted data (of class data.frame) into an object of class turbulence
 turb <- as.turbulence(data)
@@ -23,3 +23,4 @@ lines(filtered.data[1:Npoint-1,1],filtered.data[1:Npoint-1,6], type='l', col="re
 plot(filtered.data[1:Npoint-1,4] ~ filtered.data[1:Npoint-1,3],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]",xlim=c(0,1),ylim=c(0,0.03))
 plot(filtered.data[1:Npoint-1,2] ~ filtered.data[1:Npoint-1,1],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]")
 plot(filtered.data[1:Npoint-1,5] ~ filtered.data[1:Npoint-1,3],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]",xlim=c(0,1),ylim=c(0,0.03))
+par(mfrow = c(1,1))

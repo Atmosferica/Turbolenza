@@ -99,11 +99,8 @@ filter.data <- function(velocity,acq.freq,Ncut){
 	ts <- seq(0,time,1/acq.freq)		               #vector of times
 	f.0 <- 1/time                                  #max freq. detectables
 	X.k <- fft(velocity)		                       #perform fft
-	peaks <- Mod(X.k[1:(length(X.k))/2])/Npoint    #compute the peack
-	Freq <- seq(0, 
-			 acq.freq/2, 
-			 length.out=length(peaks)                  #Freq.
-			 )
+	peaks <- Mod(X.k[1:(length(X.k))/2])/Npoint    #compute the peak
+	Freq <- seq(0, acq.freq/2, length.out=length(peaks))                  #Freq.
 	X.k[Ncut:Npoint] <- 0+0i
 	hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
 	res <- velocity - hvel2
@@ -114,6 +111,14 @@ filter.data <- function(velocity,acq.freq,Ncut){
 	filtered <-c(1:Npoint-1)
 	
 	filtered <- cbind(tsV,res,Freq,peaks,peaks2,hvel2)
+  
+# The following cat is just for debugging... some elements have length=18003, other have length=18002
+# Maybe it should be a better idea to return a list instead of a matrix?
+# (If we cannot fix the problem of the lengths)
+
+#   cat(paste('tsv: ', length(tsV), '\n', 'res: ', length(res), '\n', 'freq: ', length(Freq), '\n',
+#             'peaks: ', length(peaks), '\n', 'peaks2: ', length(peaks2), '\n',
+#             'hvel2: ', length(hvel2), '\n', sep=''))
 	return(filtered)
 	
 }
