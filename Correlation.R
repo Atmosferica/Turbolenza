@@ -5,7 +5,7 @@ source('functions.R')
 source('turbulence_class.R')
 
 # Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('./data/20151218.10r.dat')
+data <- read.csv('./data/20160129.12r.dat')
 
 # Converted data (of class data.frame) into an object of class turbulence
 turb <- as.turbulence(data)

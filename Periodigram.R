@@ -5,7 +5,7 @@ source('functions.R')
 source('turbulence_class.R')
 
 # Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('./data/20151218.11r.dat')
+data <- read.csv('./data/20160129.14r.dat')
 
 # Converted data (of class data.frame) into an object of class turbulence
 turb <- as.turbulence(data)
@@ -20,7 +20,7 @@ filtered.data <- filter.data(vel,10,20)
 par(mfrow = c(2,2))
 plot(vel[1:Npoint-1] ~ filtered.data[,1],t='l',xlab="Tempi[s]", ylab="Velocita`[m/s]")
 lines(filtered.data[,1],filtered.data[,6], type='l', col="red", lwd=4)
-plot(filtered.data[,4] ~ filtered.data[,3],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]",xlim=c(0,1),ylim=c(0,0.03))
+plot(filtered.data[,4] ~ filtered.data[,3],t='l',pch=20,xlab="Frequenze[Hz]", ylab="Intensita`",xlim=c(0,1),ylim=c(0,0.03))
 plot(filtered.data[,2] ~ filtered.data[,1],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]")
-plot(filtered.data[,5] ~ filtered.data[,3],t='l',pch=20,xlab="Tempi[s]", ylab="Velocita`[m/s]",xlim=c(0,1),ylim=c(0,0.03))
+plot(filtered.data[,5] ~ filtered.data[,3],t='l',pch=20,xlab="Frequenze[Hz]", ylab="Intensita`",xlim=c(0,1),ylim=c(0,0.03))
 par(mfrow = c(1,1))

@@ -76,6 +76,7 @@ filter.data <- function(velocity,acq.freq,Ncut){
 	peaks2 <- Mod(XX.k[1:(length(XX.k))/2])/Npoint
 	
 	filtered <- cbind(ts[1:Npoint-1],res[1:Npoint-1],Freq[1:Npoint-1],peaks[1:Npoint-1],peaks2[1:Npoint-1],hvel2[1:Npoint-1])
+	#filtered <- cbind(ts,res,Freq,peaks,peaks2,hvel2)
 	
 	return(filtered)
 	
