@@ -108,10 +108,10 @@ filter.data <- function(velocity,acq.freq,Ncut){
 	peaks2 <- Mod(XX.k[1:(length(XX.k))/2])/Npoint
 	tsV <- ts[1:Npoint] # why was it set to ts[1:Npoint -1]? 
 	
-	filtered <-c(1:Npoint-1)
-	
+
+
 #	filtered <- cbind(tsV,res,Freq,peaks,peaks2,hvel2)
-  
+
 # The following cat is just for debugging... some elements have length=18003, other have length=18002
 # Maybe it should be a better idea to return a list instead of a matrix?
 # (If we cannot fix the problem of the lengths)
@@ -122,7 +122,6 @@ filter.data <- function(velocity,acq.freq,Ncut){
 	
   filtered <- list(tsv = tsV, res = res, freq = Freq, peaks = peaks, peaks2 = peaks2, hvel2 = hvel2)
   return(filtered)
-	
 }
 
 #******************************************************************************

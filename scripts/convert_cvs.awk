@@ -7,7 +7,7 @@
 
 BEGIN{	
 	print "#x,y,z,t";
-	a=0;
+	a=1;
 }
 
 {

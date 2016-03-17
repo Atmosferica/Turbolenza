@@ -7,7 +7,7 @@ source('functions.R')
 source('turbulence_class.R')
 
 # Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('20160129.15r.dat')
+data <- read.csv('./data/20160129.14r.dat')
 
 create_directory('./grafici_output')
 

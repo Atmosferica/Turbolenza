@@ -15,6 +15,7 @@ turb <- as.turbulence(data)
 turb <- set_hvel(turb) # for setting horizontal_velocity in turbulence class
 velH_T <- get_hvel(turb)
 velZ_T <- get_zvel(turb)
+Npoint <- length(velZ_T[,1])
 
 par(mfrow=c(2,1))
 c1 = cor(velH_T[,1],velH_T[,2])
