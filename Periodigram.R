@@ -1,5 +1,7 @@
 library(lattice)
 library(ggplot2)
+library(methods)
+library(e1071)
 
 source('functions.R')
 source('turbulence_class.R')
