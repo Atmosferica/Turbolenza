@@ -111,36 +111,40 @@ setMethod('get_uvel', signature='turbulence',
 #******************************************************************************
 # S3 Perform the periodigram of a velocity vector
 #******************************************************************************
+dofft <- function(velocity,acq.freq){
+  Npoint <- length(velocity)
+  time <- Npoint*(1/acq.freq)
+  ts <- seq(0,time,1/acq.freq)
+  X.k <- fft(velocity)
+  peaks <- Mod(X.k)/Npoint
+  if(Npoint%%2==0){
+    Freq1 <- seq(0, acq.freq/2, length.out=length(peaks)/2)
+    Freq2 <- seq(acq.freq/2-acq.freq/Npoint, 0, length.out=length(peaks)/2)
+    Freq2 <- Freq2[-(length(Freq2)-1)]
+    Freq <- c(Freq1, Freq2)
+  }else{
+    Freq1 <- seq(0, acq.freq/2, length.out=length(peaks)/2)
+    Freq2 <- seq(acq.freq/2, 0, length.out=length(peaks)/2)
+    Freq2 <- Freq2[-(length(Freq2)-1)]
+    Freq <- c(Freq1, Freq2)
+  }
+  
+  data_fft <- list(fft_vel = X.k, freq = Freq, peaks = peaks)
+  return(data_fft)
+}
 
-filter.data <- function(velocity,acq.freq,Ncut){
-  Npoint=length(velocity)
-	time <- Npoint*(1/acq.freq)                    #Time window
-	ts <- seq(0,time,1/acq.freq)		               #vector of times
-	f.0 <- 1/time                                  #max freq. detectables
-	X.k <- fft(velocity)		                       #perform fft
-	peaks <- Mod(X.k[1:(length(X.k))/2])/Npoint    #compute the peak
-	Freq <- seq(0, acq.freq/2, length.out=length(peaks))                  #Freq.
-	X.k[Ncut:Npoint] <- 0+0i
-	hvel2 <- Mod(fft(X.k, inverse = TRUE)/(Npoint))
-	res <- velocity - hvel2
-	XX.k <- fft(res)
-	peaks2 <- Mod(XX.k[1:(length(XX.k))/2])/Npoint
-	tsV <- ts[1:Npoint] # why was it set to ts[1:Npoint -1]? 
-	
-
-
-#	filtered <- cbind(tsV,res,Freq,peaks,peaks2,hvel2)
-
-# The following cat is just for debugging... some elements have length=18003, other have length=18002
-# Maybe it should be a better idea to return a list instead of a matrix?
-# (If we cannot fix the problem of the lengths)
-
-#   cat(paste('tsv: ', length(tsV), '\n', 'res: ', length(res), '\n', 'freq: ', length(Freq), '\n',
-#             'peaks: ', length(peaks), '\n', 'peaks2: ', length(peaks2), '\n',
-#             'hvel2: ', length(hvel2), '\n', sep=''))
-	
-  filtered <- list(tsv = tsV, res = res, freq = Freq, peaks = peaks, peaks2 = peaks2, hvel2 = hvel2)
-  return(filtered)
+filter.data <- function(freq,fft_vel,fcut){
+  index <- length(which(freq>fcut))
+  freq_filt <- freq[index]
+  fft_filt <- fft_vel
+  fft_filt[index] <- 0+0i
+  Npoint <- length(fft_vel)
+  peaks <- Mod(fft_filt)/Npoint
+  
+  vel_filt <- fft(fft_filt, inverse=TRUE)/length(fft_filt)
+  data_filt <- list(freq = freq_filt, fft_vel = fft_filt, peaks = peaks, vel=vel_filt)
+  return(data_filt)
+  
 }
 
 #******************************************************************************
