@@ -1,29 +1,6 @@
-library(lattice)
-library(ggplot2)
-library(methods)
-library(e1071)
+###### Disclaimer: if you want to run this script alone, comment
+# the unused scripts in main.R instead of importing here the dataset
 
-source('functions.R')
-source('turbulence_class.R')
-
-# var_code <- list.files('.', pattern='*.dat') # listing all the files in the working dir
-# var_code <- sub('.dat','', var_code) # removing the '.dat' at the end of the filename
-# It could be useful to separate the name in two parts: the code of the station and the hour
-# (useful for creating directories and putting hour in plots)
-
-
-
-# Extracted data from csv using the script convert_cvs.awk. 
-# for(i in 1:length(var_code))
-# {
-# data <- read.csv('./20160129.17r.dat')
-# 
-# data <- read.csv(var_code[i])
-#   
-# Converted data (of class data.frame) into an object of class turbulence
-turb <- as.turbulence(data)
-
-turb <- set_hvel(turb) # for setting horizontal_velocity in turbulence class
 velH_T <- get_hvel(turb)
 velZ_T <- get_zvel(turb)
 Npoint <- length(velZ_T[,1])
@@ -71,12 +48,4 @@ temp <- recordPlot()
 print_plot(temp, 1200, 900, paste('./grafici_output/zvel_temp_', var_code[i], sep=''))
 
 
-
-
-# }
-
-
-
-#write(c1,stdout())
-#write(c2,stdout())
 

@@ -16,6 +16,10 @@ for(i in 1:length(filename))
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
+  turb <- set_hvel(turb) # setting horizontal velocity
+  turb <- set_direction(turb)  # setting direction
+  
+  
   source('Correlation.R')
   source('Periodigram.R')
 }
