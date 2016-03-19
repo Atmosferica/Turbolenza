@@ -14,12 +14,12 @@ var_code <- sub('.dat','', var_code) # removing the '.dat' at the end of the fil
 
 
 # Extracted data from csv using the script convert_cvs.awk. 
-for(i in 1:length(var_code))
-{
+# for(i in 1:length(var_code))
+# {
 # data <- read.csv('./20160129.17r.dat')
-
-data <- read.csv(var_code[i])
-  
+# 
+# data <- read.csv(var_code[i])
+#   
 # Converted data (of class data.frame) into an object of class turbulence
 turb <- as.turbulence(data)
 
@@ -73,9 +73,10 @@ print_plot(temp, 1200, 900, paste('./grafici_output/zvel_temp_', var_code[i], se
 
 
 
-}
+# }
 
 
 
 #write(c1,stdout())
 #write(c2,stdout())
+

@@ -6,13 +6,13 @@ library(e1071)
 source('functions.R')
 source('turbulence_class.R')
 
-# Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('data/20160129.14r.dat')
-
-#create_directory('./grafici_output')
-
-# Converted data (of class data.frame) into an object of class turbulence
-turb <- as.turbulence(data)
+# # Extracted data from csv using the script convert_cvs.awk. 
+# data <- read.csv('data/20160129.14r.dat')
+# 
+# #create_directory('./grafici_output')
+# 
+# # Converted data (of class data.frame) into an object of class turbulence
+# turb <- as.turbulence(data)
 
 turb <- set_hvel(turb) # for setting horizontal_velocity in turbulence class
 vel_T <- get_zvel(turb)
