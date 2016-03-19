@@ -6,8 +6,8 @@ library(e1071)
 source('functions.R')
 source('turbulence_class.R')
 
-var_code <- list.files('.', pattern='*.dat') # listing all the files in the working dir
-var_code <- sub('.dat','', var_code) # removing the '.dat' at the end of the filename
+# var_code <- list.files('.', pattern='*.dat') # listing all the files in the working dir
+# var_code <- sub('.dat','', var_code) # removing the '.dat' at the end of the filename
 # It could be useful to separate the name in two parts: the code of the station and the hour
 # (useful for creating directories and putting hour in plots)
 
