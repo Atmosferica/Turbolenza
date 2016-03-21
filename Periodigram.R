@@ -7,17 +7,17 @@ Npoint=length(vel)
 
 
 #***** Hann's window give instability to the boundaries
-hamming <- hamming.window(length(vel))
-hamming <- hamming/sum(hanning)*length(vel)
-vel <- vel*hamming
-#plot(hanning)
+# hanning <- hanning.window(length(vel))
+# hanning <- hanning/sum(hanning)*length(vel)
+# vel <- vel*hanning
+# #plot(hanning)
 
 #***** Trying Hamming's window to avoid instability (should be !=0 at
 #***** boundaries)
 
-# hamming <- hamming.window(length(vel))
-# hamming <- hamming/sum(hanning)*length(vel)
-# vel <- vel*hamming
+hamming <- hamming.window(length(vel))
+hamming <- hamming/sum(hanning)*length(vel)
+vel <- vel*hamming
 
 #filtered_data <- stft(vel, wtype='hanning.window')
 #plot(filtered_data, ylim=c(0,10))
