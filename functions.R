@@ -20,3 +20,10 @@ create_directory<-function(path){
   return(path)
 }
 
+
+
+# Must adapt path for usage with both Linux and Windows
+# (linux uses ../../dir, windows C:\\....)
+# I think it can be solved with a different assignation of
+# path using the result of Sys.info()[['sysname]]
+# and the usage of normalizePath()... should try as soon as possible.
