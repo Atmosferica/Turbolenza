@@ -1,18 +1,6 @@
-library(lattice)
-library(ggplot2)
-library(methods)
-library(e1071)
+###### Disclaimer: if you want to run this script alone, comment
+# the unused scripts in main.R instead of importing here the dataset
 
-source('functions.R')
-source('turbulence_class.R')
-
-# Extracted data from csv using the script convert_cvs.awk. 
-data <- read.csv('./20160129.15r.dat')
-
-# Converted data (of class data.frame) into an object of class turbulence
-turb <- as.turbulence(data)
-
-turb <- set_hvel(turb) # for setting horizontal_velocity in turbulence class
 velH_T <- get_hvel(turb)
 velZ_T <- get_zvel(turb)
 Npoint <- length(velZ_T[,1])
@@ -28,9 +16,36 @@ plot(velZ_T[,1], velZ_T[,2], type="p", pch=20, xlab = "Velocity-Z[m/s]", ylab = 
 	main='Scatterplot vertical velocity vs.  temperature', sub=paste('Correlation: ', round(c2,2), sep=''))
 
 scatplot <- recordPlot()
-print_plot(scatplot, 1200, 900, './grafici_output/scatterplot.png')
+print_plot(scatplot, 1200, 900, paste('./grafici_output/scatterplot_', var_code[i], sep=''))
 rm(scatplot)
+par(mfrow=c(1,1))
+
+# Plotting u and temperature vs. time in the same plot
+u_vel <- get_uvel(turb)
+plot(u_vel[,1], type='l', cex=0.5, xlim=c(0,120), ylim=c(0,15), main='U velocity/temperature vs. time',
+     sub=paste('Correlation uvel/temp: ', cor(u_vel[,1],u_vel[,2]), sep=''))
+points(u_vel[,2], type='l', cex=0.5, col='green')
+#abline(v=47)
+#abline(v=100)
+#abline(v=116)
+legend(1,7,c('u','temp'), c('black','green'))
+cor(u_vel[,1],u_vel[,2])
+
+temp <- recordPlot()
+print_plot(temp, 1200, 900, paste('./grafici_output/xvel_temp_', var_code[i], sep=''))
+
+# Plotting w and temperature vs. time in the same plot
+z_vel <- get_zvel(turb)
+plot(z_vel[,1], type='l', cex=0.5, xlim=c(0,120), ylim=c(-1,15), main='W velocity/temperature vs. time',
+     sub=paste('Correlation w_vel/temp: ', cor(z_vel[,1],z_vel[,2]), sep=''))
+points(z_vel[,2], type='l', cex=0.5, col='green')
+#abline(v=47)
+#abline(v=100)
+#abline(v=116)
+legend(1,7,c('z','temp'), c('black','green'))
+cor(z_vel[,1],z_vel[,2])
+temp <- recordPlot()
+print_plot(temp, 1200, 900, paste('./grafici_output/zvel_temp_', var_code[i], sep=''))
 
 
-#write(c1,stdout())
-#write(c2,stdout())
+
