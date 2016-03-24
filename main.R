@@ -6,19 +6,21 @@ library(e1071)
 source('functions.R')
 source('turbulence_class.R')
 
-filename <- list.files('.', pattern='*.dat') # listing all the files in the working dir
-var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 
-for(i in 1:length(filename))
+data_path <- "data/"
+filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
+var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
+filename_tot=paste(data_path,filename, sep="")
+
+for(i in 1:length(filename_tot))
 {
   # Extracted data from csv using the script convert_cvs.awk. 
-  data <- read.csv(filename[i])
+  data <- read.csv(filename_tot[i])
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
   turb <- set_hvel(turb) # setting horizontal velocity
   turb <- set_direction(turb)  # setting direction
-  
   
   source('Correlation.R')
   source('Periodigram.R')
