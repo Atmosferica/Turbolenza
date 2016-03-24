@@ -11,6 +11,7 @@ data_path <- "data/"
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 filename_tot=paste(data_path,filename, sep="")
+name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 
 for(i in 1:length(filename_tot))
 {
@@ -21,6 +22,8 @@ for(i in 1:length(filename_tot))
   
   turb <- set_hvel(turb) # setting horizontal velocity
   turb <- set_direction(turb)  # setting direction
+  
+  create_directory(name_dir[i])
   
   source('Correlation.R')
   source('Periodigram.R')
