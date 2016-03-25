@@ -186,3 +186,14 @@ as.turbulence.default <- function(x, y, z, time){
 }
 
 
+
+#******************************************************************************
+# S3 method for casting an object of class turbulence into a data.frame
+#******************************************************************************
+
+as.data.frame.turbulence <- function(data){
+  df <- data.frame(ncol=6, u=data@u, v=data@v, w=data@w, temp=data@t,
+                   h_vel=data@h_vel, dir=data@dir)
+  return(df)
+}
+
