@@ -66,13 +66,14 @@ z_vel <- get_zvel(turb)
 # # to here
 
 
+par(mar=c(5.1, 4.1, 4.1, 3.6))
 
 plot(u_vel[,1], type='l', cex=0.5, 
      xlim=c(0,120), ylim=c(-0.2,2), 
      main='U and W Velocity-Temperature vs Time',
      axes = FALSE,
      xlab = "Time",
-     ylab = "Velocity [m/s]"
+     ylab = "Velocity [m/s]",
      )
 axis(2, ylim=c(0,1),col="black",las=1)
 axis(1, ylim=c(0,120),col="black",las=1)
@@ -91,11 +92,12 @@ plot(z_vel[,1], type='l', cex=0.5,
      )
 mtext(paste("Correlation Zvel/Temp = ",round(cor(z_vel[,1],z_vel[,2]),2)),at=15, line=3)
 mtext(paste("Correlation Uvel/Temp = ",round(cor(u_vel[,1],u_vel[,2]),2)),at=95 , line=3)
-mtext("Temp[C]", side=4, line=3)
+mtext("Temp[C]", side=4, line=2)
 legend("topleft",legend=c('U-Vel',"W-Vel","Temp"),
        text.col=c("black","red","green"),pch=c("-","-","-"),
        col=c("black","red","green"))
 
+par(mar=c(5.1, 4.1, 4.1, 2.1))
 
 #***************************************************************
 #Save Uvel/Temp graph on file
