@@ -13,10 +13,21 @@ print_plot<-function(x,w,h,filename){
 #This function is only a concatenation of dir.exist() and dir.create(): when you're sure that there is a dir
 #with the name chosen, it changes and returns the path to let you use it as a parameter in the filename
 create_directory<-function(path){
-  if(dir.exists(path)!=TRUE){
-    dir.create(path)
+  x<- getRversion()
+  if(x < "3.2.0"){
+    dir.create(path, showWarnings = FALSE, recursive = TRUE)
+  }else{
+    if(dir.exists(path)!=TRUE){
+      dir.create(path)
+    }
+    path<-paste(path,'/',sep='')
   }
-  path<-paste(path,'/',sep='')
-  return(path)
+  #return(path)
 }
 
+
+# Must adapt path for usage with both Linux and Windows
+# (linux uses ../../dir, windows C:\\....)
+# I think it can be solved with a different assignation of
+# path using the result of Sys.info()[['sysname]]
+# and the usage of normalizePath()... should try as soon as possible.

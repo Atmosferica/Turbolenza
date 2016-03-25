@@ -16,7 +16,7 @@ Npoint=length(vel)
 #***** boundaries)
 
 hamming <- hamming.window(length(vel))
-hamming <- hamming/sum(hanning)*length(vel)
+hamming <- hamming/sum(hamming)*length(vel)
 vel <- vel*hamming
 
 #filtered_data <- stft(vel, wtype='hanning.window')
