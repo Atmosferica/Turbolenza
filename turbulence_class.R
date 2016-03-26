@@ -118,10 +118,16 @@ dofft <- function(velocity,acq.freq){
   X.k <- fft(velocity)
   peaks <- Mod(X.k)/Npoint
   if(Npoint%%2==0){
+    #cat(paste('Sono nel caso dispari', '\n'))
     Freq1 <- seq(0, acq.freq/2, length.out=length(peaks)/2)
+    #cat(paste('Freq1: ', length(Freq1), '\n'))
     Freq2 <- seq(acq.freq/2-acq.freq/Npoint, 0, length.out=length(peaks)/2)
-    Freq2 <- Freq2[-(length(Freq2)-1)]
+    #cat(paste('Freq2: ', length(Freq2), '\n'))
+    #Freq2 <- Freq2[-(length(Freq2)-1)] # I think it is this to give problems in the even case...
+    # (enable commented cat() to see what's going on)
+    #cat(paste('Freq2: ', length(Freq2), '\n'))
     Freq <- c(Freq1, Freq2)
+    #cat(paste('Freq: ', length(Freq), '\n'))
   }else{
     Freq1 <- seq(0, acq.freq/2, length.out=length(peaks)/2)
     Freq2 <- seq(acq.freq/2, 0, length.out=length(peaks)/2)
