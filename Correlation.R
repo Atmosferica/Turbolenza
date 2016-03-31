@@ -8,7 +8,7 @@ Npoint <- length(velZ_T[,1])
 #***************************************************************
 #Draw correlation graph
 #***************************************************************
-
+png(paste(directory_dataset,"/corr_graph_",var_code[i],".png",sep = ''))
 par(mfrow=c(2,1))
 c1 = cor(velH_T[,1],velH_T[,2])
 plot(velH_T[,1], velH_T[,2], type="p", pch=20, xlab = "Velocity-H[m/s]", ylab = "Temperature[C]", 
@@ -26,16 +26,16 @@ plot(velH_T[,1], velH_T[,2], type="p", pch=20, xlab = "Velocity-H[m/s]", ylab = 
 c2 = cor(velZ_T[,1],velZ_T[,2])
 plot(velZ_T[,1], velZ_T[,2], type="p", pch=20, xlab = "Velocity-Z[m/s]", ylab = "Temperature[C]",
 	main='Scatterplot vertical velocity vs.  temperature', sub=paste('Correlation: ', round(c2,2), sep=''))
-
+dev.off()
 #***************************************************************
 #Save correlation graph on file
 #***************************************************************
 
-scatplot <- recordPlot()
-name <- paste(directory_dataset,"/corr_graph_",var_code[i],".png",sep = '')
-print_plot(scatplot, 1200, 900, name)
-rm(scatplot)
-par(mfrow=c(1,1))
+#scatplot <- recordPlot()
+#name <- paste(directory_dataset,"/corr_graph_",var_code[i],".png",sep = '')
+#print_plot(scatplot, 1200, 900, name)
+#rm(scatplot)
+#par(mfrow=c(1,1))
 
 #***************************************************************
 # Plotting u  w and temperature vs. time in the same plot
@@ -52,7 +52,7 @@ u_ord <- sort(u_vel[,1][xmin:xmax])
 z_ord <- sort(z_vel[,1][xmin:xmax])
 vel_ord <- sort(cbind(u_ord,z_ord))
 
-
+png(paste(directory_dataset,"/Vel-Temp_",var_code[i],".png",sep = ''))
 par(mar=c(5.1, 4.1, 4.1, 3.6))
 
 plot(u_vel[,1], type='l', cex=0.5, 
@@ -87,33 +87,13 @@ legend("topleft",legend=c('U-Vel',"W-Vel","Temp"),
        col=c("black","red","green"))
 
 par(mar=c(5.1, 4.1, 4.1, 1.1))
-
+dev.off()
 #***************************************************************
 #Save Uvel/Temp graph on file
 #***************************************************************
 
-temp <- recordPlot()
-name <- paste(directory_dataset,"/Vel-Temp_",var_code[i],".png",sep = '')
-print_plot(temp, 1200, 900, name)
-
-#***************************************************************
-#Plotting w and temperature vs. time in the same plot
-#***************************************************************
-
-#z_vel <- get_zvel(turb)
-#plot(z_vel[,1], type='l', cex=0.5, xlim=c(0,120), ylim=c(-1,15), main='W velocity/temperature vs. time',
-#     sub=paste('Correlation w_vel/temp: ', cor(z_vel[,1],z_vel[,2]), sep=''))
-#points(z_vel[,2], type='l', cex=0.5, col='green')
-#legend(1,7,c('z','temp'), c('black','green'))
-#cor(z_vel[,1],z_vel[,2])
-
-
-#***************************************************************
-#Save Wvel/temp graph on file
-#***************************************************************
-
 #temp <- recordPlot()
-#name <- paste(directory_dataset,"/WT_",var_code[i],".png",sep = '')
+#name <- paste(directory_dataset,"/Vel-Temp_",var_code[i],".png",sep = '')
 #print_plot(temp, 1200, 900, name)
 
 

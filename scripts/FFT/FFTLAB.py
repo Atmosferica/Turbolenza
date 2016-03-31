@@ -23,54 +23,42 @@ if __name__ == '__main__':
     if n > 2:
         print "Error: too many arguments"
         exit(2)
-        
-    x,y,z,t=load_file(sys.argv[1])
-    hvel=np.sqrt(x*x+y*y)
-        
-    pfz=np.polyfit(t,z,1)
-    zz=pfz[0]*t+pfz[1]
-    z= z-zz
+    
+    filename=["../converted/TOT_20151215.dat","../converted/20151215.12r.dat"]
 
-    pfh=np.polyfit(t,hvel,1)
-    hvell=pfh[0]*t+pfh[1]
-    hvel=hvel-hvell
-        
-    F,AH,AZ=DO_FFT(hvel,z,10)
+    k=0;
+    A=[]
+    F=[]
 
-
+    for i in filename:
+        #x,y,z,t=load_file(sys.argv[1])
+        x,y,z,t=load_file(i)
+        vel=np.sqrt(x*x+y*y)
+        window=np.kaiser(vel.shape[-1],5)
+        vel=vel*window
+        f,a=DO_FFT(vel,10)
+        F.append(f)
+        A.append(a)
+        ++k
+    
     plt.figure(1)
+    plt.subplot(131)
+    plt.title("FFT della velocita` orizzontale 24h")
+    plt.xlim(0.000001,1)
+    plt.loglog(F[0],A[0],'k')
 
-    plt.subplot(221)
-    plt.title("Velocita` orizzontale")
-    plt.plot(hvel,'k')
+    plt.subplot(132)
+    plt.title("FFT della velocita` orizzontale 1h")
+    plt.xlim(0.000001,1)
+    plt.loglog(F[1],A[1],'r')
 
-    plt.subplot(222)
-    plt.title("FFT della velocita` orizzontale")
-    plt.semilogy(F,AH,"k")
-    
-    plt.subplot(223)
-    plt.title("Velocita` verticale")
-    plt.plot(z,'k')
-
-
-    plt.subplot(224)
-    plt.title("FFT della velocita` verticale")
-    plt.semilogy(F,AZ,"k")
+    plt.subplot(133)
+    plt.xlim(0.000001,0.001)
+    plt.plot(np.diff(A[1]),'b')
 
 
-    plt.figure(2)
-    
-    plt.subplot(211)
-    plt.title("Velocita` orizzontale / Temperatura")
-    plt.plot(hvel,t,'.')
+    plt.savefig("FFT_hor.pdf", format="pdf")
 
-    plt.subplot(212)
-    plt.title("Velocita` verticale / Temperatura")
-    plt.plot(z,t,'.')
-
-
-
-    plt.show()
 
 
 

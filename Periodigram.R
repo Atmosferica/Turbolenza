@@ -33,7 +33,7 @@ for(k in 1:length(cut_freq[,1])){
   
   #Creating a dir for the fft-graphs 
   create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
-  
+  png(paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = ''))
   par(mfrow=c(2, 2))
   data <- dofft(vel, 10)
   filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
@@ -42,9 +42,9 @@ for(k in 1:length(cut_freq[,1])){
   plot(vel/hamming ~ data$ts, type='l')
   vel_filt=Re(filt$vel)/hamming
   plot(vel_filt ~ data$ts, type='l', ylim=c(-1,1))
-  
-  temp <- recordPlot()
-  name <- paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = '')
-  print_plot(temp, 1200, 900, name)
+  dev.off()
+  #temp <- recordPlot()
+  #name <- paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = '')
+  #print_plot(temp, 1200, 900, name)
   
 }

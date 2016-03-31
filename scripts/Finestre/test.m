@@ -2,8 +2,8 @@
 %clear all
 %close all
 
-%Facq=10
-%[x y z t] = importfile('20160129.11r.dat',3,18892);
+Facq=10
+[x y z t] = importfile('../../data/TOT.dat',1,5497276);
 
 hvel=((x.*x) + (y.*y)).^(0.5);
 time=[1:length(hvel)]/Facq;
@@ -29,11 +29,11 @@ figure(1)
 semilogx(f,abs(Y)/length(Y));
 axis([0 1 0 0.07])
 grid on;
-figure(2)
-semilogy(fo,abs(Yo))
-hold on
-semilogy(fh,abs(Yh))
-hold on
+%figure(2)
+%semilogy(fo,abs(Yo))
+%hold on
+%semilogy(fh,abs(Yh))
+%hold on
 %semilogy(fk,abs(Yk))
 
 

@@ -1,19 +1,21 @@
 import numpy as np
 
-def DO_FFT(hvel,zvel,facq):
-    
-    punti = hvel.shape[-1]
+def DO_FFT(vel,facq):
+    try: 
+        punti = vel.shape[-1]
+        t = np.arange(punti)
+        freq = np.fft.fftfreq(t.shape[-1],d=1./(facq))  
+        F = np.abs(freq)
+        S = np.fft.fft(vel)
+        A = np.abs(S*2/punti)
+        print "FFT done with no errors."
 
-    t = np.arange(punti)
-    freq = np.fft.fftfreq(t.shape[-1],d=1./(facq))
-    SH = np.fft.fft(hvel)
-    F = np.abs(freq)
-    AH = np.abs(SH*2/punti)
+        return F,A
 
-    SZ = np.fft.fft(zvel)
-    AZ = np.abs(SZ*2/punti)
-    
-    return F,AH,AZ
+    except IndexError as ie:
+        print "Index error({0}) during FFT: {1}".format(ie.errno, ie.strerror)
+
+        return 0,0
 
 
 def load_file(nome_file):
