@@ -36,10 +36,11 @@ grafico_mwind<-function(mov_wind, frequencies, string=NULL, ora=NULL, inf=NULL, 
   color_palette2 <- rbPal2(10)[as.numeric(cut(mov_wind, breaks = 10))]
   par(cex=1.2, lwd=4.5, cex.axis=0.8)
   #layout(matrix(1:2,ncol=2),width=c(2,1), height=c(1,1))
-  plot(y=mov_wind, x=frequencies, ylim=c(-1.2, 0.2), type='h', col=ifelse(sign(mov_wind)==1, color_palette1, color_palette2),
+  plot(y=mov_wind, x=frequencies, ylim=c(-2, 0.2), type='h', col=ifelse(sign(mov_wind)==1, color_palette1, color_palette2),
        yaxt='n', xaxt='n')
-  axis(labels=T, side=2, at=c(seq(from=-3.5, to=3.5, by=0.5)), las=2, yaxs='i', xaxs='i')
-  axis(labels=T, side=1, at=c(seq(from=0, to=5, by=0.15)), las=2, yaxs='i', xaxs='i')
+  axis(labels=T, side=2, at=c(seq(from=-2, to=0.2, length.out=10)), las=2, yaxs='i', xaxs='i')
+  axis(labels=T, side=1, at=c(seq(from=frequencies[1], to=max(frequencies), 
+                                  length.out=50)), las=2, yaxs='i', xaxs='i')
   par(cex=1.2, lwd=1, cex.axis=1)
   #grid_for_inter()
   plot <- recordPlot()
