@@ -27,16 +27,24 @@ vel <- vel*hamming
 cut_times <- read.table(paste(data_path, 'cut_freq', sep=''))
 cut_freq <- 1/cut_times # Converting times into frequencies
 
+#Creating a dir for the fft-graphs 
+create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
+
 # Here we're running the fft on the array of velocities
 
-for(k in 1:length(cut_freq[,1])){
-  
-  #Creating a dir for the fft-graphs 
-  create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
+#for(k in 1:length(cut_freq[,1])){
   
   par(mfrow=c(2, 2))
   data <- dofft(vel, 10)
-  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
+  filt <- filter.data(data$freq, data$fft_vel, 10)#, cut_freq[1,1])
+
+
+
+  mwind <- moving_window(data$peaks, data$freq, 251, 0.70, 0.05)
+  grafico_mwind(mwind, data$freq)
+
+
+
   plot(data$peaks ~ data$freq, ylim=c(0.001,0.04), xlim=c(0.001,5), type='l',log=c('x','y'))
   plot(filt$peaks ~ filt$freq, ylim=c(0.001,0.04), xlim=c(0.001,5), type='l',log=c('x','y'))
   plot(vel/hamming ~ data$ts, type='l')
@@ -47,4 +55,4 @@ for(k in 1:length(cut_freq[,1])){
   name <- paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = '')
   print_plot(temp, 1200, 900, name)
   
-}
+#}
