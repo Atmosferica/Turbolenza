@@ -3,6 +3,10 @@ library(ggplot2)
 library(gtable)
 library(methods)
 library(e1071)
+library(mwindow)
+library(foreach)
+library(doMC)
+
 
 source('functions.R')
 source('turbulence_class.R')
