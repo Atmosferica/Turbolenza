@@ -26,10 +26,35 @@ create_directory<-function(path){
 }
 
 
+grafico_mwind<-function(mov_wind, frequencies, string=NULL, ora=NULL, inf=NULL, sup=NULL){
+  par(ps=12,cex=1, cex.main=1)
+  #create_directory(paste(destination_path,'/',ora,'/[',inf,",",sup,')',sep=''))
+  mov_wind <- mov_wind*100 #for having a percentual slope 
+  rbPal1 <- colorRampPalette(c('yellow','red'))
+  rbPal2 <- colorRampPalette(c('blue', 'green'))
+  color_palette1 <- rbPal1(10)[as.numeric(cut(mov_wind, breaks = 10))]
+  color_palette2 <- rbPal2(10)[as.numeric(cut(mov_wind, breaks = 10))]
+  par(cex=1.2, lwd=4.5, cex.axis=0.8)
+  #layout(matrix(1:2,ncol=2),width=c(2,1), height=c(1,1))
+  plot(y=mov_wind, x=frequencies, ylim=c(-2, 0.2), type='h', col=ifelse(sign(mov_wind)==1, color_palette1, color_palette2),
+       yaxt='n', xaxt='n')
+  axis(labels=T, side=2, at=c(seq(from=-2, to=0.2, length.out=10)), las=2, yaxs='i', xaxs='i')
+  axis(labels=T, side=1, at=c(seq(from=frequencies[1], to=max(frequencies), 
+                                  length.out=50)), las=2, yaxs='i', xaxs='i')
+  par(cex=1.2, lwd=1, cex.axis=1)
+  #grid_for_inter()
+  plot <- recordPlot()
+  #print_plot(plot,900,600,paste(destination_path, '/mwind_',string,'_[' ,inf," , ",sup,' )_',ora,'.png',sep='') )
+  return()
+}
+
+
+
+
 #********************************************************************
 # This function is for having a double y-axis with ggplot2
 # (thanks to https://rpubs.com/kohske/dual_axis_in_ggplot2).
-# Hadley didn't implement this functionality in ggplot2 because he thinks
+# Hadley Wickham didn't implement this functionality in ggplot2 because he thinks
 # (and some publications too) that's profoundly wrong to use double 
 # y-axis in plots... it should be used only if you want to represent
 # quantities with two different unit of measure.

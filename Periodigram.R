@@ -27,12 +27,14 @@ vel <- vel*hamming
 cut_times <- read.table(paste(data_path, 'cut_freq', sep=''))
 cut_freq <- 1/cut_times # Converting times into frequencies
 
+#Creating a dir for the fft-graphs 
+create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
+
 # Here we're running the fft on the array of velocities
 
 for(k in 1:length(cut_freq[,1])){
   
   #Creating a dir for the fft-graphs 
-  create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
   png(paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = ''))
   par(mfrow=c(2, 2))
   data <- dofft(vel, 10)
