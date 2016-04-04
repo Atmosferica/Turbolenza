@@ -4,8 +4,8 @@ library(gtable)
 library(methods)
 library(e1071)
 library(mwindow)
-library(foreach)
-library(doMC)
+#library(foreach)
+#library(doMC)
 
 
 source('functions.R')

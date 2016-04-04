@@ -112,9 +112,12 @@ setMethod('get_uvel', signature='turbulence',
 # S3 Perform the periodigram of a velocity vector
 #******************************************************************************
 dofft <- function(velocity,acq.freq){
+  cat("-- Start FFT --\n")
   Npoint <- length(velocity)
   time <- Npoint*(1/acq.freq)
-  ts <- seq(0,time-1/acq.freq,1/acq.freq)
+  ts <- seq(1/acq.freq,time,1/acq.freq-(1/1000000000))
+  cat("PUNTI TS DOOOFFT",length(ts),"\n")
+
   X.k <- fft(velocity)
   peaks <- Mod(X.k)/Npoint
   if(Npoint%%2==0){
@@ -128,18 +131,24 @@ dofft <- function(velocity,acq.freq){
     Freq <- c(Freq1, Freq2)
   }
   
+  cat(length(X.k))
+  cat("-- End FFT --\n") 
   data_fft <- list(fft_vel = X.k, freq = Freq, peaks = peaks, ts = ts)
   return(data_fft)
 }
 
 filter.data <- function(freq,fft_vel,fcut){
+  cat("-- Start filter --\n")
   index <- which(freq>fcut)
+  
   fft_filt <- fft_vel
   fft_filt[index] <- 0+0i
+  
   Npoint <- length(fft_vel)
   peaks <- Mod(fft_filt)/Npoint
   
   vel_filt <- fft(fft_filt, inverse=TRUE)/length(fft_filt)
+  cat("-- End filter --\n")
   data_filt <- list(freq = freq, fft_vel = fft_filt, peaks = peaks, vel=vel_filt)
   return(data_filt)
   

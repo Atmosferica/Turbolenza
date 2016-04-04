@@ -3,6 +3,7 @@
 
 vel_T <- get_zvel(turb)
 vel <- vel_T[,1]
+cat("lunghezza di veellll",length(vel),"\n")
 Npoint=length(vel)
 
 
@@ -32,21 +33,36 @@ create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
 
 # Here we're running the fft on the array of velocities
 
+fft_tm <- system.time(
+	data <- dofft(vel, 10)
+)
+cat("FFT performed in: ",fft_tm,"\n")
+
 for(k in 1:length(cut_freq[,1])){
   
   #Creating a dir for the fft-graphs 
   png(paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = ''))
   par(mfrow=c(2, 2))
-  data <- dofft(vel, 10)
-  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
-  plot(data$peaks ~ data$freq, ylim=c(0.001,0.04), xlim=c(0.001,5), type='l',log=c('x','y'))
-  plot(filt$peaks ~ filt$freq, ylim=c(0.001,0.04), xlim=c(0.001,5), type='l',log=c('x','y'))
-  plot(vel/hamming ~ data$ts, type='l')
+  
+  filt_time <- system.time(
+	  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
+  )
+  cat("FILT performed in: ",filt_time,"\n")
+
+  plot(data$peaks ~ data$freq, 
+       #ylim=c(0.001,0.04), xlim=c(0.001,5), 
+       type='l',log="xy")
+  
+  #plot(filt$peaks ~ filt$freq, 
+       #ylim=c(0.001,0.04), xlim=c(0.001,5), 
+       #type='l',log="xy")
+  
+  #plot(vel/hamming ~ data$ts, type='l')
   vel_filt=Re(filt$vel)/hamming
   plot(vel_filt ~ data$ts, type='l', ylim=c(-1,1))
   dev.off()
   #temp <- recordPlot()
   #name <- paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = '')
   #print_plot(temp, 1200, 900, name)
-  
+
 }
