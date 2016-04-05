@@ -114,7 +114,8 @@ setMethod('get_uvel', signature='turbulence',
 dofft <- function(velocity,acq.freq){
   Npoint <- length(velocity)
   time <- Npoint*(1/acq.freq)
-  ts <- seq(0,time-1/acq.freq,1/acq.freq)
+  ts <- seq(1/acq.freq,time,1/acq.freq-(1/1000000000))
+
   X.k <- fft(velocity)
   peaks <- Mod(X.k)/Npoint
   if(Npoint%%2==0){
@@ -134,8 +135,10 @@ dofft <- function(velocity,acq.freq){
 
 filter.data <- function(freq,fft_vel,fcut){
   index <- which(freq>fcut)
+  
   fft_filt <- fft_vel
   fft_filt[index] <- 0+0i
+  
   Npoint <- length(fft_vel)
   peaks <- Mod(fft_filt)/Npoint
   
