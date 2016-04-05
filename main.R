@@ -32,7 +32,8 @@ for(i in 1:length(filename_tot))
   
   create_directory(name_dir[i])
   
-  source('Correlation.R')
-  source('Periodigram.R')
+  #source('Correlation.R')
+  #source('Periodigram.R')
+  source('orbital_method.R')
 }
 
