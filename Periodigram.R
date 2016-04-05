@@ -36,7 +36,7 @@ create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
 # Here we're running the fft on the array of velocities
 
 fft_tm <- system.time(
-	data <- dofft(vel, 10)
+	data <- dofft(vel, 20) #I Bresciani lo fanno diversamente
 )
 cat("FFT performed in: ",fft_tm,"\n")
 

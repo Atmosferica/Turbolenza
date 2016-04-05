@@ -1,4 +1,6 @@
 import numpy as np
+from bcolors import *
+
 
 def DO_FFT(vel,facq):
     try: 
@@ -8,22 +10,20 @@ def DO_FFT(vel,facq):
         F = np.abs(freq)
         S = np.fft.fft(vel)
         A = np.abs(S*2/punti)
-        print "FFT done with no errors."
-
+        print bcolors.OKGREEN+"* "+bcolors.ENDC+"FFT done with no errors."
         return F,A
 
     except IndexError as ie:
-        print "Index error({0}) during FFT: {1}".format(ie.errno, ie.strerror)
-
+        print bcolors.FAIL+"Index error({0}) during FFT: {1}".format(ie.errno, ie.strerror)+bcolors.ENDC
         return 0,0
 
 
 def load_file(nome_file):
     try:
         dati = np.loadtxt(open(nome_file,"rb"),delimiter=",")
-        print "Load data from file: "+nome_file
+        print bcolors.OKGREEN+"* "+bcolors.ENDC+"Load data from file: "+nome_file
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror) 
+        print bcolors.FAIL+"I/O error({0}): {1}".format(e.errno, e.strerror)+bcolors.ENDC
         exit(7)
 
     x,y,z,t= dati[:,0], dati[:,1], dati[:,2], dati[:,3]
