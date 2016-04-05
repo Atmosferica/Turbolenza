@@ -3,7 +3,6 @@
 
 vel_T <- get_zvel(turb)
 vel <- vel_T[,1]
-cat("lunghezza di veellll",length(vel),"\n")
 Npoint=length(vel)
 
 
@@ -19,6 +18,9 @@ Npoint=length(vel)
 hamming <- hamming.window(length(vel))
 hamming <- hamming/sum(hamming)*length(vel)
 vel <- vel*hamming
+cat("Velocity dataset size: ",Npoint,"\n")
+
+
 
 # Importing cut times from file: I think it's better to import from file,
 # because if you want to change the cut threshold you can touch the
@@ -48,8 +50,11 @@ for(k in 1:length(cut_freq[,1])){
 	  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
   )
   cat("FILT performed in: ",filt_time,"\n")
-
-  plot(data$peaks ~ data$freq, 
+  
+  x <- data$freq
+  y <- data$peaks
+  
+  plot(y ~ x, 
        #ylim=c(0.001,0.04), xlim=c(0.001,5), 
        type='l',log="xy")
   
