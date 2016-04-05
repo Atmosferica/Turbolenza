@@ -128,7 +128,7 @@ dofft <- function(velocity,acq.freq){
     Freq <- c(Freq1, Freq2)
   }
   
-  data_fft <- list(fft_vel = X.k, freq = Freq, peaks = peaks, ts = ts)
+  data_fft <- data.frame(fft_vel = X.k, freq = Freq, peaks = peaks, ts = ts)
   return(data_fft)
 }
 
@@ -140,7 +140,7 @@ filter.data <- function(freq,fft_vel,fcut){
   peaks <- Mod(fft_filt)/Npoint
   
   vel_filt <- fft(fft_filt, inverse=TRUE)/length(fft_filt)
-  data_filt <- list(freq = freq, fft_vel = fft_filt, peaks = peaks, vel=vel_filt)
+  data_filt <- data.frame(freq = freq, fft_vel = fft_filt, peaks = peaks, vel=vel_filt)
   return(data_filt)
   
 }
