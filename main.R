@@ -21,7 +21,7 @@ name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 for(i in 1:length(filename_tot))
 {
   # Extracted data from csv using the script convert_cvs.awk. 
-  data <- read.csv(filename_tot[i], header=TRUE)
+  data <- read.csv(filename_tot[i], header=FALSE)
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
