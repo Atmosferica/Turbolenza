@@ -18,6 +18,8 @@ var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the fil
 filename_tot=paste(data_path,filename, sep="")
 name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 
+create_directory('grafici_output')
+
 for(i in 1:length(filename_tot))
 {
   # Extracted data from csv using the script convert_cvs.awk. 
@@ -30,7 +32,8 @@ for(i in 1:length(filename_tot))
   
   create_directory(name_dir[i])
   
-  source('Correlation.R')
-  source('Periodigram.R')
+  #source('Correlation.R')
+  #source('Periodigram.R')
+  source('orbital_method.R')
 }
 

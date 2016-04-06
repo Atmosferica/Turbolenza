@@ -38,36 +38,32 @@ create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
 fft_tm <- system.time(
 	data <- dofft(vel, 20) #I Bresciani lo fanno diversamente
 )
-cat("FFT performed in: ",fft_tm,"\n")
+# Plotting fft with ggplot() to solve the bug found by Stefano with 
+# the option header=F in read.csv() (graph superimposed)
+# Note: you don't need print_plot() anymore, you can use ggsave()
+g1 <- ggplot(data=data, aes(x=freq, y=peaks)) + geom_line(, colour='black') + 
+      scale_y_log10() + scale_x_log10() + ggtitle('FFT') +
+      xlab('Frequencies (Hz)') + ylab('Amplitude')
+g1
+ggsave(paste(directory_dataset, '/grafici_fft/fft_nofilter.png', sep=''))
+rm(g1)
 
+cat("FFT performed in: ",fft_tm,"\n")
 for(k in 1:length(cut_freq[,1])){
   
-  #Creating a dir for the fft-graphs 
-  png(paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = ''))
-  par(mfrow=c(2, 2))
-  
+  # filt_time is needed for doing benchmark and measuring time
+  # of execution of a function (in this case FFT)
   filt_time <- system.time(
 	  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
   )
   cat("FILT performed in: ",filt_time,"\n")
   
-  x <- data$freq
-  y <- data$peaks
-  
-  plot(y ~ x, 
-       #ylim=c(0.001,0.04), xlim=c(0.001,5), 
-       type='l',log="xy")
-  
-  #plot(filt$peaks ~ filt$freq, 
-       #ylim=c(0.001,0.04), xlim=c(0.001,5), 
-       #type='l',log="xy")
-  
-  #plot(vel/hamming ~ data$ts, type='l')
-  vel_filt=Re(filt$vel)/hamming
-  plot(vel_filt ~ data$ts, type='l', ylim=c(-1,1))
-  dev.off()
-  #temp <- recordPlot()
-  #name <- paste(directory_dataset,"/grafici_fft/fft_cut_",round(cut_freq[k,1], 4),"Hz.png",sep = '')
-  #print_plot(temp, 1200, 900, name)
+  # Printing to plot and saving
+  g1 <- ggplot(data=filt, aes(x=freq, y=peaks)) + geom_line(colour='black') + 
+    scale_y_log10() + scale_x_log10() + ggtitle(paste('FFT: high-pass filter at ', round(cut_freq[k,1], 4),"Hz.png", sep='')) +
+    xlab('Frequencies (Hz)') + ylab('Amplitude')
+  g1
+  ggsave(paste(directory_dataset, '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
+  rm(g1)
 
-}
+ }
