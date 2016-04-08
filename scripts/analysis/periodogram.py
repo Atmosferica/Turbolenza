@@ -36,6 +36,7 @@ def periodogram(x,y,z,t,name):
 
     try:
         plt.savefig("graph/"+name+"_FFT.pdf", dpi=20, format="pdf")
-        print bcolors.OKGREEN+"* "+bcolors.ENDC+"Graph saved in: "+"graph/"+name+"_FFT.pdf"
+        print_ok("Graph saved in: "+"graph/"+name+"_FFT.pdf")
     except IOError as IoE:
-        print bcolors.FAIL+"I/O Error! Erro number = {0} ; {1}".format(IoE.errno,IoE.strerror)+bcolors.ENDC
+        print_fail("I/O Error! Erro number = {0}; {1}".format(IoE.errno,IoE.strerror))
+        exit(IoE.errno)

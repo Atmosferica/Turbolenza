@@ -18,7 +18,7 @@ g1 <- ggplot(data=x, aes(x=x.a, y=x.b)) + ggtitle('Autocorrelation for horizonta
       scale_fill_gradientn(colours = colorRampPalette(c("white", blues9))(256)) +
       xlab('Hor_vel without last item') + ylab('Hor_vel without first item') +
       annotate('text', x=155, y=15, label=paste('Correlation: ', round(correl, 2), sep=''), )
-g1
+#g1
 ggsave(paste(markov_path, '/autocorrelation_hvel.png', sep=''))
 rm(g1)
 
@@ -36,6 +36,6 @@ g1 <- ggplot(data=z, aes(x=z.a, y=z.b)) + ggtitle('Autocorrelation for vertical 
   scale_fill_gradientn(colours = colorRampPalette(c("white", blues9))(256)) +
   xlab('Hor_vel without last item') + ylab('Hor_vel without first item') +
   annotate('text', x=70, y=5, label=paste('Correlation: ', round(correl, 2), sep=''), )
-g1
+#g1
 ggsave(paste(markov_path, '/autocorrelation_zvel.png', sep=''))
 rm(g1)

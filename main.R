@@ -3,7 +3,7 @@ library(ggplot2)
 library(gtable)
 library(methods)
 library(e1071)
-library(mwindow)
+#library(mwindow)
 #library(foreach)
 #library(doMC)
 
@@ -23,7 +23,8 @@ create_directory('grafici_output')
 for(i in 1:length(filename_tot))
 {
   # Extracted data from csv using the script convert_cvs.awk. 
-  data <- read.csv(filename_tot[i], header=FALSE)
+  # header=TRUE --> Essential! High performance decay for header=FALSE	
+  data <- read.csv(filename_tot[i], header=TRUE)
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
