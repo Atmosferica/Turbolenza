@@ -39,3 +39,5 @@ g1 <- ggplot(data=z, aes(x=z.a, y=z.b)) + ggtitle('Autocorrelation for vertical 
 #g1
 ggsave(paste(markov_path, '/autocorrelation_zvel.png', sep=''))
 rm(g1)
+
+
