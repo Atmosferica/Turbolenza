@@ -5,6 +5,7 @@ import scipy.optimize as opt
 import sys
 import os
 import string
+from scipy import stats
 
 from bcolors import *
 from funct import *
@@ -34,9 +35,9 @@ def histogram(x,y,z,t,name):
 
     try:
         plt.savefig("graph/"+name+"_HIST.pdf", format="pdf")
-        print bcolors.OKGREEN+"* "+bcolors.ENDC+"Graph saved in: "+"graph/"+name+"_HIST.pdf"
+        print_ok("Graph saved in: "+"graph/"+name+"_HIST.pdf")
     except IOError as IoE:
-        print bcolors.FAIL+"I/O Error! Erro number = {0} ; {1}".format(IoE.errno,IoE.strerror)+bcolors.ENDC
+        print_fail("I/O Error! Erro number = {0}; {1}".format(IoE.errno,IoE.strerror))
 
 
     plt.figure(3)
@@ -49,7 +50,11 @@ def histogram(x,y,z,t,name):
     
     try:
         plt.savefig("graph/"+name+"_CORR.png", figuresize=(8,6),dpi=80, format="png")
-        print bcolors.OKGREEN+"* "+bcolors.ENDC+"Graph saved in: "+"graph/"+name+"_CORR.png"
+        print_ok("Graph saved in: "+"graph/"+name+"_CORR.png")
     except IOError as IoE:
-        print bcolors.FAIL+"I/O Error! Erro number = {0} ; {1}".format(IoE.errno,IoE.strerror)+bcolors.ENDC
+        print_fail("I/O Error! Erro number = {0}; {1}".format(IoE.errno,IoE.strerror))
+
+
+
+
 
