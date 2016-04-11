@@ -5,8 +5,9 @@
 ##Usage: ./convert_cvs.awk inputfilename.dat > outputfilename.dat
 ##Date: 6-3-2016
 
+
 BEGIN{	
-	#print "#x,y,z,t";
+	print "#x,y,z,t";
 }
 
 {

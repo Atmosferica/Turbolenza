@@ -5,6 +5,7 @@ import scipy.optimize as opt
 import sys
 import os
 import string
+from scipy import signal
 
 from bcolors import *
 from funct import *
@@ -22,11 +23,17 @@ def periodogram(x,y,z,t,name):
         f,a=DO_FFT(vel,20)
         F.append(f)
         A.append(a)
+
+    #peaks=signal.find_peaks_cwt(A[0],np.arange(1,2), min_snr=3, noise_perc=80);
+    
+    #pF=F[0][peaks];
+    #pA=A[0][peaks];
     
     plt.figure(1)
     plt.subplot(121)
     plt.title("FFT horizontal velocity")
     #plt.xlim(0.000001,5)
+    #plt.loglog(F[0],A[0],pF,pA,'ko')
     plt.loglog(F[0],A[0],'k')
 
     plt.subplot(122)
