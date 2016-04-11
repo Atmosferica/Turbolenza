@@ -33,6 +33,11 @@ if __name__ == '__main__':
     name=name[len(name)-1]
     name=name.split('.')[0]+"."+name.split('.')[1]
 
+    plt.figure(9)
+    plt.plot(z)
+    plt.show()
+
+
     try:
         periodogram(x,y,z,t,name)
         print ""

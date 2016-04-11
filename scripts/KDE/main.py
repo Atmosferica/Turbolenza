@@ -18,7 +18,7 @@ from funct import *
 def kde_m(x, x_grid, bandwidth):
     
     #kde = KDEMultivariate(x, bw=bandwidth * np.ones_like(x),var_type='c')
-    kde = KDEMultivariate(x, bw=[0.004,0], var_type='c')
+    kde = KDEMultivariate(x, bw=[0.034,0], var_type='c')
     print kde.bw
 
     return kde.pdf(x_grid)
@@ -28,7 +28,7 @@ def kde_m(x, x_grid, bandwidth):
 
 
 if __name__ == '__main__':
-    print "FFT and KD estimation"
+    print "KDE and KD estimation"
     print "Usage: ./main.py [File]\n"
     n = len(sys.argv)
     if n < 2:
