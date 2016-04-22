@@ -82,3 +82,22 @@ dual_axis <- function(p1, p2){
 
   return(g)
 }
+
+#this function saves date and time as different elments of a data frame, getting them from 
+#the name of the file itself
+read.title.time <- function(filename_tot) {
+  prova <- strsplit (filename_tot, "[.]")
+  date <- prova[[1]][1]
+  time <- sub('r', '', prova[[1]][2])
+  name_file <- sub('.dat','',filename_tot)
+  dati <- c(date, as.numeric(time), name_file, stringsAsFactor=F)
+  return(dati)
+}
+
+#this function calculates skewness and kurtosis
+sk<- function(x, t) {
+  skew<-skewness(x, na.rm = TRUE, type = t)
+  kurt<-kurtosis(x, na.rm = TRUE, type = t)
+  dati <- data.frame(as.numeric(skew), as.numeric(kurt), stringsAsFactors = F)
+  return(dati)
+}
