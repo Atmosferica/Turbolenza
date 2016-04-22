@@ -12,8 +12,8 @@ from funct import *
 
 
 def periodogram(x,y,z,t,name):
-    vel=np.sqrt(x*x+y*y)
-    components=[vel,z]
+    vel=x*x+y*y
+    components=[vel,z*z]
     F=[]
     A=[]
 
@@ -24,26 +24,21 @@ def periodogram(x,y,z,t,name):
         F.append(f)
         A.append(a)
 
-    #peaks=signal.find_peaks_cwt(A[0],np.arange(1,2), min_snr=3, noise_perc=80);
-    
-    #pF=F[0][peaks];
-    #pA=A[0][peaks];
-    
     plt.figure(1)
     plt.subplot(121)
     plt.title("FFT horizontal velocity")
-    #plt.xlim(0.000001,5)
+    #plt.xlim(0.001,0.05)
     #plt.loglog(F[0],A[0],pF,pA,'ko')
-    plt.loglog(F[0],A[0],'k')
+    plt.loglog(F[0],A[0],'bo', markersize=0.1)
 
     plt.subplot(122)
     plt.title("FFT vertical velocity")
-    #plt.xlim(0.000001,5)
-    plt.loglog(F[1],A[1],'r')
+    #plt.xlim(0.001,0.05)
+    plt.loglog(F[1],A[1],'bo',markersize=0.1)
 
     try:
-        plt.savefig("graph/"+name+"_FFT.pdf", dpi=20, format="pdf")
-        print_ok("Graph saved in: "+"graph/"+name+"_FFT.pdf")
+        plt.savefig("graph/"+name+"_FFT.png", figuresize=(8,6), dpi=320, format="png")
+        print_ok("Graph saved in: "+"graph/"+name+"_FFT.png")
     except IOError as IoE:
         print_fail("I/O Error! Erro number = {0}; {1}".format(IoE.errno,IoE.strerror))
         exit(IoE.errno)
