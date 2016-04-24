@@ -7,7 +7,7 @@ library(e1071)
 #library(foreach)
 #library(doMC)
 
-
+source('estrattore_blocchi.R')
 source('functions.R')
 source('turbulence_class.R')
 
