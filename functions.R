@@ -98,6 +98,6 @@ read.title.time <- function(filename_tot) {
 sk<- function(x, t) {
   skew<-skewness(x, na.rm = TRUE, type = t)
   kurt<-kurtosis(x, na.rm = TRUE, type = t)
-  dati <- data.frame(as.numeric(skew), as.numeric(kurt), stringsAsFactors = F)
+  dati <- c(as.numeric(skew), as.numeric(kurt))  
   return(dati)
 }
