@@ -86,18 +86,28 @@ dual_axis <- function(p1, p2){
 #this function saves date and time as different elments of a data frame, getting them from 
 #the name of the file itself
 read.title.time <- function(filename_tot) {
-  prova <- strsplit (filename_tot, "[.]")
+  prova <- strsplit(filename_tot, "[.]")
   date <- prova[[1]][1]
   time <- sub('r', '', prova[[1]][2])
   name_file <- sub('.dat','',filename_tot)
-  dati <- c(date, as.numeric(time), name_file, stringsAsFactor=F)
+  dati <- c(as.numeric(date), as.numeric(time))
   return(dati)
 }
 
 #this function calculates skewness and kurtosis
-sk<- function(x, t) {
-  skew<-skewness(x, na.rm = TRUE, type = t)
-  kurt<-kurtosis(x, na.rm = TRUE, type = t)
-  dati <- c(as.numeric(skew), as.numeric(kurt))  
-  return(dati)
+sk<- function(x, y, l, i) {
+  skew<-skewness(x, na.rm = TRUE)
+  kurt<-kurtosis(x, na.rm = TRUE)
+  m_sk<- c(y[1],y[2],skew,kurt)
+    return(m_sk)
+}
+
+
+#plots skewness and kurtosis
+sk_plot <-function(m_sk, path_output, coord ){
+  png(paste(path_output,m_sk[1], "_Skeweness+Kurtosis_", coord, ".png",sep=""));
+  par(mfrow=c(2,1));
+  plot(m_sk[,2], m_sk[,3], xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''))
+  plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''))
+  
 }

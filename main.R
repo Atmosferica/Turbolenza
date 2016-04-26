@@ -1,8 +1,8 @@
-library(lattice)
-library(ggplot2)
-library(gtable)
-library(methods)
-library(e1071)
+# library(lattice)
+# library(ggplot2)
+# library(gtable)
+# library(methods)
+# library(e1071)
 #library(mwindow)
 #library(foreach)
 #library(doMC)
@@ -12,8 +12,8 @@ source('functions.R')
 source('turbulence_class.R')
 
 
-#data_path <- "data/"   
-data_path <- "data/Licor/"
+data_path <- "data/"   
+#data_path <- "data/Licor/"
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 filename_tot=paste(data_path,filename, sep="")
@@ -24,16 +24,19 @@ filename_tot=paste(data_path,filename, sep="")
 name_dir <- sub('data/Licor','OutputLicor',sub('.dat','',filename_tot))
 create_directory('OutputLicor')
 #This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
-t <- 1
-m.x_sk <- matrix(1:12,ncol=2)
-m.y_sk <- matrix(1:12,ncol=2)
-m.z_sk <- matrix(1:12,ncol=2)
+
+x_sk <-matrix(nrow=length(filename_tot), ncol=4)
+y_sk <-matrix(nrow=length(filename_tot), ncol=4)
+z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 
 for(i in 1:length(filename_tot))
 {
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
+  dati <-read.title.time(filename[i])
+  righe<-length(filename[i])
+  
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
@@ -54,25 +57,18 @@ for(i in 1:length(filename_tot))
    #Finding kurtosis-skewness for x-velocity
    x_vel <- get_uvel(turb)
    x <- x_vel[,1]   
-   x_sk<-sk(x,1)   
-   m.x_sk[t, 1] <- x_sk[1]
-   m.x_sk[t, 2] <- x_sk[2]
+   x_sk[i,]<-sk(x, dati) 
+
  
   # Finding kurtosis-skewness for y-velocity
    y_vel <- get_vvel(turb)
    y <- y_vel[,1]   
-   y_sk<-sk(y,1)
-   m.y_sk[t, 1] <- y_sk[1]
-   m.y_sk[t, 2] <- y_sk[2]
+   y_sk[i,]<-sk(y, dati) 
    
   # Finding kurtosis-skewness for z-velocity
    z_vel <- get_zvel(turb)
    z <- z_vel[,1]   
-   z_sk<-sk(z,1)
-   m.z_sk[t, 1] <- z_sk[1]
-   m.z_sk[t, 2] <- z_sk[2]
-   
-   t <- t+1
+   z_sk[i,]<-sk(z, dati) 
 }
 
 source('Gaussian.R')
