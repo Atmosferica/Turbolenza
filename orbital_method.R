@@ -2,16 +2,16 @@
 
 markov_path <- paste(name_dir[i], '/markov', sep='')
 create_directory(markov_path)
-
+dim_bl <- 5
 # Extracting blocks of 5 minutes from original dataset
 
 z_vel <- get_zvel(turb)
 z_vel <- z_vel[,1]
 time_stamp <- seq(from=0, to=length(z_vel)-1)*0.1
-numb <- length(z_vel)%/%3000 # number of blocks: watch out, blocks are in
+numb <- length(z_vel)%/%(dim_bl*10) # number of blocks: watch out, blocks are in
 # seconds, not in 0.1s...
 for(block in 1:numb){
-  sig <- signal.partition(time_stamp, z_vel, block, 300)
+  sig <- signal.partition(time_stamp, z_vel, block, dim_bl)
 }
 
 # computing the autocorrelation (we need it for checking the markovianity)
