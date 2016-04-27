@@ -95,7 +95,7 @@ read.title.time <- function(filename_tot) {
 }
 
 #this function calculates skewness and kurtosis
-sk<- function(x, y, l, i) {
+sk<- function(x, y, l) {
   skew<-skewness(x, na.rm = TRUE)
   kurt<-kurtosis(x, na.rm = TRUE)
   m_sk<- c(y[1],y[2],skew,kurt)
@@ -105,11 +105,22 @@ sk<- function(x, y, l, i) {
 
 #plot skewness and kurtosis
 sk_plot <-function(m_sk, path_output, coord ){
-  png(paste(path_output,m_sk[1], "_Skeweness+Kurtosis_", coord, ".png",sep=""));
+  png(paste(path_output, "Skeweness+Kurtosis_", coord, ".png",sep=""));
   par(mfrow=c(2,1));
   plot(m_sk[,2], m_sk[,3], xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''))
   plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''))
+  dev.off()
+}
+
+#####
+boh<-function(time_stamp, x, block, dim_bl,dati,numb){
   
+  m_sk <- matrix(ncol = 4 ,nrow = numb)
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  m_sk[block,]<-sk( vector_blocks, dati) 
+  
+  return(m_sk[block,])
 }
 
 signal.block.mean <- function(time.stamp, signal, block.length=300) {   # lunghezza del blocco 

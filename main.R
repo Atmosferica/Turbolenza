@@ -6,8 +6,9 @@
 #library(mwindow)
 #library(foreach)
 #library(doMC)
+library(moments)
 
-source('estrattore_blocchi.R')
+#source('estrattore_blocchi.R')
 source('functions.R')
 source('turbulence_class.R')
 
@@ -40,14 +41,10 @@ x_sk <-matrix(nrow=length(filename_tot), ncol=4)
 y_sk <-matrix(nrow=length(filename_tot), ncol=4)
 z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 
-x_sk_5 <-matrix(nrow=length(filename_tot)*20, ncol=4)
-y_sk_5 <-matrix(nrow=length(filename_tot)*20, ncol=4)
-z_sk_5 <-matrix(nrow=length(filename_tot)*20, ncol=4)
-
-cc<-1
 
 for(i in 1:length(filename_tot))
 {
+
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
@@ -61,14 +58,14 @@ for(i in 1:length(filename_tot))
   
   create_directory(name_dir[i])
   
-  cat("* Perfoming correlation graph...","\n")
+  #cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
   
-  cat("* Performing FFT analysis...","\n")
+  #cat("* Performing FFT analysis...","\n")
   #source('Periodigram.R')
   
-  cat("* Performing Markovian test...","\n")
-  source('markov_test.R')
+  #cat("* Performing Markovian test...","\n")
+  #source('markov_test.R')
   cat("* File: ",name_dir[i],"..done!\n")
   cat("\n")
   
@@ -92,32 +89,10 @@ for(i in 1:length(filename_tot))
    z <- z_vel[,1]   
    z_sk[i,]<-sk(z, dati) 
    
-   time_stamp <- seq(from=0, to=length(z)-1)*0.1
-   numb <- length(z)%/%3000 # number of blocks in s
+   source('Gaussian.R')
 
-  tempo <-dati
-
-   
-   for(block in 1:numb){
-     
-     sig_x <- signal.partition(time_stamp, x, block, 300)
-     sig_y <- signal.partition(time_stamp, y, block, 300)
-     sig_z <- signal.partition(time_stamp, z, block, 300)
-     
-     
-     tempo[2] <- dati[2] + (block-1)/20
-     
-     x_sk_5[cc+(block-1),]<-sk(sig_x[,2], tempo) 
-     y_sk_5[cc+(block-1),]<-sk(sig_y[,2], tempo)
-     z_sk_5[cc+(block-1),]<-sk(sig_z[,2], tempo) 
-     
-    
-   }
-    cc<-cc+block
-   
 }
+   
+source('grafici.R')
+   
 
-index <- which(x_sk_5[,2]!="NA")
-x_sk_5<- x_sk_5[index,]
-
-source('Gaussian.R')
