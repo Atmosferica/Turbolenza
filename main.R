@@ -7,11 +7,12 @@
 #library(foreach)
 #library(doMC)
 
-
+source('estrattore_blocchi.R')
 source('functions.R')
 source('turbulence_class.R')
 
-data_path <- "data/"   
+
+data_path <- path_dir
 #data_path <- "data/Licor/"
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
@@ -22,8 +23,19 @@ filename_tot=paste(data_path,filename, sep="")
 #Used for Licor
 name_dir <- sub('data/Licor','OutputLicor',sub('.dat','',filename_tot))
 create_directory('OutputLicor')
-#This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
 
+
+create_directory('grafici_output')
+create_directory('grafici_output/Fontanella1')
+create_directory('grafici_output/Fontanella2')
+create_directory('grafici_output/Fontanella1/Emission')
+create_directory('grafici_output/Fontanella1/Control')
+create_directory('grafici_output/Fontanella1/LiCor')
+create_directory('grafici_output/Fontanella2/Emission')
+create_directory('grafici_output/Fontanella2/Control')
+create_directory('grafici_output/Fontanella2/LiCor')
+
+#This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
 x_sk <-matrix(nrow=length(filename_tot), ncol=4)
 y_sk <-matrix(nrow=length(filename_tot), ncol=4)
 z_sk <-matrix(nrow=length(filename_tot), ncol=4)
@@ -49,13 +61,19 @@ for(i in 1:length(filename_tot))
   
   create_directory(name_dir[i])
   
+  cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
-  #source('Periodigram.R')
-  #source('orbital_method.R')
   
-  ##solo per Anna e Chiara!!##
-  # normal_path <- paste(name_dir[i], '/normal', sep='')
-  # create_directory(normal_path)
+  cat("* Performing FFT analysis...","\n")
+  #source('Periodigram.R')
+  
+  cat("* Performing Markovian test...","\n")
+  source('markov_test.R')
+  cat("* File: ",name_dir[i],"..done!\n")
+  cat("\n")
+  
+  #source('orbital_method.R')
+
   
   ##Firt column: skewness; second column: kurtosis
    #Finding kurtosis-skewness for x-velocity
