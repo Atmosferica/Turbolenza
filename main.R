@@ -40,7 +40,7 @@ for(i in 1:length(filename_tot))
   turb <- set_direction(turb)  # setting direction
   
   create_directory(name_dir[i])
-  
+  cat(name_dir[i],"\n")
   cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
   
@@ -49,7 +49,6 @@ for(i in 1:length(filename_tot))
   
   cat("* Performing Markovian test...","\n")
   source('markov_test.R')
-  cat("* File: ",name_dir[i],"..done!\n")
-  cat("\n")
+  cat("* File: ",filename_tot[i],"..done!\n")
 }
 
