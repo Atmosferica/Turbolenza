@@ -50,5 +50,6 @@ for(i in 1:length(filename_tot))
   cat("* Performing Markovian test...","\n")
   source('markov_test.R')
   cat("* File: ",name_dir[i],"..done!\n")
+  cat("\n")
 }
 
