@@ -2,7 +2,7 @@
 
 markov_path <- paste(name_dir[i], '/markov', sep='')
 create_directory(markov_path)
-dim_bl <- 300 
+dim_bl <- 30
 # Extracting blocks of 5 minutes from original dataset
 
 z_vel <- get_zvel(turb)
@@ -35,11 +35,11 @@ for(block_mat in 1:numb){
 #png(paste(markov_path,"/Markov_test.png",sep = ''))
   par(mfrow=c(2,1))
   plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
-  plot(mark2,t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block")
+  plot(mark2[1:300],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block")
   par(mfrow=c(1,1))
   
-  dim_shift_mezzi <- (floor(dim_bl*10))
-  plot(mark2[1:(dim_shift_mezzi)],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block",col='black')
+  #dim_shift_mezzi <- (floor(dim_bl*10))
+  #plot(mark2[1:(dim_shift_mezzi)],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block",col='black')
   #for(graph_bl in 2:numb){
   #  lines(mark2[(dim_shift_mezzi)*(graph_bl-1):(dim_shift_mezzi)*(graph_bl)])
   #}
