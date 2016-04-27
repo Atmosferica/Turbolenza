@@ -33,6 +33,7 @@ if __name__ == '__main__':
     name=name[len(name)-1]
     name=name.split('.')[0]+"."+name.split('.')[1]
 
+
     try:
         periodogram(x,y,z,t,name)
         print ""
@@ -42,11 +43,11 @@ if __name__ == '__main__':
         print_fail("Some eorros has been occured in the Stage1")
         exit(1)
 
-    try:
-        histogram(x,y,z,t,name)
-        print ""
-        print_ok("Stage2 completed - COR")
-        print ""
-    except:
-        print_fail("Some eorros has been occured in the Stage2")
-        exit(1)
+    #try:
+    #    histogram(x,y,z,t,name)
+    #    print ""
+    #    print_ok("Stage2 completed - COR")
+    #    print ""
+    #except:
+    #    print_fail("Some eorros has been occured in the Stage2")
+    #    exit(1)
