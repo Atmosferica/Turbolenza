@@ -31,7 +31,7 @@ cut_freq <- 1/cut_times # Converting times into frequencies
 
 # Perform the FFT ------------------------------------------------------------
 fft_tm <- system.time(
-	data <- dofft(vel, 20) #ATTENTION! Some data set are sampled at 20Hz
+	data <- dofft(vel, sonic_fqc) #ATTENTION! Some data set are sampled at 20Hz
 )
 # Plotting fft with ggplot() to solve the bug found by Stefano with 
 # the option header=F in read.csv() (graph superimposed)
