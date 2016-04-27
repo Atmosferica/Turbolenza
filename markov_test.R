@@ -27,8 +27,6 @@ for(k in 1:(numb-1)){
 
 for(bb in 1:numb){
   for(i in 1:(floor(dim_bl*10*0.5))){
-    #c <- matrix_blocks[bb,-((dim_bl*10)-i+1)]
-    #d <- matrix_blocks[bb,-1]
     c <- matrix_blocks[bb,1:((dim_bl*10)-i)]
     d <- matrix_blocks[bb,(i+1):(dim_bl*10)]
     mark2[(bb-1)*(dim_bl*10*0.5)+i] <- cor(c,d)
