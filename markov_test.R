@@ -32,16 +32,24 @@ for(block_mat in 1:numb){
     mark2[(block_mat-1)*(floor(dim_bl*sonic_fqc*0.5)-1)+shift_pad] <- cor(c,d)
   }
 }
-png(paste(markov_path,"/Markov_test.png",sep = ''))
-  dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
-  par(mfrow=c(2,1))
-  plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
-  plot(mark2[1:(dim_shift_mezzi-1)],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block",col='black')
-  for(graph_bl in 2:numb){
-    lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
-  }
-  par(mfrow=c(1,1))
-dev.off()
+
+
+mark3 <- as.data.frame(mark2)
+# g1 <- qplot(mark2) # qplot works, now I must understand how to make ggplot work...
+# g1 <- ggplot(as.data.frame(mark2))
+g1 <- ggplot(mark3, aes(x = c(seq(0.1, 300, by=0.1)), y = mark2)) +
+  geom_line() + labs(x='Time[s]', y='Correlation')
+
+# png(paste(markov_path,"/Markov_test.png",sep = ''))
+#   dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
+#   par(mfrow=c(2,1))
+#   plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
+#   plot(mark2[1:(dim_shift_mezzi-1)],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block",col='black')
+#   for(graph_bl in 2:numb){
+#     lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
+#   }
+#   par(mfrow=c(1,1))
+# dev.off()
 
   
   
