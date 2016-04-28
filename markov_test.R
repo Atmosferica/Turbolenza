@@ -38,7 +38,6 @@ for(block_mat in 1:numb){
   par(mfrow=c(2,1))
   plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
   plot(mark2[1:(dim_shift_mezzi-1)],t='l',xlab = "Shift" , ylab = "Correlation", main="Decorrelation pattern in single block",col='black')
-  lines(x2, predict(m.exp, list(x = x2)), col = "red")
   for(graph_bl in 2:numb){
     lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
   }
