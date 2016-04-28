@@ -12,18 +12,12 @@ library(moments)
 source('functions.R')
 source('turbulence_class.R')
 
-
+sonic_fqc <- 20
 data_path <- path_dir
-#data_path <- "data/Licor/"
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 filename_tot=paste(data_path,filename, sep="")
-#name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
-#create_directory('grafici_output')
-
-#Used for Licor
-name_dir <- sub('data/Licor','OutputLicor',sub('.dat','',filename_tot))
-create_directory('OutputLicor')
+name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 
 
 create_directory('grafici_output')
@@ -48,7 +42,7 @@ for(i in 1:length(filename_tot))
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
-  dati <-read.title.time(filename[i])
+  dati <- read.title.time(filename[i])
  
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
@@ -56,8 +50,8 @@ for(i in 1:length(filename_tot))
   # turb <- set_hvel(turb) # setting horizontal velocity
   turb <- set_direction(turb)  # setting direction
   
-  create_directory(name_dir[i])
-  
+  #create_directory(name_dir[i])
+  cat(name_dir[i],"\n")
   #cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
   
@@ -66,8 +60,7 @@ for(i in 1:length(filename_tot))
   
   #cat("* Performing Markovian test...","\n")
   #source('markov_test.R')
-  cat("* File: ",name_dir[i],"..done!\n")
-  cat("\n")
+  cat("* File: ",filename_tot[i],"..done!\n")
   
   #source('orbital_method.R')
 

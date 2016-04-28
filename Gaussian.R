@@ -5,10 +5,11 @@ dim_bl <- 300
 
 
 
-time_stamp <- seq(from=0, to=length(x)-1)*0.05
-numb <- length(x)%/%(dim_bl*20) # number of blocks: watch out, blocks are in
+time_stamp <- seq(from=0, to=length(z)-1)*(1/sonic_fqc)
+numb <- length(z)%/%(dim_bl*sonic_fqc) # number of blocks: watch out, blocks are in
 # seconds, not in 0.1s...
-cat(numb)
+cat("* Number of blocks: ",numb,"\n")
+
 m.x_sk <- matrix(ncol = 4 ,nrow = numb)
 m.y_sk <- matrix(ncol = 4 ,nrow = numb)
 m.z_sk <- matrix(ncol = 4 ,nrow = numb)
