@@ -6,14 +6,15 @@
 #library(mwindow)
 #library(foreach)
 #library(doMC)
+library(moments)
 
 
 source('functions.R')
 source('turbulence_class.R')
 
 
-data_path <- "data/"   
-#data_path <- "data/Licor/"
+#data_path <- "data/"   
+data_path <- "data/Licor/"
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 filename_tot=paste(data_path,filename, sep="")
