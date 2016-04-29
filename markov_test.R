@@ -16,7 +16,9 @@ mark <- c(1:(numb-1))
 mark2 <- c(1:floor(length(z_vel)/2-(dim_bl*sonic_fqc*0.5)))
 for(block in 1:numb){
   sig <- signal.partition(time_stamp, z_vel, block, dim_bl)
-  matrix_blocks[block,] <- with(sig,value)
+  #mm <- lm( sig$value ~ c(1:length(sig$value)))
+  #sig$value <- sig$value - predict(mm)
+  matrix_blocks[block,] <- sig$value
 }
 
 
@@ -42,14 +44,6 @@ for(block_mat in 1:numb){
 }
 
 
-# mark3 <- as.data.frame(mark2)
-# # g1 <- qplot(mark2) # qplot works, now I must understand how to make ggplot work...
-# # g1 <- ggplot(as.data.frame(mark2))
-# g1 <- ggplot(mark3, aes(x = c(seq(0.1, 300, by=1/sonic_fqc)), y = mark2[1:(dim_shift_mezzi-1)])) +
-#   geom_line() + labs(x='Time[s]', y='Correlation')
-# g1
-
-png(paste(markov_path,"/Markov_test.png",sep = ''))
   dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
   par(mfrow=c(2,1))
   plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
@@ -58,7 +52,9 @@ png(paste(markov_path,"/Markov_test.png",sep = ''))
     lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
   }
   par(mfrow=c(1,1))
-dev.off()
+
+
+#dev.off()
 
 stop()
   
