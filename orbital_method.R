@@ -207,3 +207,6 @@ for(block in 1:numb){
 # #g1
 # ggsave(paste(markov_path, '/autocorrelation_zvel.png', sep=''))
 # rm(g1)
+
+
+
