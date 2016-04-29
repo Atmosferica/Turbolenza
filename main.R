@@ -20,6 +20,7 @@ filename_tot=paste(data_path,filename, sep="")
 #name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 #create_directory('grafici_output')
 
+
 create_directory('grafici_output')
 create_directory('grafici_output/Fontanella1')
 create_directory('grafici_output/Fontanella2')
@@ -62,26 +63,11 @@ for(i in 1:length(filename_tot))
   cat("* File: ",filename_tot[i],"..done!\n")
   
   #source('orbital_method.R')
-
   
-  ##Firt column: skewness; second column: kurtosis
-   #Finding kurtosis-skewness for x-velocity
-   x_vel <- get_uvel(turb)
-   x <- x_vel[,1]   
-   x_sk[i,]<-sk(x, dati) 
-
- 
-  # Finding kurtosis-skewness for y-velocity
-   y_vel <- get_vvel(turb)
-   y <- y_vel[,1]   
-   y_sk[i,]<-sk(y, dati) 
-   
-  # Finding kurtosis-skewness for z-velocity
-   z_vel <- get_zvel(turb)
-   z <- z_vel[,1]   
-   z_sk[i,]<-sk(z, dati) 
-   source('Gaussian.R')
 }
+
    
-source('grafici.R')
+cat("* Perfoming Gaussian...","\n")
+source('Gaussian.R')
    
+
