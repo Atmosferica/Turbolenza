@@ -50,23 +50,23 @@ for(i in 1:length(filename_tot))
   # turb <- set_hvel(turb) # setting horizontal velocity
   turb <- set_direction(turb)  # setting direction
   
-  #create_directory(name_dir[i])
+  create_directory(name_dir[i])
   cat(name_dir[i],"\n")
-  #cat("* Perfoming correlation graph...","\n")
+  cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
   
-  #cat("* Performing FFT analysis...","\n")
+  cat("* Performing FFT analysis...","\n")
   #source('Periodigram.R')
   
-  #cat("* Performing Markovian test...","\n")
-  #source('markov_test.R')
+  cat("* Performing Markovian test...","\n")
+  source('markov_test.R')
   cat("* File: ",filename_tot[i],"..done!\n")
   
   #source('orbital_method.R')
 
 }
    
-cat("* Perfoming Gaussian...","\n")
-source('Gaussian.R')
+#cat("* Perfoming Gaussian...","\n")
+#source('Gaussian.R')
    
 
