@@ -95,7 +95,7 @@ read.title.time <- function(filename_tot) {
 }
 
 #this function calculates skewness and kurtosis
-sk<- function(x, y, l, i) {
+sk<- function(x, y, l) {
   skew<-skewness(x, na.rm = TRUE)
   kurt<-kurtosis(x, na.rm = TRUE)
   m_sk<- c(y[1],y[2],skew,kurt)
@@ -103,11 +103,43 @@ sk<- function(x, y, l, i) {
 }
 
 
-#plots skewness and kurtosis
+  
+#plot skewness and kurtosis
 sk_plot <-function(m_sk, path_output, coord ){
-  png(paste(path_output,m_sk[1], "_Skeweness+Kurtosis_", coord, ".png",sep=""));
+  png(paste(path_output, "Skeweness+Kurtosis_", coord, ".png",sep=""));
   par(mfrow=c(2,1));
   plot(m_sk[,2], m_sk[,3], xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''))
   plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''))
+  dev.off()
+}
+
+#This function has 
+Nblock<-function(time_stamp, x, block, dim_bl,dati,numb){
   
+  m_sk <- matrix(ncol = 4 ,nrow = numb)
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  m_sk[block,]<-sk( vector_blocks, dati) 
+  
+  return(m_sk[block,])
+}
+
+signal.block.mean <- function(time.stamp, signal, block.length=300) {   # lunghezza del blocco 
+  time.index <- time.stamp %/% block.length                             # time.index numero di blocchi 
+  part <- aggregate(signal, by=list(time.index), FUN=mean, na.rm=TRUE)  # fa la media del vettore passate suddividendolo in blocchi 
+  names(part) <- c("time.stamp", "value")                               # inserisce l'header
+  part$time.stamp <- part$time.stamp * block.length
+  return(part)
+}
+
+signal.partition <- function(time.stamp, signal, block, block.length=300) {
+  time.index <- time.stamp %/% block.length
+  separate.indices <- unique(time.index)                #rimuove gli elementi doppi del vettore/data frame che gli viene passato
+  n.blocks <- length(separate.indices)                  #quanti blocchi ho in totale
+  if(block <= 0 | block > n.blocks) return(NULL)        
+  current.block.idx <- which(time.index == separate.indices[block])       #scegli il blocco che vuoi
+  current.block <- signal[current.block.idx]                              #isolalo
+  current.time.stamp <- time.stamp[current.block.idx]
+  result <- data.frame(time.stamp = current.time.stamp, value = current.block)  #rende il blocco da solo
+  return(result)
 }
