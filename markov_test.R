@@ -37,8 +37,9 @@ for(block_mat in 1:numb){
 mark3 <- as.data.frame(mark2)
 # g1 <- qplot(mark2) # qplot works, now I must understand how to make ggplot work...
 # g1 <- ggplot(as.data.frame(mark2))
-g1 <- ggplot(mark3, aes(x = c(seq(0.1, 300, by=0.1)), y = mark2)) +
+g1 <- ggplot(mark3, aes(x = c(seq(0.1, 300, by=1/sonic_fqc)), y = mark2[1:(dim_shift_mezzi-1)])) +
   geom_line() + labs(x='Time[s]', y='Correlation')
+g1
 
 # png(paste(markov_path,"/Markov_test.png",sep = ''))
 #   dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  

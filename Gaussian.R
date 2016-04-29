@@ -25,6 +25,8 @@ for(block in 1:numb){
 }
 
 
+path_output <- paste('grafici_output/', line, '/',dati[1], '/', sep = '')
+create_directory(path_output)
 path_output <- paste('grafici_output/', line, '/',dati[1], '/', dati[2], '/', sep = '')
 create_directory(path_output)
 
