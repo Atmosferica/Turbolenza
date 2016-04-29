@@ -59,7 +59,7 @@ for(i in 1:length(filename_tot))
   }
   
   path_output <- paste('grafici_output/', line, '/',dati[1], '/', sep = '')  
-  create_directory(path_output)
+create_directory(path_output)
   path_output <- paste('grafici_output/', line, '/',dati[1], '/', dati[2], '/', sep = '')
   create_directory(path_output)
   
