@@ -63,9 +63,9 @@ for(i in 1:length(filename_tot))
   cat("* File: ",filename_tot[i],"..done!\n")
   
   #source('orbital_method.R')
-
-
+  
 }
+
    
 cat("* Perfoming Gaussian...","\n")
 source('Gaussian.R')

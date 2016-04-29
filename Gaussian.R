@@ -1,6 +1,7 @@
 
 for(fl in 1:length(filename_tot))
 {
+  
   #fl<-1
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
@@ -71,7 +72,12 @@ for(fl in 1:length(filename_tot))
   
 }
 
+for(dd in 2:length(x_sk[,1])){
+  index<-which(x_sk[dd,]=!x_sk[dd-1,])
+  
+}
 
+for()
 sk_plot(x_sk, path_output ,"x")
 sk_plot(y_sk, path_output, "y")
 sk_plot(z_sk, path_output, "z")
