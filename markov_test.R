@@ -16,7 +16,9 @@ mark <- c(1:(numb-1))
 mark2 <- c(1:floor(length(z_vel)/2-(dim_bl*sonic_fqc*0.5)))
 for(block in 1:numb){
   sig <- signal.partition(time_stamp, z_vel, block, dim_bl)
-  matrix_blocks[block,] <- with(sig,value)
+  #mm <- lm( sig$value ~ c(1:length(sig$value)))
+  #sig$value <- sig$value - predict(mm)
+  matrix_blocks[block,] <- sig$value
 }
 
 for(riga_bl in 1:(numb-1)){
@@ -42,6 +44,8 @@ for(block_mat in 1:numb){
     lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
   }
   par(mfrow=c(1,1))
+
+
 #dev.off()
 
   
