@@ -1,11 +1,11 @@
 
-for(i in 1:length(filename_tot))
+for(fl in 1:length(filename_tot))
 {
-  
+  #fl<-1
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
-  data <- read.csv(filename_tot[i], header=TRUE)
-  dati <- read.title.time(filename[i])
+  data <- read.csv(filename_tot[fl], header=TRUE)
+  dati <- read.title.time(filename[fl])
   
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
@@ -14,24 +14,29 @@ for(i in 1:length(filename_tot))
   turb <- set_direction(turb)  # setting direction
   
   #create_directory(name_dir[i])
-  cat(name_dir[i],"\n")
+  cat(name_dir[fl],"\n")
+  
+  path_output <- paste('grafici_output/', line, '/',dati[1], '/', sep = '')  
+  create_directory(path_output)
 
   ##Firt column: skewness; second column: kurtosis
   #Finding kurtosis-skewness for x-velocity
   x_vel <- get_uvel(turb)
   x <- x_vel[,1]   
-  x_sk[i,]<-sk(x, dati) 
-  
+  x_sk[fl,]<-sk(x, dati) 
+  print.hist.gauss(x, path_output, "x", dati[2])
   
   # Finding kurtosis-skewness for y-velocity
   y_vel <- get_vvel(turb)
   y <- y_vel[,1]   
-  y_sk[i,]<-sk(y, dati) 
+  y_sk[fl,]<-sk(y, dati) 
+  print.hist.gauss(y, path_output, "y", dati[2])
   
   # Finding kurtosis-skewness for z-velocity
   z_vel <- get_zvel(turb)
   z <- z_vel[,1]   
-  z_sk[i,]<-sk(z, dati) 
+  z_sk[fl,]<-sk(z, dati) 
+  print.hist.gauss(z, path_output, "z", dati[2])
 
   
   #Here there is the programme that studies the skewness and kurtosis coefficient of our data
@@ -58,20 +63,18 @@ for(i in 1:length(filename_tot))
     m.z_sk[block,]<- boh(time_stamp, z, block, dim_bl,tempo, numb)
   }
   
-  path_output <- paste('grafici_output/', line, '/',dati[1], '/', sep = '')  
-create_directory(path_output)
-  path_output <- paste('grafici_output/', line, '/',dati[1], '/', dati[2], '/', sep = '')
-  create_directory(path_output)
+
   
-  sk_plot(m.x_sk, path_output,"x")
-  sk_plot(m.y_sk, path_output,"y")
-  sk_plot(m.z_sk, path_output,"z")
+  sk_plot(m.x_sk, paste(path_output, dati[2], "_", sep = ''), "x")
+  sk_plot(m.y_sk, paste(path_output, dati[2], "_", sep = ''), "y")
+  sk_plot(m.z_sk, paste(path_output, dati[2], "_", sep = ''), "z")
   
 }
 
 
-path_output1 <- paste('grafici_output/', line, '/', dati[1], '/', sep = '')
+sk_plot(x_sk, path_output ,"x")
+sk_plot(y_sk, path_output, "y")
+sk_plot(z_sk, path_output, "z")
 
-sk_plot(x_sk, path_output1 ,"x")
-sk_plot(y_sk, path_output1, "y")
-sk_plot(z_sk, path_output1, "z")
+sk_plot.xyz(x_sk, y_sk, z_sk, path_output)
+
