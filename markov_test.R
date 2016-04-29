@@ -21,7 +21,7 @@ for(block in 1:numb){
   matrix_blocks[block,] <- sig$value
 }
 
-
+#graph_idx <- 0
 apply(matrix_blocks, 1, function(x){
   png(paste(markov_path,"/prova_markov2.png", x, sep = ''))
   plot(x, type='l')
@@ -43,7 +43,7 @@ for(block_mat in 1:numb){
   }
 }
 
-
+#png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("Markov_",sub(".dat",'',filename[i]),".png",sep = '')))
   dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
   par(mfrow=c(2,1))
   plot(mark, t='l',xlab = "Block Index [N]", ylab = "Correlation", main="Correlation index between block N and N+1 ")
@@ -52,10 +52,7 @@ for(block_mat in 1:numb){
     lines(mark2[((dim_shift_mezzi)*(graph_bl-1)):((dim_shift_mezzi-1)*(graph_bl))],col=c(120+(10*graph_bl),120,120))
   }
   par(mfrow=c(1,1))
-
-
 #dev.off()
-
 stop()
   
   

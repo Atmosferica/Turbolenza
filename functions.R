@@ -113,7 +113,7 @@ sk_plot <-function(m_sk, path_output, coord ){
 }
 
 #####
-boh<-function(time_stamp, x, block, dim_bl,dati,numb){
+boh<-function(time_stamp, x, block, dim_bl,dati, numb){
   
   m_sk <- matrix(ncol = 4 ,nrow = numb)
   sig <- signal.partition(time_stamp, x, block, dim_bl)
