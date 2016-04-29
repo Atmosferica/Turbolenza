@@ -64,28 +64,9 @@ for(i in 1:length(filename_tot))
   
   #source('orbital_method.R')
 
-  
-  ##Firt column: skewness; second column: kurtosis
-   #Finding kurtosis-skewness for x-velocity
-   x_vel <- get_uvel(turb)
-   x <- x_vel[,1]   
-   x_sk[i,]<-sk(x, dati) 
-
- 
-  # Finding kurtosis-skewness for y-velocity
-   y_vel <- get_vvel(turb)
-   y <- y_vel[,1]   
-   y_sk[i,]<-sk(y, dati) 
-   
-  # Finding kurtosis-skewness for z-velocity
-   z_vel <- get_zvel(turb)
-   z <- z_vel[,1]   
-   z_sk[i,]<-sk(z, dati) 
-   
-   source('Gaussian.R')
-
 }
    
-source('grafici.R')
+cat("* Perfoming Gaussian...","\n")
+source('Gaussian.R')
    
 
