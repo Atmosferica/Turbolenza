@@ -21,6 +21,11 @@ for(block in 1:numb){
   matrix_blocks[block,] <- sig$value
 }
 
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
 graph_idx <- assign("graph_idx",0, envir = globalenv())
 apply(matrix_blocks, 1, function(x){
   png(paste(markov_path,"/zvel_block_markov_", graph_idx, ".png" ,sep = ''),
@@ -30,6 +35,7 @@ apply(matrix_blocks, 1, function(x){
   graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
   })
 
+rm(graph_idx) # removing global variable
 
 for(riga_bl in 1:(numb-1)){
   a <- matrix_blocks[riga_bl, ]
@@ -79,6 +85,11 @@ for(block in 1:numb){
   matrix_blocks[block,] <- sig$value
 }
 
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
 graph_idx <- assign("graph_idx",0, envir = globalenv())
 apply(matrix_blocks, 1, function(x){
   png(paste(markov_path,"/uvel_block_markov_", graph_idx, ".png" ,sep = ''),
@@ -88,6 +99,7 @@ apply(matrix_blocks, 1, function(x){
   graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
 })
 
+rm(graph_idx) # removing global variable
 
 for(riga_bl in 1:(numb-1)){
   a <- matrix_blocks[riga_bl, ]
@@ -138,6 +150,11 @@ for(block in 1:numb){
   matrix_blocks[block,] <- sig$value
 }
 
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
 graph_idx <- assign("graph_idx",0, envir = globalenv())
 apply(matrix_blocks, 1, function(x){
   png(paste(markov_path,"/vvel_block_markov_", graph_idx, ".png" ,sep = ''),
@@ -147,6 +164,7 @@ apply(matrix_blocks, 1, function(x){
   graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
 })
 
+rm(graph_idx) # removing global variable
 
 for(riga_bl in 1:(numb-1)){
   a <- matrix_blocks[riga_bl, ]
