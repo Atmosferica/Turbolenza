@@ -2,11 +2,11 @@
 # library(ggplot2)
 # library(gtable)
 # library(methods)
-# library(e1071)
+library(e1071)
 #library(mwindow)
 #library(foreach)
 #library(doMC)
-library(moments)
+#library(moments)
 
 #source('estrattore_blocchi.R')
 source('functions.R')
