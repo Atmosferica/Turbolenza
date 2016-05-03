@@ -18,7 +18,7 @@ create_directory<-function(path){
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
   }else{
     if(dir.exists(path)!=TRUE){
-      dir.create(path)
+      dir.create(path, showWarnings = FALSE, recursive = TRUE)
     }
     path<-paste(path,'/',sep='')
   }
