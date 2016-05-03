@@ -5,7 +5,7 @@ create_directory(markov_path)
 dim_bl <- 300
 # Extracting blocks of 5 minutes from original dataset
 
-f_cut_up <- 0.5
+f_cut_up <- 0.2
 f_cut_down <- 0.01
 
 z_vel <- get_zvel(turb)
