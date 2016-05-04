@@ -185,7 +185,7 @@ dofft <- function(velocity,acq.freq){
   return(data_fft)
 }
 
-filter.data <- function(freq,fft_vel,fcut){
+LowPassfilter.data <- function(freq,fft_vel,fcut){
   index <- which(freq>fcut)
   
   fft_filt <- fft_vel
@@ -199,7 +199,20 @@ filter.data <- function(freq,fft_vel,fcut){
   return(data_filt)
   
 }
-
+HiPassfilter.data <- function(freq,fft_vel,fcut){
+  index <- which(freq<fcut)
+  
+  fft_filt <- fft_vel
+  fft_filt[index] <- 0+0i
+  
+  Npoint <- length(fft_vel)
+  peaks <- Mod(fft_filt)/Npoint
+  
+  vel_filt <- fft(fft_filt, inverse=TRUE)/length(fft_filt)
+  data_filt <- data.frame(freq = freq, fft_vel = fft_filt, peaks = peaks, vel=vel_filt)
+  return(data_filt)
+  
+}
 #******************************************************************************
 # S3 method for casting an object into an object of class turbulence
 #******************************************************************************

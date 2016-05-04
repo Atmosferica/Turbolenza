@@ -51,7 +51,7 @@ for(k in 1:length(cut_freq[,1])){
   # filt_time is needed for doing benchmark and measuring time
   # of execution of a function (in this case FFT)
   filt_time <- system.time(
-	  filt <- filter.data(data$freq, data$fft_vel, cut_freq[k,1])
+	  filt <- LowPassfilter.data(data$freq, data$fft_vel, cut_freq[k,1])
   )
   cat("FILT performed in: ",filt_time,"\n")
   
