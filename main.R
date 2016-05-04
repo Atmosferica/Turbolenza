@@ -2,11 +2,11 @@
 # library(ggplot2)
 # library(gtable)
 # library(methods)
-# library(e1071)
+library(e1071)
 #library(mwindow)
 #library(foreach)
 #library(doMC)
-library(moments)
+#library(moments)
 
 #source('estrattore_blocchi.R')
 source('functions.R')
@@ -34,7 +34,9 @@ create_directory('grafici_output/Fontanella2/LiCor')
 x_sk <-matrix(nrow=length(filename_tot), ncol=4)
 y_sk <-matrix(nrow=length(filename_tot), ncol=4)
 z_sk <-matrix(nrow=length(filename_tot), ncol=4)
-
+sigma_totale_zvel <- NULL
+sigma_totale_yvel <- NULL
+sigma_totale_xvel <- NULL
 
 for(i in 1:length(filename_tot))
 {
@@ -65,7 +67,18 @@ for(i in 1:length(filename_tot))
   #source('orbital_method.R')
 
 }
+
+png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+plot(sigma_totale_zvel)
+dev.off()
    
+png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+plot(sigma_totale_yvel)
+dev.off()
+
+png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+plot(sigma_totale_xvel)
+dev.off()
 #cat("* Perfoming Gaussian...","\n")
 #source('Gaussian.R')
    
