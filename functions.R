@@ -103,17 +103,44 @@ sk<- function(x, y, l) {
 }
 
 
+#returns skewness and kurtosis for one block
+sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
+  
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  m_sk<-sk(vector_blocks, dati) 
+  m_sk <-t(m_sk)
+  
+  return(m_sk)
+}
+
 #plot skewness and kurtosis
 sk_plot <-function(m_sk, path_output, coord ){
   png(paste(path_output, "Skeweness+Kurtosis_", coord, ".png",sep=""));
   par(mfrow=c(2,1));
   plot(m_sk[,2], m_sk[,3], xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''))
   plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''))
+  plot(m_sk[,2], m_sk[,3], ylim = c(min(m_sk[,3])-1, max(m_sk[,3])+1), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
+  abline(h=0)
+  plot(m_sk[,2], m_sk[,4], ylim = c(min(m_sk[,4])-1, max(m_sk[,4])+1), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
+  abline(h=0)
   dev.off()
 }
 
 #####
 boh<-function(time_stamp, x, block, dim_bl,dati, numb){
+  
+  max.s <-max(c(max(x_sk[,3]), max(y_sk[,3]), max(z_sk[,3]), max(h_sk[,3]))) +2
+  min.s <-min(c(min(x_sk[,3]), min(y_sk[,3]), min(z_sk[,3]), min(h_sk[,3]))) -2
+  
+  max.k <-max(c(max(x_sk[,4]), max(y_sk[,4]), max(z_sk[,4]), max(h_sk[,4]))) +2
+  min.k <-min(c(min(x_sk[,4]), min(y_sk[,4]), min(z_sk[,4]), min(h_sk[,4]))) -2
+
+  png(paste(path_output, "Skeweness+Kurtosis_xyzh", ".png",sep=""));
+  par(mfrow=c(2,1));
+  
+  plot(x_sk[,2], x_sk[,3],  ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
+  plot(x_sk[,2], x_sk[,4], ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
   
   m_sk <- matrix(ncol = 4 ,nrow = numb)
   sig <- signal.partition(time_stamp, x, block, dim_bl)

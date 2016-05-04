@@ -6,15 +6,15 @@ for(i in 1:length(filename_tot))
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
   dati <- read.title.time(filename[i])
-  
-  # Converted data (of class data.frame) into an object of class turbulence
-  turb <- as.turbulence(data)
+
   
   # turb <- set_hvel(turb) # setting horizontal velocity
-  turb <- set_direction(turb)  # setting direction
-  
+
   #create_directory(name_dir[i])
   cat(name_dir[i],"\n")
+             
+             # Converted data (of class data.frame) into an object of class turbulence
+             
 
   ##Firt column: skewness; second column: kurtosis
   #Finding kurtosis-skewness for x-velocity
