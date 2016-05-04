@@ -2,11 +2,11 @@
 # library(ggplot2)
 # library(gtable)
 # library(methods)
-# library(e1071)
-# library(mwindow)
-# library(foreach)
-# library(doMC)
-# library(moments)
+#library(e1071)
+#library(mwindow)
+#library(foreach)
+#library(doMC)
+library(moments)
 
 #source('estrattore_blocchi.R')
 source('functions.R')
@@ -50,22 +50,22 @@ for(i in 1:length(filename_tot))
   # Converted data (of class data.frame) into an object of class turbulence
   turb <- as.turbulence(data)
   
-  # turb <- set_hvel(turb) # setting horizontal velocity
+  turb <- set_hvel(turb) # setting horizontal velocity
   turb <- set_direction(turb)  # setting direction
   
   #create_directory(name_dir[i])
-   cat(name_dir[i],"\n")
-  # cat("* Perfoming correlation graph...","\n")
-  # #source('Correlation.R')
-  # 
-  # cat("* Performing FFT analysis...","\n")
-  # #source('Periodigram.R')
-  # 
-  # cat("* Performing Markovian test...","\n")
-  # source('markov_test.R')
-   cat("* File: ",filename_tot[i],"..done!\n")
-   
-  # #source('orbital_method.R')
+  cat(name_dir[i],"\n")
+  #cat("* Perfoming correlation graph...","\n")
+  #source('Correlation.R')
+  
+  #cat("* Performing FFT analysis...","\n")
+  #source('Periodigram.R')
+  
+  #cat("* Performing Markovian test...","\n")
+  #source('markov_test.R')
+  cat("* File: ",filename_tot[i],"..done!\n")
+  
+  #source('orbital_method.R')
   
 }
 
@@ -80,7 +80,8 @@ for(i in 1:length(filename_tot))
 # png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
 # plot(sigma_totale_xvel)
 # dev.off()
-#cat("* Perfoming Gaussian...","\n")
+
+cat("* Perfoming Gaussian...","\n")
 source('Gaussian.R')
    
 
