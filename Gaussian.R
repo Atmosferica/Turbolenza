@@ -20,8 +20,11 @@ for(i in 1:length(filename_tot))
      turb <- set_hvel(turb) # setting horizontal velocity
      turb <- set_direction(turb)  # setting direction
     
+             turb <- set_hvel(turb) # setting horizontal velocity
+             turb <- set_direction(turb)  # setting direction
              
              # Converted data (of class data.frame) into an object of class turbulence
+              # # Finding kurtosis-skewness for h-velocity
              
 
   
@@ -29,6 +32,7 @@ for(i in 1:length(filename_tot))
 
   #create_directory(name_dir[i])
   cat(name_dir[i],"\n")
+       n <- counter
              
              # Converted data (of class data.frame) into an object of class turbulence
              
@@ -50,6 +54,7 @@ for(i in 1:length(filename_tot))
   z <- z_vel[,1]   
   z_sk[i,]<-sk(z, dati) 
 
+          # # Finding kurtosis-skewness for h-velocity
   
   #Here there is the programme that studies the skewness and kurtosis coefficient of our data
   

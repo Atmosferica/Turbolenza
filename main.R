@@ -68,17 +68,17 @@ for(i in 1:length(filename_tot))
 
 }
 
-png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_zvel, type='l')
-dev.off()
-   
-png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_yvel, type='l')
-dev.off()
-
-png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_xvel, type='l')
-dev.off()
+# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+# plot(sigma_totale_zvel, type='l')
+# dev.off()
+#    
+# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+# plot(sigma_totale_yvel, type='l')
+# dev.off()
+# 
+# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+# plot(sigma_totale_xvel, type='l')
+# dev.off()
 #cat("* Perfoming Gaussian...","\n")
 #source('Gaussian.R')
    

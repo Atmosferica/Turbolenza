@@ -19,6 +19,13 @@ if(line =="f1/control" | line=="F1/control" | line =="f1/Control" |
   line <- "Fontanella1/Control"
 }
 
+
+# Defining some "macros" for Fontanella1/Control
+if(line =="f2/control" | line=="F2/control" | line =="f2/Control" | 
+   line =="F2/Control"){
+  line <- "Fontanella2/Control"
+}
+
 # Defining some "macros" for Fontanella2/Emission
 if(line =="f2/Emission" | line=="F2/Emission" | line =="f2/emission" | 
      line =="F2/emission"){

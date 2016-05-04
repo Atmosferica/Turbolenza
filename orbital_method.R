@@ -15,14 +15,7 @@ for(block in 1:numb){
 }
 
 
-#   # computing the autocorrelation (we need it for checking the markovianity)
-#   mark <- c(1:length(sig[,2]))
-#   for(j in 1:length(sig[,2])){
-#     z_a <- z_vel[1:(length(z_vel)-j)]
-#     z_b <- z_vel[(j+1):length(z_vel)]
-#     mark[j] <-   cor(z_a, z_b)
-#   }
-
+  # computing the autocorrelation (we need it for checking the markovianity)
   mark <- autocorr(z_vel, sig)
 
   # for the exponential fit, fitting the log of the data with lm
@@ -48,41 +41,41 @@ for(block in 1:numb){
   plot(log(mark2), type='p', pch=19, cex=0.5)
   points(model, type='l')
 
-  # fitting with a 5-th degree polynomial
-  par(mfrow=c(2,2))
-  mark2 <- mark[1:30]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 30", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark[1:100]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 100", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark[1:300]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 300", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main=paste("5th degree, npoints = ", length(mark2), sep=''), xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  par(mfrow=c(1,1))
+#   # fitting with a 5-th degree polynomial
+#   par(mfrow=c(2,2))
+#   mark2 <- mark[1:30]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 30", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark[1:100]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 100", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark[1:300]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 300", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main=paste("5th degree, npoints = ", length(mark2), sep=''), xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   par(mfrow=c(1,1))
 
 
 # ******************************************************
@@ -102,14 +95,7 @@ for(block in 1:numb){
   sig <- signal.partition(time_stamp, h_vel, block, 300)
 
 
-#   # computing the autocorrelation (we need it for checking the markovianity)
-#   mark <- c(1:floor(length(sig[,2]/2)))
-#   for(j in 1:(floor(length(sig[,2]/2)))){
-#     h_a <- h_vel[1:(length(h_vel)-j)]
-#     h_b <- h_vel[(j+1):length(h_vel)]
-#     mark[j] <-   cor(h_a, h_b)
-#   }
-
+  # computing the autocorrelation (we need it for checking the markovianity)
   mark <- autocorr(h_vel, sig)
 
   # for the exponential fit, fitting the log of the data with lm
@@ -134,41 +120,41 @@ for(block in 1:numb){
   plot(log(mark2), type='p', pch=19, cex=0.5)
   points(model, type='l')
 
-  # fitting with a 5-th degree polynomial
-  par(mfrow=c(2,2))
-  mark2 <- mark[1:30]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 30", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark[1:100]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 100", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark[1:300]
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 300", xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  mark2 <- mark
-  predic <- c(1:length(mark2))
-  pol_fit <- lm(mark2 ~ poly(predic, 5))
-  model <- predict(pol_fit)
-  plot(mark2, type='p', pch=19, cex=0.2, main=paste("5th degree, npoints = ", length(mark2), sep=''), xlab="Time [10^(-1)s]",
-       ylab="Correlation")
-  points(model, type='l', col='red', lwd=1.3)
-
-  par(mfrow=c(1,1))
+#   # fitting with a 5-th degree polynomial
+#   par(mfrow=c(2,2))
+#   mark2 <- mark[1:30]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 30", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark[1:100]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 100", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark[1:300]
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main="5th degree, npoints = 300", xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   mark2 <- mark
+#   predic <- c(1:length(mark2))
+#   pol_fit <- lm(mark2 ~ poly(predic, 5))
+#   model <- predict(pol_fit)
+#   plot(mark2, type='p', pch=19, cex=0.2, main=paste("5th degree, npoints = ", length(mark2), sep=''), xlab="Time [10^(-1)s]",
+#        ylab="Correlation")
+#   points(model, type='l', col='red', lwd=1.3)
+# 
+#   par(mfrow=c(1,1))
 
 }
 
