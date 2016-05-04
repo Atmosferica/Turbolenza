@@ -1,8 +1,17 @@
+##This file studies Kurtosis, Skewness and the Normal path of wind speed.
+
+#This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
+x_sk <-matrix(nrow=length(filename_tot), ncol=4)
+y_sk <-matrix(nrow=length(filename_tot), ncol=4)
+z_sk <-matrix(nrow=length(filename_tot), ncol=4)
+
+##
+
 
 for(fl in 1:length(filename_tot))
 {
-  
   #fl<-1
+  
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[fl], header=TRUE)
@@ -20,8 +29,8 @@ for(fl in 1:length(filename_tot))
   path_output <- paste('grafici_output/', line, '/',dati[1], '/', sep = '')  
   create_directory(path_output)
 
+  ##Finding kurtosis-skewness for x-velocity. 
   ##Firt column: skewness; second column: kurtosis
-  #Finding kurtosis-skewness for x-velocity
   x_vel <- get_uvel(turb)
   x <- x_vel[,1]   
   x_sk[fl,]<-sk(x, dati) 
@@ -42,14 +51,15 @@ for(fl in 1:length(filename_tot))
   
   #Here there is the programme that studies the skewness and kurtosis coefficient of our data
   
-  dim_bl <- 300
   # Extracting blocks of 5 minutes from original dataset
-  
+  dim_bl <- 300
   time_stamp <- seq(from=0, to=length(z)-1)*(1/sonic_fqc)
   numb <- length(z)%/%(dim_bl*sonic_fqc) # number of blocks: watch out, blocks are in
   # seconds, not in 0.1s...
   cat("* Number of blocks: ",numb,"\n")
   
+  #Creating matrices with 4 columns:
+  #1: dat, 2: blocco, 3: skewness, 4: Kurtosis
   m.x_sk <- matrix(ncol = 4 ,nrow = numb)
   m.y_sk <- matrix(ncol = 4 ,nrow = numb)
   m.z_sk <- matrix(ncol = 4 ,nrow = numb)
@@ -72,15 +82,17 @@ for(fl in 1:length(filename_tot))
   
 }
 
-for(dd in 2:length(x_sk[,1])){
-  index<-which(x_sk[dd,]=!x_sk[dd-1,])
-  
-}
 
-for()
-sk_plot(x_sk, path_output ,"x")
-sk_plot(y_sk, path_output, "y")
-sk_plot(z_sk, path_output, "z")
+ sk_plot(x_sk, path_output ,"x")
+ sk_plot(y_sk, path_output, "y")
+ sk_plot(z_sk, path_output, "z")
 
-sk_plot.xyz(x_sk, y_sk, z_sk, path_output)
+# for(dd in 2:length(x_sk[,1])){
+#   index<-which(x_sk[dd,]=!x_sk[dd-1,])
+
+#}
+
+#for()
+
+#sk_plot.xyz(x_sk, y_sk, z_sk, path_output)
 

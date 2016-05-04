@@ -17,8 +17,7 @@ data_path <- path_dir
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
 filename_tot=paste(data_path,filename, sep="")
-#name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
-#create_directory('grafici_output')
+name_dir <- sub('data','grafici_output',sub('.dat','',filename_tot))
 
 
 create_directory('grafici_output')
@@ -30,11 +29,6 @@ create_directory('grafici_output/Fontanella1/LiCor')
 create_directory('grafici_output/Fontanella2/Emission')
 create_directory('grafici_output/Fontanella2/Control')
 create_directory('grafici_output/Fontanella2/LiCor')
-
-#This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
-x_sk <-matrix(nrow=length(filename_tot), ncol=4)
-y_sk <-matrix(nrow=length(filename_tot), ncol=4)
-z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 
 
 for(i in 1:length(filename_tot))
@@ -68,6 +62,6 @@ for(i in 1:length(filename_tot))
 
    
 cat("* Perfoming Gaussian...","\n")
-source('Gaussian.R')
-   
+#source('Gaussian.R')
+source('Prova.R')
 
