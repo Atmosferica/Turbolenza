@@ -11,13 +11,13 @@ f_cut_down <- 0.01
 z_vel <- get_zvel(turb)
 z_vel <- z_vel[,1]
 #LISCIOOOOOOOOO
-hamming <- hamming.window(length(z_vel))
-hamming <- hamming/sum(hamming)*length(z_vel)
-z_vel <- z_vel*hamming
-fft_zvel<- dofft(z_vel,sonic_fqc)
-down_smooth<-LowPassfilter.data(fft_zvel$freq,fft_zvel$fft_vel,f_cut_up)
-tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
-z_vel <- Re(tot_smooth$vel)/hamming
+# hamming <- hamming.window(length(z_vel))
+# hamming <- hamming/sum(hamming)*length(z_vel)
+# z_vel <- z_vel*hamming
+# fft_zvel<- dofft(z_vel,sonic_fqc)
+#down_smooth<-LowPassfilter.data(fft_zvel$freq,fft_zvel$fft_vel,f_cut_up)
+#tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+#z_vel <- Re(tot_smooth$vel)/hamming
 #LISCIATO
 
 time_stamp <- seq(from=0, to=length(z_vel)-1)*(1/sonic_fqc)
@@ -89,13 +89,13 @@ rm(graph_idx) # removing global variable
  
  u_vel <- get_uvel(turb)
  u_vel <- u_vel[,1]
- hamming <- hamming.window(length(u_vel))
- hamming <- hamming/sum(hamming)*length(u_vel)
- u_vel <- u_vel*hamming
- fft_uvel<- dofft(u_vel,sonic_fqc)
- down_smooth<-LowPassfilter.data(fft_uvel$freq,fft_uvel$fft_vel,f_cut_up)
- tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
- u_vel <- Re(tot_smooth$vel)/hamming
+#  hamming <- hamming.window(length(u_vel))
+#  hamming <- hamming/sum(hamming)*length(u_vel)
+#  u_vel <- u_vel*hamming
+#  fft_uvel<- dofft(u_vel,sonic_fqc)
+#  down_smooth<-LowPassfilter.data(fft_uvel$freq,fft_uvel$fft_vel,f_cut_up)
+#  tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+#  u_vel <- Re(tot_smooth$vel)/hamming
  
  
  time_stamp <- seq(from=0, to=length(u_vel)-1)*(1/sonic_fqc)
@@ -165,14 +165,14 @@ rm(graph_idx) # removing global variable
  
  v_vel <- get_vvel(turb)
  v_vel <- v_vel[,1]
- hamming <- hamming.window(length(v_vel))
- hamming <- hamming/sum(hamming)*length(v_vel)
- v_vel <- v_vel*hamming
- fft_vvel<- dofft(v_vel,sonic_fqc)
- down_smooth<-LowPassfilter.data(fft_vvel$freq,fft_vvel$fft_vel,f_cut_up)
- tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
- v_vel <- Re(tot_smooth$vel)/hamming
- 
+#  hamming <- hamming.window(length(v_vel))
+#  hamming <- hamming/sum(hamming)*length(v_vel)
+#  v_vel <- v_vel*hamming
+#  fft_vvel<- dofft(v_vel,sonic_fqc)
+#  down_smooth<-LowPassfilter.data(fft_vvel$freq,fft_vvel$fft_vel,f_cut_up)
+#  tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+#  v_vel <- Re(tot_smooth$vel)/hamming
+  
  time_stamp <- seq(from=0, to=length(v_vel)-1)*(1/sonic_fqc)
  numb <- length(v_vel)%/%(dim_bl*sonic_fqc) # number of blocks: watch out, blocks are in
  # seconds, not in 0.1s...
