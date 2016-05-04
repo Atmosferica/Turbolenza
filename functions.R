@@ -152,7 +152,7 @@ sk_plot.xyz <-function(m.x_sk, m.y_sk, m.z_sk, path_output ){
 
 # graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
 print.hist.gauss<-function(x, path_output, coord, tempo) {
-  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = paste ("vel_", coord , sep = ''), probability = TRUE, col = "coral")
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = paste ("vel_", coord , sep = ''), probability = TRUE, col = "cornflowerblue")
   x0<-seq(min(x), max(x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
   scatplot <- recordPlot()

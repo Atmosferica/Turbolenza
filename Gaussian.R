@@ -84,10 +84,10 @@ for(fl in 1:length(filename_tot))
         }
        
 
-           sk_plot(x_sk[n:counter, ], path_output ,"x")
-           sk_plot(y_sk[n:counter, ], path_output, "y")
-           sk_plot(z_sk[n:counter, ], path_output, "z")
-           sk_plot.xyz(x_sk[n:counter, ], y_sk[n:counter, ], z_sk[n:counter, ], path_output)
+       sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
+       sk_plot(y_sk[(n+1):counter, ], path_output, "y")
+       sk_plot(z_sk[(n+1):counter, ], path_output, "z")
+       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
            n <- counter
     
      }
@@ -150,11 +150,13 @@ for(fl in 1:length(filename_tot))
         }
 
 
-        sk_plot(x_sk[n:counter, ], path_output ,"x")
-        sk_plot(y_sk[n:counter, ], path_output, "y")
-        sk_plot(z_sk[n:counter, ], path_output, "z")
-        sk_plot.xyz(x_sk[n:counter, ], y_sk[n:counter, ], z_sk[n:counter, ], path_output)
-        n <- counter
+       
+       sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
+       sk_plot(y_sk[(n+1):counter, ], path_output, "y")
+       sk_plot(z_sk[(n+1):counter, ], path_output, "z")
+       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
+       n <- counter
+       
       }
      mem<-dati[1]
   }
