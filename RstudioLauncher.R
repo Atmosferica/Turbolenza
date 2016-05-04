@@ -13,6 +13,13 @@ if(line =="f1/LiCor" | line=="F1/LiCor" | line =="f1/licor" |
   line <- "Fontanella1/LiCor"
 }
 
+# Defining some "macros" for Fontanella1/Control
+if(line =="f1/control" | line=="F1/control" | line =="f1/Control" | 
+     line =="F1/Control"){
+  line <- "Fontanella1/Control"
+}
+
+
 path_dir <- paste(paste("data/",line, sep=""),"/", sep="")
 
 cat(path_dir,"\n")

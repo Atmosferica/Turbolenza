@@ -12,7 +12,7 @@ library(e1071)
 source('functions.R')
 source('turbulence_class.R')
 
-sonic_fqc <- 20
+sonic_fqc <- 10
 data_path <- path_dir
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
@@ -69,15 +69,15 @@ for(i in 1:length(filename_tot))
 }
 
 png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_zvel)
+plot(sigma_totale_zvel, type='l')
 dev.off()
    
 png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_yvel)
+plot(sigma_totale_yvel, type='l')
 dev.off()
 
 png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-plot(sigma_totale_xvel)
+plot(sigma_totale_xvel, type='l')
 dev.off()
 #cat("* Perfoming Gaussian...","\n")
 #source('Gaussian.R')
