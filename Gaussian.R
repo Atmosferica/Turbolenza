@@ -6,6 +6,23 @@ for(i in 1:length(filename_tot))
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
   dati <- read.title.time(filename[i])
+     # Converted data (of class data.frame) into an object of class turbulence
+     turb <- as.turbulence(data)
+     turb <- set_hvel(turb) # setting horizontal velocity
+     turb <- set_direction(turb)  # setting direction
+     mem<-dati[1]
+  }
+  
+  if (fl!=1){
+     data <- read.csv(filename_tot[fl], header=TRUE)
+     dati <- read.title.time(filename[fl])
+     turb <- as.turbulence(data)
+     turb <- set_hvel(turb) # setting horizontal velocity
+     turb <- set_direction(turb)  # setting direction
+    
+             
+             # Converted data (of class data.frame) into an object of class turbulence
+             
 
   
   # turb <- set_hvel(turb) # setting horizontal velocity
