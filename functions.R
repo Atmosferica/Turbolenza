@@ -106,7 +106,6 @@ sk<- function(x, y, l) {
 #returns skewness and kurtosis for one block
 sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
   
-  #m_sk <- matrix(ncol = 4 ,nrow = numb)
   sig <- signal.partition(time_stamp, x, block, dim_bl)
   vector_blocks  <- with(sig,value)
   m_sk<-sk(vector_blocks, dati) 
@@ -119,13 +118,14 @@ sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
 sk_plot <-function(m_sk, path_output, coord ){
   png(paste(path_output, "Skeweness+Kurtosis_", coord, ".png",sep=""));
   par(mfrow=c(2,1));
-  plot(m_sk[,2], m_sk[,3], xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
-  plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
+  plot(m_sk[,2], m_sk[,3], ylim = c(min(m_sk[,3])-1, max(m_sk[,3])+1), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
+  abline(h=0)
+  plot(m_sk[,2], m_sk[,4], ylim = c(min(m_sk[,4])-1, max(m_sk[,4])+1), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
+  abline(h=0)
   dev.off()
 }
 
-###
-
+#plot skewness and kurtosis in x, y and z in the same graphic
 sk_plot.xyz <-function(m.x_sk, m.y_sk, m.z_sk, path_output ){
    max.s <-max(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) +2
    min.s <-min(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) -2
@@ -136,19 +136,21 @@ sk_plot.xyz <-function(m.x_sk, m.y_sk, m.z_sk, path_output ){
   png(paste(path_output, "Skeweness+Kurtosis_xyz", ".png",sep=""));
   par(mfrow=c(2,1));
   
-  plot(m.x_sk[,2], m.x_sk[,3],  ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2 )
+  plot(m.x_sk[,2], m.x_sk[,3],  ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green' )
     points(m.y_sk[,2], m.y_sk[,3], col="red", pch = 1, cex = 2 )
-    points(m.z_sk[,2], m.z_sk[,3], col="green", pch = 1, cex = 2 )  
+    points(m.z_sk[,2], m.z_sk[,3], col="green", pch = 1, cex = 2 )
+    abline(h=0)
   
   
-  plot(m.x_sk[,2], m.x_sk[,4], ylim = c(min.k, max.k), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2 )
+  plot(m.x_sk[,2], m.x_sk[,4], ylim = c(min.k, max.k), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green' )
     points(m.y_sk[,2], m.y_sk[,4], col="red", pch = 1, cex = 2 )
-    points(m.z_sk[,2], m.z_sk[,4], col="green", pch = 1, cex = 2 ) 
+    points(m.z_sk[,2], m.z_sk[,4], col="green", pch = 1, cex = 2 )
+    abline(h=0)
     
   dev.off()
 }
 
-###
+# graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
 print.hist.gauss<-function(x, path_output, coord, tempo) {
   hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = paste ("vel_", coord , sep = ''), probability = TRUE, col = "coral")
   x0<-seq(min(x), max(x), length.out= 100)
