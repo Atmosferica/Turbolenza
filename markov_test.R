@@ -35,6 +35,11 @@ for(block in 1:numb){
 }
 sigma_totale_zvel <- c(sigma_totale_zvel, sigma_vis_z)
 
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
  graph_idx <- assign("graph_idx",0, envir = globalenv())
  apply(matrix_blocks, 1, function(x){
    png(paste(markov_path,"/zvel_block_markov_", graph_idx, ".png" ,sep = ''),
@@ -44,6 +49,7 @@ sigma_totale_zvel <- c(sigma_totale_zvel, sigma_vis_z)
    graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
    })
  
+rm(graph_idx) # removing global variable
  
  for(riga_bl in 1:(numb-1)){
    a <- matrix_blocks[riga_bl, ]
@@ -108,15 +114,21 @@ sigma_totale_zvel <- c(sigma_totale_zvel, sigma_vis_z)
  sigma_totale_yvel <- c(sigma_totale_yvel, sigma_vis_y)
  
  
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
  graph_idx <- assign("graph_idx",0, envir = globalenv())
  apply(matrix_blocks, 1, function(x){
    png(paste(markov_path,"/uvel_block_markov_", graph_idx, ".png" ,sep = ''),
        width=800, height=600)
-   plot(x, type='l', xlab=paste('Time[', (1/sonic_fqc), 's]'), ylab='Velocity[m/s]', main='Vertical velocity profile: time domain')
+  plot(x, type='l', xlab=paste('Time[', (1/sonic_fqc), 's]'), ylab='Velocity[m/s]', main='U velocity profile: time domain')
    dev.off()
    graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
  })
 
+rm(graph_idx) # removing global variable
  
  for(riga_bl in 1:(numb-1)){
    a <- matrix_blocks[riga_bl, ]
@@ -176,15 +188,21 @@ sigma_totale_zvel <- c(sigma_totale_zvel, sigma_vis_z)
  }
  sigma_totale_xvel <- c(sigma_totale_xvel, sigma_vis_x)
  
+# For the purpose of plotting in time domain, we use apply over the rows
+# of matrix: for naming with different names the plots, we defined a
+# global variable, "graph_idx". Is better to remove this variable at
+# the end of apply to avoid "phantom global variables"
+
  graph_idx <- assign("graph_idx",0, envir = globalenv())
  apply(matrix_blocks, 1, function(x){
    png(paste(markov_path,"/vvel_block_markov_", graph_idx, ".png" ,sep = ''),
        width=800, height=600)
-   plot(x, type='l', xlab=paste('Time[', (1/sonic_fqc), 's]'), ylab='Velocity[m/s]', main='Vertical velocity profile: time domain')
+  plot(x, type='l', xlab=paste('Time[', (1/sonic_fqc), 's]'), ylab='Velocity[m/s]', main='V velocity profile: time domain')
    dev.off()
    graph_idx <- assign("graph_idx",graph_idx+1, envir = globalenv())
  })
  
+rm(graph_idx) # removing global variable
  
  for(riga_bl in 1:(numb-1)){
    a <- matrix_blocks[riga_bl, ]
