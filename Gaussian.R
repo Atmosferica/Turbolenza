@@ -4,6 +4,8 @@
 x_sk <-matrix(nrow=length(filename_tot), ncol=4)
 y_sk <-matrix(nrow=length(filename_tot), ncol=4)
 z_sk <-matrix(nrow=length(filename_tot), ncol=4)
+h_sk <-matrix(nrow=length(filename_tot), ncol=4)
+
 n<-0
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
@@ -17,6 +19,8 @@ for(fl in 1:length(filename_tot))
      dati <- read.title.time(filename[fl])
      # Converted data (of class data.frame) into an object of class turbulence
      turb <- as.turbulence(data)
+     turb <- set_hvel(turb) # setting horizontal velocity
+     turb <- set_direction(turb)  # setting direction
      mem<-dati[1]
   }
   
@@ -24,6 +28,8 @@ for(fl in 1:length(filename_tot))
      data <- read.csv(filename_tot[fl], header=TRUE)
      dati <- read.title.time(filename[fl])
      turb <- as.turbulence(data)
+     turb <- set_hvel(turb) # setting horizontal velocity
+     turb <- set_direction(turb)  # setting direction
     
      if (dati[1]!=mem)  {
        
@@ -52,9 +58,15 @@ for(fl in 1:length(filename_tot))
               
              # # Finding kurtosis-skewness for z-velocity
               z_vel <- get_zvel(turb)
-              z <- z_vel[,1]   
-              z_sk[counter,]<-sk(z, info) 
+              z <- z_vel[,1]
+              z_sk[counter,]<-sk(z, info)
               print.hist.gauss(z, path_output, "z", info[2])
+              
+              # # Finding kurtosis-skewness for z-velocity
+              h_vel <- get_hvel(turb)
+              h <- h_vel[,1]
+              h_sk[counter,]<-sk(h, info)
+              print.hist.gauss(h, path_output, "h", info[2])
          
              #Here there is the programme that studies the skewness and kurtosis coefficient of our data
              # Extracting blocks of 5 minutes from original dataset
@@ -69,6 +81,7 @@ for(fl in 1:length(filename_tot))
              m.x_sk <- matrix(ncol = 4 ,nrow = numb)
              m.y_sk <- matrix(ncol = 4 ,nrow = numb)
              m.z_sk <- matrix(ncol = 4 ,nrow = numb)
+             m.h_sk <- matrix(ncol = 4 ,nrow = numb)
           
              tempo<-info
              for(block in 1:numb){
@@ -76,18 +89,21 @@ for(fl in 1:length(filename_tot))
                m.x_sk[block,]<- sk.blocks(time_stamp, x, block, dim_bl,tempo)
                m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
                m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
+               m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
              }
           
              sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
              sk_plot(m.y_sk, paste(path_output, info[2], "_", sep = ''), "y")
              sk_plot(m.z_sk, paste(path_output, info[2], "_", sep = ''), "z")
+             sk_plot(m.h_sk, paste(path_output, info[2], "_", sep = ''), "h")
         }
        
 
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
-       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
+       sk_plot(h_sk[(n+1):counter, ], path_output, "h")
+       sk_plot.xyzh(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], h_sk[(n+1):counter, ], path_output)
            n <- counter
     
      }
@@ -99,6 +115,8 @@ for(fl in 1:length(filename_tot))
           info <- read.title.time(filename[counter])
           turb <- as.turbulence(data)
           turb <- set_direction(turb)
+          turb <- set_hvel(turb) # setting horizontal velocity
+          turb <- set_direction(turb)  # setting direction
           cat(name_dir[counter],"\n")
           path_output <- paste('grafici_output/', line, '/',info[1], '/', sep = '')
           create_directory(path_output)
@@ -121,6 +139,12 @@ for(fl in 1:length(filename_tot))
           z <- z_vel[,1]
           z_sk[counter,]<-sk(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
+          
+          # # Finding kurtosis-skewness for z-velocity
+          h_vel <- get_hvel(turb)
+          h <- h_vel[,1]
+          h_sk[counter,]<-sk(h, info)
+          print.hist.gauss(h, path_output, "h", info[2])
 
           #Here there is the programme that studies the skewness and kurtosis coefficient of our data
           # Extracting blocks of 5 minutes from original dataset
@@ -135,6 +159,7 @@ for(fl in 1:length(filename_tot))
           m.x_sk <- matrix(ncol = 4 ,nrow = numb)
           m.y_sk <- matrix(ncol = 4 ,nrow = numb)
           m.z_sk <- matrix(ncol = 4 ,nrow = numb)
+          m.h_sk <- matrix(ncol = 4 ,nrow = numb)
 
           tempo<-info
           for(block in 1:numb){
@@ -142,11 +167,13 @@ for(fl in 1:length(filename_tot))
             m.x_sk[block,]<- sk.blocks(time_stamp, x, block, dim_bl,tempo)
             m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
             m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
+            m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
           }
 
           sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
           sk_plot(m.y_sk, paste(path_output, info[2], "_", sep = ''), "y")
           sk_plot(m.z_sk, paste(path_output, info[2], "_", sep = ''), "z")
+          sk_plot(m.h_sk, paste(path_output, info[2], "_", sep = ''), "h")
         }
 
 
@@ -154,7 +181,8 @@ for(fl in 1:length(filename_tot))
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
-       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
+       sk_plot(h_sk[(n+1):counter, ], path_output, "h")
+       sk_plot.xyzh(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], h_sk[(n+1):counter, ], path_output)
        n <- counter
        
       }
