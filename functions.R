@@ -103,15 +103,16 @@ sk<- function(x, y, l) {
 }
 
 
-#####
-boh<-function(time_stamp, x, block, dim_bl,dati, numb){
+#returns skewness and kurtosis for one block
+sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
   
-  m_sk <- matrix(ncol = 4 ,nrow = numb)
+  #m_sk <- matrix(ncol = 4 ,nrow = numb)
   sig <- signal.partition(time_stamp, x, block, dim_bl)
   vector_blocks  <- with(sig,value)
-  m_sk[block,]<-sk( vector_blocks, dati) 
+  m_sk<-sk(vector_blocks, dati) 
+  m_sk <-t(m_sk)
   
-  return(m_sk[block,])
+  return(m_sk)
 }
 
 #plot skewness and kurtosis
@@ -126,11 +127,11 @@ sk_plot <-function(m_sk, path_output, coord ){
 ###
 
 sk_plot.xyz <-function(m.x_sk, m.y_sk, m.z_sk, path_output ){
-   max.s <-max(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) +1
-   min.s <-min(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) -1
+   max.s <-max(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) +2
+   min.s <-min(c(max(m.x_sk[,3]), max(m.y_sk[,3]), max(m.z_sk[,3]))) -2
    
-   max.k <-max(c(max(m.x_sk[,4]), max(m.y_sk[,4]), max(m.z_sk[,4]))) +1
-   min.k <-min(c(max(m.x_sk[,4]), max(m.y_sk[,4]), max(m.z_sk[,4]))) -1
+   max.k <-max(c(max(m.x_sk[,4]), max(m.y_sk[,4]), max(m.z_sk[,4]))) +2
+   min.k <-min(c(max(m.x_sk[,4]), max(m.y_sk[,4]), max(m.z_sk[,4]))) -2
    
   png(paste(path_output, "Skeweness+Kurtosis_xyz", ".png",sep=""));
   par(mfrow=c(2,1));
