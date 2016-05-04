@@ -126,19 +126,24 @@ sk_plot <-function(m_sk, path_output, coord ){
 }
 
 #plot skewness and kurtosis in x, y and z in the same graphic
-sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_k,path_output ){
+sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_sk, path_output ){
+  
+  max.s <-max(c(max(x_sk[,3]), max(y_sk[,3]), max(z_sk[,3]), max(h_sk[,3]))) +2
+  min.s <-min(c(min(x_sk[,3]), min(y_sk[,3]), min(z_sk[,3]), min(h_sk[,3]))) -2
+  
+  max.k <-max(c(max(x_sk[,4]), max(y_sk[,4]), max(z_sk[,4]), max(h_sk[,4]))) +2
+  min.k <-min(c(min(x_sk[,4]), min(y_sk[,4]), min(z_sk[,4]), min(h_sk[,4]))) -2
 
   png(paste(path_output, "Skeweness+Kurtosis_xyzh", ".png",sep=""));
   par(mfrow=c(2,1));
   
-  plot(x_sk[,2], x_sk[,3],  ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
+  plot(x_sk[,2], x_sk[,3],  ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
     points(y_sk[,2], y_sk[,3], col="red", pch = 1, cex = 2 )
     points(z_sk[,2], z_sk[,3], col="green", pch = 1, cex = 2 )
     points(h_sk[,2], h_sk[,3], col="black", pch = 1, cex = 2 )
     abline(h=0)
   
-  
-  plot(x_sk[,2], x_sk[,4], ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
+  plot(x_sk[,2], x_sk[,4], ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
     points(y_sk[,2], y_sk[,4], col="red", pch = 1, cex = 2 )
     points(z_sk[,2], z_sk[,4], col="green", pch = 1, cex = 2 )
     points(h_sk[,2], h_sk[,4], col= "black", pch = 1, cex = 2 )

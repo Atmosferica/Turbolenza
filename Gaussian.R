@@ -17,29 +17,26 @@ for(fl in 1:length(filename_tot))
      # header=TRUE --> Essential! High performance decay for header=FALSE	
      data <- read.csv(filename_tot[fl], header=TRUE)
      dati <- read.title.time(filename[fl])
-     # Converted data (of class data.frame) into an object of class turbulence
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
+
      mem<-dati[1]
   }
   
   if (fl!=1){
      data <- read.csv(filename_tot[fl], header=TRUE)
      dati <- read.title.time(filename[fl])
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
-    
+
      if (dati[1]!=mem)  {
        
         for(counter in (n+1):(fl-1))  {
              print (counter)
              data <- read.csv(filename_tot[counter], header=TRUE)
              info <- read.title.time(filename[counter])
+             
+             # Converted data (of class data.frame) into an object of class turbulence
              turb <- as.turbulence(data)
              turb <- set_hvel(turb) # setting horizontal velocity
              turb <- set_direction(turb)  # setting direction
+             
              cat(name_dir[counter],"\n")
              path_output <- paste('grafici_output/', line, '/',info[1], '/', sep = '')  
              create_directory(path_output)
