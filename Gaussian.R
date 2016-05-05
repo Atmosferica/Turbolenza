@@ -17,28 +17,26 @@ for(fl in 1:length(filename_tot))
      # header=TRUE --> Essential! High performance decay for header=FALSE	
      data <- read.csv(filename_tot[fl], header=TRUE)
      dati <- read.title.time(filename[fl])
-     # Converted data (of class data.frame) into an object of class turbulence
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
+
      mem<-dati[1]
   }
   
   if (fl!=1){
      data <- read.csv(filename_tot[fl], header=TRUE)
      dati <- read.title.time(filename[fl])
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
-    
+
      if (dati[1]!=mem)  {
        
         for(counter in (n+1):(fl-1))  {
              print (counter)
              data <- read.csv(filename_tot[counter], header=TRUE)
              info <- read.title.time(filename[counter])
+             
+             # Converted data (of class data.frame) into an object of class turbulence
              turb <- as.turbulence(data)
-             turb <- set_direction(turb)
+             turb <- set_hvel(turb) # setting horizontal velocity
+             turb <- set_direction(turb)  # setting direction
+             
              cat(name_dir[counter],"\n")
              path_output <- paste('grafici_output/', line, '/',info[1], '/', sep = '')  
              create_directory(path_output)
@@ -62,7 +60,7 @@ for(fl in 1:length(filename_tot))
               z_sk[counter,]<-sk(z, info)
               print.hist.gauss(z, path_output, "z", info[2])
               
-              # # Finding kurtosis-skewness for z-velocity
+              # # Finding kurtosis-skewness for h-velocity
               h_vel <- get_hvel(turb)
               h <- h_vel[,1]
               h_sk[counter,]<-sk(h, info)
@@ -104,7 +102,7 @@ for(fl in 1:length(filename_tot))
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
        sk_plot(h_sk[(n+1):counter, ], path_output, "h")
        sk_plot.xyzh(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], h_sk[(n+1):counter, ], path_output)
-           n <- counter
+       n <- counter
     
      }
      if (fl==length(filename_tot)) {
@@ -140,7 +138,7 @@ for(fl in 1:length(filename_tot))
           z_sk[counter,]<-sk(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
           
-          # # Finding kurtosis-skewness for z-velocity
+          # # Finding kurtosis-skewness for h-velocity
           h_vel <- get_hvel(turb)
           h <- h_vel[,1]
           h_sk[counter,]<-sk(h, info)
