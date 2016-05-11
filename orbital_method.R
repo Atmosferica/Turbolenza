@@ -15,14 +15,15 @@ for(block in 1:numb){
 }
 
 
-  # computing the autocorrelation (we need it for checking the markovianity)
-  mark <- c(1:length(sig[,2]))
-  for(j in 1:length(sig[,2])){
-    z_a <- z_vel[1:(length(z_vel)-j)]
-    z_b <- z_vel[(j+1):length(z_vel)]
-    mark[j] <-   cor(z_a, z_b)
-  }
+#   # computing the autocorrelation (we need it for checking the markovianity)
+#   mark <- c(1:length(sig[,2]))
+#   for(j in 1:length(sig[,2])){
+#     z_a <- z_vel[1:(length(z_vel)-j)]
+#     z_b <- z_vel[(j+1):length(z_vel)]
+#     mark[j] <-   cor(z_a, z_b)
+#   }
 
+  mark <- autocorr(z_vel, sig)
 
   # for the exponential fit, fitting the log of the data with lm
   # plotting the exponential of lm vs. data
@@ -91,6 +92,7 @@ for(block in 1:numb){
 
 # Extracting blocks of 5 minutes from original dataset
 
+turb <- set_hvel(turb)
 h_vel <- get_hvel(turb)
 h_vel <- h_vel[,1]
 time_stamp <- seq(from=0, to=length(h_vel)-1)*0.1
@@ -100,14 +102,15 @@ for(block in 1:numb){
   sig <- signal.partition(time_stamp, h_vel, block, 300)
 
 
-  # computing the autocorrelation (we need it for checking the markovianity)
-  mark <- c(1:length(sig[,2]))
-  for(j in 1:length(sig[,2])){
-    h_a <- h_vel[1:(length(h_vel)-j)]
-    h_b <- h_vel[(j+1):length(h_vel)]
-    mark[j] <-   cor(h_a, h_b)
-  }
+#   # computing the autocorrelation (we need it for checking the markovianity)
+#   mark <- c(1:floor(length(sig[,2]/2)))
+#   for(j in 1:(floor(length(sig[,2]/2)))){
+#     h_a <- h_vel[1:(length(h_vel)-j)]
+#     h_b <- h_vel[(j+1):length(h_vel)]
+#     mark[j] <-   cor(h_a, h_b)
+#   }
 
+  mark <- autocorr(h_vel, sig)
 
   # for the exponential fit, fitting the log of the data with lm
   # plotting the exponential of lm vs. data

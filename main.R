@@ -60,11 +60,11 @@ for(i in 1:length(filename_tot))
   cat("* Performing FFT analysis...","\n")
   #source('Periodigram.R')
   
-  cat("* Performing Markovian test...","\n")
-  source('markov_test.R')
+#   cat("* Performing Markovian test...","\n")
+#   source('markov_test.R')
   cat("* File: ",filename_tot[i],"..done!\n")
   
-  #source('orbital_method.R')
+  source('orbital_method.R')
 
 }
 

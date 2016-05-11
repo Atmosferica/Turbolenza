@@ -142,3 +142,20 @@ signal.partition <- function(time.stamp, signal, block, block.length=300) {
   result <- data.frame(time.stamp = current.time.stamp, value = current.block)  #rende il blocco da solo
   return(result)
 }
+
+
+# Defining a function for finding the autocorrelation:
+# sig is the output of signal.partition(),
+# arr is the array of which we want to compute the autocorrelation.
+# We cycle up to lenght(sig)/2 only, because for the correlation
+# we need to have enough points to make this indicator true 
+# (i.e., we must have sufficient statistics)
+autocorr <- function(arr, sig){
+  mark <- c(1:floor(length(sig[,2]/2)))
+  for(j in 1:(floor(length(sig[,2]/2)))){
+    h_a <- arr[1:(length(arr)-j)]
+    h_b <- arr[(j+1):length(arr)]
+    mark[j] <-   cor(h_a, h_b)
+  }
+  mark
+}
