@@ -35,6 +35,10 @@ for(block in 1:numb){
 }
 sigma_totale_zvel <- c(sigma_totale_zvel, sigma_vis_z)
 
+
+save(matrix_blocks,file=paste("mat_bloc_",filename[i],sep=''))
+
+
 # For the purpose of plotting in time domain, we use apply over the rows
 # of matrix: for naming with different names the plots, we defined a
 # global variable, "graph_idx". Is better to remove this variable at
