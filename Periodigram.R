@@ -7,7 +7,7 @@ Npoint=length(vel)
 
 # Creating fft-graph directory ----------------------------------------------
 
-create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
+create_directory(paste(name_dir[i], '/grafici_fft/', sep=''))
 
 # Data windowing ------------------------------------------------------------
 
@@ -26,7 +26,7 @@ cat("Velocity dataset size: ",Npoint,"\n")
 
 # Import cut_freq from file --------------------------------------------------
 
-cut_times <- read.table(paste(data_path, 'cut_freq', sep=''))
+cut_times <- read.table('data/cut_freq')
 cut_freq <- 1/cut_times # Converting times into frequencies
 
 # Perform the FFT ------------------------------------------------------------
@@ -40,7 +40,7 @@ g1 <- ggplot(data=data, aes(x=freq, y=peaks)) + geom_line(, colour='black') +
       scale_y_log10() + scale_x_log10() + ggtitle('FFT') +
       xlab('Frequencies (Hz)') + ylab('Amplitude')
 g1
-ggsave(paste(directory_dataset, '/grafici_fft/fft_nofilter.png', sep=''))
+ggsave(paste(name_dir[i], '/grafici_fft/fft_nofilter.png', sep=''))
 rm(g1)
 cat("FFT performed in: ",fft_tm,"\n")
 
@@ -60,7 +60,7 @@ for(k in 1:length(cut_freq[,1])){
     scale_y_log10() + scale_x_log10() + ggtitle(paste('FFT: high-pass filter at ', round(cut_freq[k,1], 4),"Hz.png", sep='')) +
     xlab('Frequencies (Hz)') + ylab('Amplitude')
   g1
-  ggsave(paste(directory_dataset, '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
+  ggsave(paste(name_dir[i], '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
   rm(g1)
 
  }
