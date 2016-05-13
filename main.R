@@ -1,5 +1,5 @@
 # library(lattice)
-# library(ggplot2)
+library(ggplot2)
 # library(gtable)
 # library(methods)
 library(e1071)
