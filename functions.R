@@ -179,8 +179,8 @@ signal.partition <- function(time.stamp, signal, block, block.length=300) {
 # we need to have enough points to make this indicator true 
 # (i.e., we must have sufficient statistics)
 autocorr <- function(arr, sig){
-  mark <- c(1:floor(length(sig[,2]/2)))
-  for(j in 1:((floor(length(sig[,2]/2)))-1)){
+  mark <- c(1:floor(length(sig[,2]/2)))    # change to /2 instead of /4
+  for(j in 1:((floor(length(sig[,2]/2)))-1)){ # the same here
     h_a <- arr[1:(length(arr)-j)]
     cat(paste('h_a: ', length(h_a), '\n', sep=''))
     h_b <- arr[(j+1):length(arr)]

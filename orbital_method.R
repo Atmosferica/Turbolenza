@@ -14,7 +14,6 @@ for(block in 1:numb){
   sig <- signal.partition(time_stamp, z_vel, block, dim_bl)
 
   # computing the autocorrelation (we need it for checking the markovianity)
-  #mark <- autocorr(z_vel, sig)
   mark <- autocorr(z_vel[((dim_bl*sonic_fqc)*(block-1)+1):(dim_bl*sonic_fqc*block)], sig)
   # plotting the exponential of lm vs. data constraining the intercept to 0
   mark2 <- log(mark[1:20])

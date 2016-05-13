@@ -12,7 +12,7 @@ library(e1071)
 source('functions.R')
 source('turbulence_class.R')
 
-sonic_fqc <- 10
+sonic_fqc <- 20
 data_path <- path_dir
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
