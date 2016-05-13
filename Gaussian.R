@@ -6,6 +6,11 @@ y_sk <-matrix(nrow=length(filename_tot), ncol=4)
 z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 h_sk <-matrix(nrow=length(filename_tot), ncol=4)
 
+x_gauss <-matrix(nrow=length(filename_tot), ncol=4)
+y_gauss <-matrix(nrow=length(filename_tot), ncol=4)
+z_gauss <-matrix(nrow=length(filename_tot), ncol=4)
+h_gauss <-matrix(nrow=length(filename_tot), ncol=4)
+
 n<-0
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
@@ -28,7 +33,8 @@ for(fl in 1:length(filename_tot))
      if (dati[1]!=mem)  {
        
         for(counter in (n+1):(fl-1))  {
-             print (counter)
+
+          print(counter)
              data <- read.csv(filename_tot[counter], header=TRUE)
              info <- read.title.time(filename[counter])
              
@@ -36,36 +42,61 @@ for(fl in 1:length(filename_tot))
              turb <- as.turbulence(data)
              turb <- set_hvel(turb) # setting horizontal velocity
              turb <- set_direction(turb)  # setting direction
-             
+
              cat(name_dir[counter],"\n")
              path_output <- paste('grafici_output/', line, '/',info[1], '/', sep = '')  
              create_directory(path_output)
+             
+             path_output_new<-paste(path_output, "block/", sep ='')
+             create_directory(path_output_new)
          
-             ##Finding kurtosis-skewness for x-velocity. 
-             ##Firt column: skewness; second column: kurtosis
+             ##Finding kurtosis-skewness and mean-sd for x-velocity.
+             ##firth column: date; second : hour
+             ##third column: skewness; fourth column: kurtosis
+             ##third column: mean; fourth column: sd
              x_vel <- get_uvel(turb)
              x <- x_vel[,1]   
-             x_sk[counter,]<-sk(x, info) 
+             x_sk[counter,]<-sk(x, info)
+             x_gauss[counter, ]<-gauss(x, info)
              print.hist.gauss(x, path_output, "x", info[2])
          
-             # # Finding kurtosis-skewness for y-velocity
+             ##Finding kurtosis-skewness and mean-sd for y-velocity.
+             ##firth column: date; second : hour
+             ##third column: skewness; fourth column: kurtosis
+             ##third column: mean; fourth column: sd
               y_vel <- get_vvel(turb)
               y <- y_vel[,1]   
               y_sk[counter,]<-sk(y,info) 
+              y_gauss[counter, ]<-gauss(y, info)
               print.hist.gauss(y, path_output, "y", info[2])
               
-             # # Finding kurtosis-skewness for z-velocity
+              ##Finding kurtosis-skewness and mean-sd for z-velocity.
+              ##firth column: date; second : hour
+              ##third column: skewness; fourth column: kurtosis
+              ##third column: mean; fourth column: sd
               z_vel <- get_zvel(turb)
               z <- z_vel[,1]
               z_sk[counter,]<-sk(z, info)
+              z_gauss[counter, ]<-gauss(z, info)
               print.hist.gauss(z, path_output, "z", info[2])
               
-              # # Finding kurtosis-skewness for h-velocity
+              ##Finding kurtosis-skewness and mean-sd for h-velocity.
+              ##firth column: date; second : hour
+              ##third column: skewness; fourth column: kurtosis
+              ##third column: mean; fourth column: sd             
               h_vel <- get_hvel(turb)
               h <- h_vel[,1]
               h_sk[counter,]<-sk(h, info)
+              h_gauss[counter, ]<-gauss(h, info)
               print.hist.gauss(h, path_output, "h", info[2])
-         
+              
+              ##Finding kurtosis-skewness and mean-sd for velocity direction.
+              ##firth column: date; second : hour
+              ##third column: mean; fourth column: sd   
+              theta <- get_direction(turb)
+              print.hist.gauss(theta, path_output, "theta", info[2])
+              
+
              #Here there is the programme that studies the skewness and kurtosis coefficient of our data
              # Extracting blocks of 5 minutes from original dataset
              dim_bl <- 300
@@ -80,7 +111,13 @@ for(fl in 1:length(filename_tot))
              m.y_sk <- matrix(ncol = 4 ,nrow = numb)
              m.z_sk <- matrix(ncol = 4 ,nrow = numb)
              m.h_sk <- matrix(ncol = 4 ,nrow = numb)
-          
+             
+             m.x_gauss <- matrix(ncol = 4 ,nrow = numb)
+             m.y_gauss <- matrix(ncol = 4 ,nrow = numb)
+             m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
+             m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
+             
+ 
              tempo<-info
              for(block in 1:numb){
                tempo[2]<-info[2] + (block-1)*0.05
@@ -88,61 +125,109 @@ for(fl in 1:length(filename_tot))
                m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
                m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
                m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
+               
+               m.x_gauss[block,] <-gauss.blocks(time_stamp, x, block, dim_bl, tempo)
+               m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
+               m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
+               m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
+               
+               printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
+               printBlock.hist.gauss(y, path_output_new, "y", block, dim_bl, tempo[2])
+               printBlock.hist.gauss(z, path_output_new, "z", block, dim_bl, tempo[2])
+               printBlock.hist.gauss(h, path_output_new, "h", block, dim_bl, tempo[2])
+               printBlock.hist.gauss(theta, path_output_new, "theta", block, dim_bl, tempo[2])
+             
              }
           
-             sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
-             sk_plot(m.y_sk, paste(path_output, info[2], "_", sep = ''), "y")
-             sk_plot(m.z_sk, paste(path_output, info[2], "_", sep = ''), "z")
-             sk_plot(m.h_sk, paste(path_output, info[2], "_", sep = ''), "h")
+             sk_plot(m.x_sk, paste(path_output_new, info[2], "_", sep = ''), "x")
+             sk_plot(m.y_sk, paste(path_output_new, info[2], "_", sep = ''), "y")
+             sk_plot(m.z_sk, paste(path_output_new, info[2], "_", sep = ''), "z")
+             sk_plot(m.h_sk, paste(path_output_new, info[2], "_", sep = ''), "h")
+             
+             gauss_plot(m.x_gauss, paste(path_output_new, info[2], "_", sep = '') ,"x")
+             gauss_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")
+             gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
+             gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
         }
        
 
+       
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
+       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
+       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
+       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        sk_plot(h_sk[(n+1):counter, ], path_output, "h")
-       sk_plot.xyzh(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], h_sk[(n+1):counter, ], path_output)
+       gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
        n <- counter
     
      }
      if (fl==length(filename_tot)) {
 
         for(counter in (n+1):fl)  {
-          print (counter)
+
           data <- read.csv(filename_tot[counter], header=TRUE)
           info <- read.title.time(filename[counter])
+          
           turb <- as.turbulence(data)
-          turb <- set_direction(turb)
           turb <- set_hvel(turb) # setting horizontal velocity
           turb <- set_direction(turb)  # setting direction
+          
           cat(name_dir[counter],"\n")
           path_output <- paste('grafici_output/', line, '/',info[1], '/', sep = '')
           create_directory(path_output)
+          
+          path_output_new<-paste(path_output, "block/", sep ='')
+          create_directory(path_output_new)
 
-          ##Finding kurtosis-skewness for x-velocity.
-          ##Firt column: skewness; second column: kurtosis
+          ##Finding kurtosis-skewness and mean-sd for x-velocity.
+          ##firth column: date; second : hour
+          ##third column: skewness; fourth column: kurtosis
+          ##third column: mean; fourth column: sd
           x_vel <- get_uvel(turb)
           x <- x_vel[,1]
           x_sk[counter,]<-sk(x, info)
+          x_gauss[counter, ]<-gauss(x, info)
           print.hist.gauss(x, path_output, "x", info[2])
 
-          # # Finding kurtosis-skewness for y-velocity
+          ##Finding kurtosis-skewness and mean-sd for x-velocity.
+          ##firth column: date; second : hour
+          ##third column: skewness; fourth column: kurtosis
+          ##third column: mean; fourth column: sd
           y_vel <- get_vvel(turb)
           y <- y_vel[,1]
           y_sk[counter,]<-sk(y,info)
+          y_gauss[counter, ]<-gauss(y, info)
           print.hist.gauss(y, path_output, "y", info[2])
-
-          # # Finding kurtosis-skewness for z-velocity
+          
+          ##Finding kurtosis-skewness and mean-sd for x-velocity.
+          ##firth column: date; second : hour
+          ##third column: skewness; fourth column: kurtosis
+          ##third column: mean; fourth column: sd
           z_vel <- get_zvel(turb)
           z <- z_vel[,1]
           z_sk[counter,]<-sk(z, info)
+          z_gauss[counter, ]<-gauss(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
           
-          # # Finding kurtosis-skewness for h-velocity
+          ##Finding kurtosis-skewness and mean-sd for h-velocity.
+          ##firth column: date; second : hour
+          ##third column: skewness; fourth column: kurtosis
+          ##third column: mean; fourth column: sd   
           h_vel <- get_hvel(turb)
           h <- h_vel[,1]
           h_sk[counter,]<-sk(h, info)
+          h_gauss[counter, ]<-gauss(h, info)
           print.hist.gauss(h, path_output, "h", info[2])
+          
+          ##Finding kurtosis-skewness and mean-sd for velocity direction.
+          ##firth column: date; second : hour
+          ##third column: mean; fourth column: sd   
+          theta <- get_direction(turb)
+          print.hist.gauss(theta, path_output, "theta", info[2])
+          
 
           #Here there is the programme that studies the skewness and kurtosis coefficient of our data
           # Extracting blocks of 5 minutes from original dataset
@@ -159,6 +244,12 @@ for(fl in 1:length(filename_tot))
           m.z_sk <- matrix(ncol = 4 ,nrow = numb)
           m.h_sk <- matrix(ncol = 4 ,nrow = numb)
 
+          m.x_gauss <- matrix(ncol = 4 ,nrow = numb)
+          m.y_gauss <- matrix(ncol = 4 ,nrow = numb)
+          m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
+          m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
+
+
           tempo<-info
           for(block in 1:numb){
             tempo[2]<-info[2] + (block-1)*0.05
@@ -166,21 +257,43 @@ for(fl in 1:length(filename_tot))
             m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
             m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
             m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
+
+            m.x_gauss[block,] <-gauss.blocks(time_stamp, x, block, dim_bl, tempo)
+            m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
+            m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
+            m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
+
+            printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
+            printBlock.hist.gauss(y, path_output_new, "y", block, dim_bl, tempo[2])
+            printBlock.hist.gauss(z, path_output_new, "z", block, dim_bl, tempo[2])
+            printBlock.hist.gauss(h, path_output_new, "h", block, dim_bl, tempo[2])
+            printBlock.hist.gauss(theta, path_output_new, "theta", block, dim_bl, tempo[2])
+            
           }
 
-          sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
-          sk_plot(m.y_sk, paste(path_output, info[2], "_", sep = ''), "y")
-          sk_plot(m.z_sk, paste(path_output, info[2], "_", sep = ''), "z")
-          sk_plot(m.h_sk, paste(path_output, info[2], "_", sep = ''), "h")
+#plot per blocchetto                    
+          sk_plot(m.x_sk, paste(path_output_new, info[2], "_", sep = ''), "x")
+          sk_plot(m.y_sk, paste(path_output_new, info[2], "_", sep = ''), "y")
+          sk_plot(m.z_sk, paste(path_output_new, info[2], "_", sep = ''), "z")
+          sk_plot(m.h_sk, paste(path_output_new, info[2], "_", sep = ''), "h")
+          
+          gauss_plot(m.x_gauss, paste(path_output_new, info[2], "_", sep = '') ,"x")
+          gauss_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")
+          gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
+          gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
+
         }
-
-
-       
+          
+#plot orari
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
+       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
+       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
+       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        sk_plot(h_sk[(n+1):counter, ], path_output, "h")
-       sk_plot.xyzh(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], h_sk[(n+1):counter, ], path_output)
+       gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
        n <- counter
        
       }
