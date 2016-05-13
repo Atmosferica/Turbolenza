@@ -125,6 +125,7 @@ sk_plot <-function(m_sk, path_output, coord ){
   dev.off()
 }
 
+
 #plot skewness and kurtosis in x, y and z in the same graphic
 sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_sk, path_output ){
   

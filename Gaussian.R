@@ -88,6 +88,8 @@ for(fl in 1:length(filename_tot))
                m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
                m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
                m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
+               
+               
              }
           
              sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
@@ -166,6 +168,7 @@ for(fl in 1:length(filename_tot))
             m.y_sk[block,]<- sk.blocks(time_stamp, y, block, dim_bl,tempo)
             m.z_sk[block,]<- sk.blocks(time_stamp, z, block, dim_bl,tempo)
             m.h_sk[block,]<- sk.blocks(time_stamp, h, block, dim_bl,tempo)
+            
           }
 
           sk_plot(m.x_sk, paste(path_output, info[2], "_", sep = ''), "x")
