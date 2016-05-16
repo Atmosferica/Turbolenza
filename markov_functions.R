@@ -46,6 +46,7 @@ expon_fit <- function(result_list, dim_shift_mezzi, n_block){
   model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
                    start=list(a=1, b=0.05), trace = T)
   predictions <- predict(model_exp)
+  cat(paste('predictions: ', length(predictions), '\n', sep=''))
   pars <- model_exp$m$getPars()[2]
   to_return <- list(df=df, predictions=predictions, pars=pars)
 }
