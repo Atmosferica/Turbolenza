@@ -156,21 +156,15 @@ gauss_plot <-function(m_gauss, path_output, coord ){
   dev.off()
 }
 
-###plot wind direction, if index =0 for one day, else for one hour
-theta_plot <-function(theta, path_output, tempo, index ){
-  if (index == 0){name <- paste("Wind Direction.png",sep="")}
-  else {name <- paste("Wind Direction_", tempo[2], ".png",sep="")}
-  png(paste(path_output, name ,sep=""))
-  plot(theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = name, sub= '0=Nord')
-  dev.off()
-}
 
 ###plot wind, if index =0 for one day, else for one hour
-wind_plot <-function(h, path_output, tempo, index ){
+wind_plot <-function(h, theta, path_output, tempo, index ){
   if (index == 0){name <- "Wind.png"}
   else {name <- paste("Wind_", tempo[2], ".png",sep="")}
   png(paste(path_output, name ,sep=""))
-  plot(h, type = 'l', xlab = 'tempo', ylab='intensity',  main = name, col = 'blue')
+  par(mfrow=c(2,1))
+  plot(h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
+  plot(theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
   dev.off()
 }
 

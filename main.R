@@ -2,7 +2,7 @@
 # library(ggplot2)
 # library(gtable)
 # library(methods)
-#library(e1071)
+library(e1071)
 #library(mwindow)
 #library(foreach)
 #library(doMC)
@@ -79,7 +79,7 @@ for(i in 1:length(filename_tot))
 # dev.off()
 
 cat("* Perfoming Gaussian...","\n")
-#source('Gaussian.R')
+source('Gaussian.R')
 
 cat("* Perfoming Wind...","\n")
 source('wind.R')

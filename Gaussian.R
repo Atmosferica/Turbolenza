@@ -49,6 +49,9 @@ for(fl in 1:length(filename_tot))
              
              path_output_new<-paste(path_output, "block/", sep ='')
              create_directory(path_output_new)
+             
+             f_cut_up <- 0.015
+             f_cut_down <- 0.005
          
              ##Finding kurtosis-skewness and mean-sd for x-velocity.
              ##firth column: date; second : hour
@@ -56,9 +59,6 @@ for(fl in 1:length(filename_tot))
              ##third column: mean; fourth column: sd
              x_vel <- get_uvel(turb)
              x <- x_vel[,1]  
-             
-             f_cut_up <- 0.015
-             f_cut_down <- 0.005
              
              hamming <- hamming.window(length(x))
              hamming <- hamming/sum(hamming)*length(x)
@@ -119,20 +119,9 @@ for(fl in 1:length(filename_tot))
               ##firth column: date; second : hour
               ##third column: skewness; fourth column: kurtosis
               ##third column: mean; fourth column: sd             
+
               h_vel <- get_hvel(turb)
               h <- h_vel[,1]
-              
-              h_vel <- get_hvel(turb)
-              h <- h_vel[,1]
-              down_smooth<-NULL
-              tot_smooth<-NULL
-              hamming <- hamming.window(length(h))
-              hamming <- hamming/sum(hamming)*length(h)
-              h <- h*hamming
-              fft_h<- dofft(h,sonic_fqc)
-              down_smooth<-LowPassfilter.data(fft_h$freq,fft_h$fft_vel,f_cut_up)
-              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
-              h <- Re(tot_smooth$vel)/hamming 
               
               h_sk[counter,]<-sk(h, info)
               h_gauss[counter, ]<-gauss(h, info)
@@ -301,19 +290,7 @@ for(fl in 1:length(filename_tot))
           ##third column: mean; fourth column: sd             
           h_vel <- get_hvel(turb)
           h <- h_vel[,1]
-          
-          h_vel <- get_hvel(turb)
-          h <- h_vel[,1]
-          down_smooth<-NULL
-          tot_smooth<-NULL
-          hamming <- hamming.window(length(h))
-          hamming <- hamming/sum(hamming)*length(h)
-          h <- h*hamming
-          fft_h<- dofft(h,sonic_fqc)
-          down_smooth<-LowPassfilter.data(fft_h$freq,fft_h$fft_vel,f_cut_up)
-          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
-          h <- Re(tot_smooth$vel)/hamming 
-          
+
           h_sk[counter,]<-sk(h, info)
           h_gauss[counter, ]<-gauss(h, info)
           print.hist.gauss(h, path_output, "h", info[2])
