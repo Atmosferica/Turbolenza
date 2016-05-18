@@ -159,12 +159,14 @@ gauss_plot <-function(m_gauss, path_output, coord ){
 
 ###plot wind, if index =0 for one day, else for one hour
 wind_plot <-function(h, theta, path_output, tempo, index ){
-  if (index == 0){name <- "Wind.png"}
-  else {name <- paste("Wind_", tempo[2], ".png",sep="")}
+  p<-seq(1, length(h), by=1) 
+  if (index == 0){name <- "Wind.png";   t<-p/(600*60)}
+  else {name <- paste("Wind_", tempo[2], ".png",sep="");   t<-p/600}
+
   png(paste(path_output, name ,sep=""))
   par(mfrow=c(2,1))
-  plot(h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
-  plot(theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
+  plot(t, h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
+  plot(t, theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
   dev.off()
 }
 
