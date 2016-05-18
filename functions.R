@@ -156,6 +156,20 @@ gauss_plot <-function(m_gauss, path_output, coord ){
   dev.off()
 }
 
+
+###plot wind, if index =0 for one day, else for one hour
+wind_plot <-function(h, theta, path_output, tempo, index ){
+  p<-seq(1, length(h), by=1) 
+  if (index == 0){name <- "Wind.png";   t<-p/(600*60)}
+  else {name <- paste("Wind_", tempo[2], ".png",sep="");   t<-p/600}
+
+  png(paste(path_output, name ,sep=""))
+  par(mfrow=c(2,1))
+  plot(t, h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
+  plot(t, theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
+  dev.off()
+}
+
 #plot skewness and kurtosis in x, y and z in the same graphic
 sk_plot.xyz <-function(x_sk, y_sk, z_sk, path_output ){
   

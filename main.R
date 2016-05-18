@@ -2,7 +2,7 @@
 # library(ggplot2)
 # library(gtable)
 # library(methods)
-#library(e1071)
+library(e1071)
 #library(mwindow)
 #library(foreach)
 #library(doMC)
@@ -32,12 +32,10 @@ create_directory('grafici_output/Fontanella2/LiCor')
 
 
 #This cycle reads all the files and creates 3 matrix full of kurtosis and skewness coefficient
-x_sk <-matrix(nrow=length(filename_tot), ncol=4)
-y_sk <-matrix(nrow=length(filename_tot), ncol=4)
-z_sk <-matrix(nrow=length(filename_tot), ncol=4)
-sigma_totale_zvel <- NULL
-sigma_totale_yvel <- NULL
-sigma_totale_xvel <- NULL
+
+# sigma_totale_zvel <- NULL
+# sigma_totale_yvel <- NULL
+# sigma_totale_xvel <- NULL
 
 for(i in 1:length(filename_tot))
 {
@@ -84,5 +82,7 @@ for(i in 1:length(filename_tot))
 cat("* Perfoming Gaussian...","\n")
 source('Gaussian.R')
 
+cat("* Perfoming Wind...","\n")
+source('wind.R')
    
 

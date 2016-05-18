@@ -49,13 +49,25 @@ for(fl in 1:length(filename_tot))
              
              path_output_new<-paste(path_output, "block/", sep ='')
              create_directory(path_output_new)
+             
+             f_cut_up <- 0.015
+             f_cut_down <- 0.005
          
              ##Finding kurtosis-skewness and mean-sd for x-velocity.
              ##firth column: date; second : hour
              ##third column: skewness; fourth column: kurtosis
              ##third column: mean; fourth column: sd
              x_vel <- get_uvel(turb)
-             x <- x_vel[,1]   
+             x <- x_vel[,1]  
+             
+             hamming <- hamming.window(length(x))
+             hamming <- hamming/sum(hamming)*length(x)
+             x <- x*hamming
+             fft_x<- dofft(x,sonic_fqc)
+             down_smooth<-LowPassfilter.data(fft_x$freq,fft_x$fft_vel,f_cut_up)
+             tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+             x <- Re(tot_smooth$vel)/hamming 
+             
              x_sk[counter,]<-sk(x, info)
              x_gauss[counter, ]<-gauss(x, info)
              print.hist.gauss(x, path_output, "x", info[2])
@@ -66,6 +78,18 @@ for(fl in 1:length(filename_tot))
              ##third column: mean; fourth column: sd
               y_vel <- get_vvel(turb)
               y <- y_vel[,1]   
+              
+              
+              down_smooth<-NULL
+              tot_smooth<-NULL
+              hamming <- hamming.window(length(y))
+              hamming <- hamming/sum(hamming)*length(y)
+              y <- y*hamming
+              fft_y<- dofft(y,sonic_fqc)
+              down_smooth<-LowPassfilter.data(fft_y$freq,fft_y$fft_vel,f_cut_up)
+              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+              y <- Re(tot_smooth$vel)/hamming 
+              
               y_sk[counter,]<-sk(y,info) 
               y_gauss[counter, ]<-gauss(y, info)
               print.hist.gauss(y, path_output, "y", info[2])
@@ -76,6 +100,17 @@ for(fl in 1:length(filename_tot))
               ##third column: mean; fourth column: sd
               z_vel <- get_zvel(turb)
               z <- z_vel[,1]
+              
+              down_smooth<-NULL
+              tot_smooth<-NULL
+              hamming <- hamming.window(length(z))
+              hamming <- hamming/sum(hamming)*length(z)
+              z <- z*hamming
+              fft_z<- dofft(z,sonic_fqc)
+              down_smooth<-LowPassfilter.data(fft_z$freq,fft_z$fft_vel,f_cut_up)
+              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+              z <- Re(tot_smooth$vel)/hamming 
+              
               z_sk[counter,]<-sk(z, info)
               z_gauss[counter, ]<-gauss(z, info)
               print.hist.gauss(z, path_output, "z", info[2])
@@ -84,8 +119,10 @@ for(fl in 1:length(filename_tot))
               ##firth column: date; second : hour
               ##third column: skewness; fourth column: kurtosis
               ##third column: mean; fourth column: sd             
+
               h_vel <- get_hvel(turb)
               h <- h_vel[,1]
+              
               h_sk[counter,]<-sk(h, info)
               h_gauss[counter, ]<-gauss(h, info)
               print.hist.gauss(h, path_output, "h", info[2])
@@ -95,7 +132,7 @@ for(fl in 1:length(filename_tot))
               ##third column: mean; fourth column: sd   
               theta <- get_direction(turb)
               print.hist.gauss(theta, path_output, "theta", info[2])
-              
+
 
              #Here there is the programme that studies the skewness and kurtosis coefficient of our data
              # Extracting blocks of 5 minutes from original dataset
@@ -187,27 +224,62 @@ for(fl in 1:length(filename_tot))
           ##third column: skewness; fourth column: kurtosis
           ##third column: mean; fourth column: sd
           x_vel <- get_uvel(turb)
-          x <- x_vel[,1]
+          x <- x_vel[,1]  
+          
+          f_cut_up <- 0.015
+          f_cut_down <- 0.005
+          
+          hamming <- hamming.window(length(x))
+          hamming <- hamming/sum(hamming)*length(x)
+          x <- x*hamming
+          fft_x<- dofft(x,sonic_fqc)
+          down_smooth<-LowPassfilter.data(fft_x$freq,fft_x$fft_vel,f_cut_up)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          x <- Re(tot_smooth$vel)/hamming 
+          
           x_sk[counter,]<-sk(x, info)
           x_gauss[counter, ]<-gauss(x, info)
           print.hist.gauss(x, path_output, "x", info[2])
-
-          ##Finding kurtosis-skewness and mean-sd for x-velocity.
+          
+          ##Finding kurtosis-skewness and mean-sd for y-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
           ##third column: mean; fourth column: sd
           y_vel <- get_vvel(turb)
-          y <- y_vel[,1]
-          y_sk[counter,]<-sk(y,info)
+          y <- y_vel[,1]   
+          
+          
+          down_smooth<-NULL
+          tot_smooth<-NULL
+          hamming <- hamming.window(length(y))
+          hamming <- hamming/sum(hamming)*length(y)
+          y <- y*hamming
+          fft_y<- dofft(y,sonic_fqc)
+          down_smooth<-LowPassfilter.data(fft_y$freq,fft_y$fft_vel,f_cut_up)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          y <- Re(tot_smooth$vel)/hamming 
+          
+          y_sk[counter,]<-sk(y,info) 
           y_gauss[counter, ]<-gauss(y, info)
           print.hist.gauss(y, path_output, "y", info[2])
           
-          ##Finding kurtosis-skewness and mean-sd for x-velocity.
+          ##Finding kurtosis-skewness and mean-sd for z-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
           ##third column: mean; fourth column: sd
           z_vel <- get_zvel(turb)
           z <- z_vel[,1]
+          
+          down_smooth<-NULL
+          tot_smooth<-NULL
+          hamming <- hamming.window(length(z))
+          hamming <- hamming/sum(hamming)*length(z)
+          z <- z*hamming
+          fft_z<- dofft(z,sonic_fqc)
+          down_smooth<-LowPassfilter.data(fft_z$freq,fft_z$fft_vel,f_cut_up)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          z <- Re(tot_smooth$vel)/hamming 
+          
           z_sk[counter,]<-sk(z, info)
           z_gauss[counter, ]<-gauss(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
@@ -215,19 +287,19 @@ for(fl in 1:length(filename_tot))
           ##Finding kurtosis-skewness and mean-sd for h-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
-          ##third column: mean; fourth column: sd   
+          ##third column: mean; fourth column: sd             
           h_vel <- get_hvel(turb)
           h <- h_vel[,1]
+
           h_sk[counter,]<-sk(h, info)
           h_gauss[counter, ]<-gauss(h, info)
           print.hist.gauss(h, path_output, "h", info[2])
-          
+
           ##Finding kurtosis-skewness and mean-sd for velocity direction.
           ##firth column: date; second : hour
           ##third column: mean; fourth column: sd   
           theta <- get_direction(turb)
           print.hist.gauss(theta, path_output, "theta", info[2])
-          
 
           #Here there is the programme that studies the skewness and kurtosis coefficient of our data
           # Extracting blocks of 5 minutes from original dataset
@@ -296,7 +368,8 @@ for(fl in 1:length(filename_tot))
        sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
        n <- counter
        
-      }
+     }
+
      mem<-dati[1]
   }
   
