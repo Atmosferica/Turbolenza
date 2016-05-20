@@ -36,37 +36,20 @@ test_markov<-function(vel, time_stamp, numb, dim_bl, sonic_fqc){
 	return(result)
 }
 
-# # Function for the exponential fit of autocorrelation
-# expon_fit <- function(result_list, dim_shift_mezzi, n_block){
-#   mark2x <- c(1:(dim_shift_mezzi))
-#   mark2y <- result_list$mark2[(dim_shift_mezzi*(n_block -1)+1):(n_block*(dim_shift_mezzi))]
-#   df <- data.frame(mark2x, mark2y)
-#   model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
-#                    start=list(a=1, b=0.05), trace = T, control = list(maxiter = 145))
-#   predictions <- predict(model_exp)
-#   pars <- model_exp$m$getPars()[2]
-#   # In the case of last block the length of predictions is usually shorter as
-#   # the length of mark2x
-#   if(length(predictions)!=length(mark2x)){
-#     mark2x <- mark2x[1:length(predictions)]
-#     mark2y <- mark2y[1:length(predictions)]
-#     df <- data.frame(mark2x, mark2y)
-#   }
-#   cat(paste('Block number: ', n, '\n', sep=''))
-#   to_return <- list(df=df, predictions=predictions, pars=pars)
-# }
-
 # Function for the exponential fit of autocorrelation
 expon_fit <- function(result_list, dim_shift_mezzi, n_block){
   mark2x <- c(1:(dim_shift_mezzi))
   mark2y <- result_list$mark2[(dim_shift_mezzi*(n_block -1)+1):(n_block*(dim_shift_mezzi))]
-  mark2 <- log(mark2x[1:20])
-  exp_fit <- lm(mark2 ~ c(1:length(mark2))+0)
-  predictions <- exp(predict(exp_fit))
-
   df <- data.frame(mark2x, mark2y)
-  #pars <- model_exp$m$getPars()[2]
-  # In the case of last block the length of predictions is usually shorter than
+  failure <- try(model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
+                   start=list(a=1, b=0.01), trace = T, control = list(maxiter = 500)))
+  if(class(failure)=='try-error'){
+    try(model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
+                         start=list(a=1, b=0.5), trace = T, control = list(maxiter = 500)))
+  }
+  predictions <- predict(model_exp)
+  pars <- model_exp$m$getPars()[2]
+  # In the case of last block the length of predictions is usually shorter as
   # the length of mark2x
   if(length(predictions)!=length(mark2x)){
     mark2x <- mark2x[1:length(predictions)]
@@ -76,3 +59,25 @@ expon_fit <- function(result_list, dim_shift_mezzi, n_block){
   cat(paste('Block number: ', n, '\n', sep=''))
   to_return <- list(df=df, predictions=predictions, pars=pars)
 }
+
+# # Function for the exponential fit of autocorrelation
+# expon_fit <- function(result_list, dim_shift_mezzi, n_block){
+#   mark2x <- c(1:(dim_shift_mezzi))
+#   mark2y <- result_list$mark2[(dim_shift_mezzi*(n_block -1)+1):(n_block*(dim_shift_mezzi))]
+#   mark2 <- log(mark2x[1:20])
+#   exp_fit <- lm(mark2 ~ c(1:length(mark2))+0)
+#   predictions <- exp(predict(exp_fit))
+# 
+#   df <- data.frame(mark2x, mark2y)
+#   pars <- round(summary(exp_fit)$coefficients[1,1],2)
+#   #pars <- model_exp$m$getPars()[2]
+#   # In the case of last block the length of predictions is usually shorter than
+#   # the length of mark2x
+#   if(length(predictions)!=length(mark2x)){
+#     mark2x <- mark2x[1:length(predictions)]
+#     mark2y <- mark2y[1:length(predictions)]
+#     df <- data.frame(mark2x, mark2y)
+#   }
+#   cat(paste('Block number: ', n, '\n', sep=''))
+#   to_return <- list(df=df, predictions=predictions, pars=pars)
+# }

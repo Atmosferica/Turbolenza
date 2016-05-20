@@ -153,7 +153,7 @@ exp_plot <- function(result_list, string, n_block, sonic_fqc){
   g1 <- g1 + geom_line(aes(y=result_list$predictions, x=mark2x), color='red') + 
     xlab(paste('Time[', 1/sonic_fqc,'s]', sep=''))+ ylab('Autocorrelation')
   g1 <- g1 + ggtitle(paste('Exponential fit: ', string, sep='')) + xlim(0,300) + 
-    annotate('text', label=paste('ß: ', round(result_list$pars, 2),'\n', 'Decorrelation time: ', 
+    annotate('text', label=paste('ß: ', round(result_list$pars, 3),'\n', 'Decorrelation time: ', 
                                  round((1/result_list$pars)/sonic_fqc, 2), 's', sep=''), color = "black", x = 200, y = 0.9, hjust = 0, size = 4)
   g1
   ggsave(paste(markov_path, '/exp_fit_', string, '_', n_block,'.png', sep=''))
