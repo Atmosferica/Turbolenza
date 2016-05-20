@@ -31,16 +31,16 @@ cut_freq <- 1/cut_times # Converting times into frequencies
 
 # Perform the FFT ------------------------------------------------------------
 fft_tm <- system.time(
-	data <- dofft(vel, sonic_fqc) #ATTENTION! Some data set are sampled at 20Hz
+	data <- dofft(vel^2, sonic_fqc) #ATTENTION! Some data set are sampled at 20Hz
 )
 # Plotting fft with ggplot() to solve the bug found by Stefano with 
 # the option header=F in read.csv() (graph superimposed)
 # Note: you don't need print_plot() anymore, you can use ggsave()
 g1 <- ggplot(data=data, aes(x=freq, y=peaks)) + geom_line(, colour='black') + 
-      scale_y_log10() + scale_x_log10() + ggtitle('FFT') +
-      xlab('Frequencies (Hz)') + ylab('Amplitude')
+      scale_y_log10() + scale_x_log10() + ggtitle('FFT Z Velocity') +
+      xlab('Frequencies (Hz)') + ylab('FFT Power Spectrum [dB]')
 g1
-ggsave(paste(name_dir[i], '/grafici_fft/fft_nofilter.png', sep=''))
+ggsave(paste(name_dir[i], '/grafici_fft/fft_nofilter_z.png', sep=''))
 rm(g1)
 cat("FFT performed in: ",fft_tm,"\n")
 
@@ -58,7 +58,7 @@ for(k in 1:length(cut_freq[,1])){
   # Printing to plot and saving
   g1 <- ggplot(data=filt, aes(x=freq, y=peaks)) + geom_line(colour='black') + 
     scale_y_log10() + scale_x_log10() + ggtitle(paste('FFT: high-pass filter at ', round(cut_freq[k,1], 4),"Hz.png", sep='')) +
-    xlab('Frequencies (Hz)') + ylab('Amplitude')
+    xlab('Frequencies (Hz)') + ylab('')
   g1
   ggsave(paste(name_dir[i], '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
   rm(g1)
