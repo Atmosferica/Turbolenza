@@ -39,7 +39,6 @@ for(n in 1:numb){
   exp_plot(list_y, 'y_vel', n, sonic_fqc) # plotting exponential fits
   list_z <- expon_fit(results_list_z, dim_shift_mezzi, n) # doing exponential fit on result_list, z component
   exp_plot(list_z, 'z_vel', n, sonic_fqc) # plotting exponential fits
-  #It has problems with the last block of z...
 }
 
 
