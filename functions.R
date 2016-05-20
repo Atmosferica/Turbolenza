@@ -204,7 +204,7 @@ print.hist.gauss<-function(x, path_output, coord, tempo) {
   if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"}
   if(coord=="theta"){ color ="indianred"; asse = "theta"}
   
-  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color)
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x))
   x0<-seq(min(x), max(x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
@@ -225,7 +225,7 @@ printBlock.hist.gauss<-function(x, path_output, coord, block, dim_bl,tempo) {
   sig <- signal.partition(time_stamp, x, block, dim_bl)
   block_x <- with(sig,value)
   
-  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color)
+  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x))
   x0<-seq(min(block_x), max(block_x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(block_x), sd= sd(block_x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
