@@ -50,9 +50,6 @@ for(fl in 1:length(filename_dati_tot))
         path_output_new<-paste(path_output, "block/", sep ='')
         create_directory(path_output_new)
         
-        f_cut_up <- 0.015
-        f_cut_down <- 0.005
-        
         ##Finding kurtosis-skewness and mean-sd for x-velocity.
         ##firth column: date; second : hour
         ##third column: skewness; fourth column: kurtosis
