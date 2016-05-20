@@ -30,8 +30,23 @@ sigma_totale_zvel <- c(sigma_totale_zvel, results_list_z$sigma)
 sigma_totale_yvel <- c(sigma_totale_yvel, results_list_u$sigma)
 sigma_totale_xvel <- c(sigma_totale_xvel, results_list_v$sigma)
 
+dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
 
-#Graficili velocita` z ######################################################################
+for(n in 1:numb){
+  list_x <- expon_fit(results_list_u, dim_shift_mezzi, 1) # doing exponential fit on result_list, x component
+  exp_plot(list_x, 'x_vel', n, sonic_fqc) # plotting exponential fits
+  list_y <- expon_fit(results_list_v, dim_shift_mezzi, n) # doing exponential fit on result_list, y component
+  exp_plot(list_y, 'y_vel', n, sonic_fqc) # plotting exponential fits
+  list_z <- expon_fit(results_list_z, dim_shift_mezzi, n) # doing exponential fit on result_list, z component
+  exp_plot(list_z, 'z_vel', n, sonic_fqc) # plotting exponential fits
+  #It has problems with the last block of z...
+}
+
+
+stop()
+
+
+#Grafici velocita` z ######################################################################
 
  graph_idx <- assign("graph_idx",0, envir = globalenv())
  apply(results_list_z$matrix_blocks, 1, function(x){

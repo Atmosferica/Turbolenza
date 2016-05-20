@@ -35,3 +35,17 @@ test_markov<-function(vel, time_stamp, numb, dim_bl, sonic_fqc){
 	result<-list(sigma=sigma_block, mark=mark, mark2=mark2, matrix_blocks=matrix_blocks)
 	return(result)
 }
+
+# Function for the exponential fit of autocorrelation
+expon_fit <- function(result_list, dim_shift_mezzi, n_block){
+  mark2x <- c(1:(dim_shift_mezzi))
+  mark2y <- result_list$mark2[(dim_shift_mezzi*(n_block -1)+1):(n_block*(dim_shift_mezzi))]
+  cat(paste('mark2x: ', length(mark2x), '\n', sep=''))
+  cat(paste('mark2y: ', length(mark2y), '\n', sep=''))
+  df <- data.frame(mark2x, mark2y)
+  model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
+                   start=list(a=1, b=0.05), trace = T)
+  predictions <- predict(model_exp)
+  pars <- model_exp$m$getPars()[2]
+  to_return <- list(df=df, predictions=predictions, pars=pars)
+}
