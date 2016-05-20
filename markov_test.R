@@ -33,7 +33,7 @@ sigma_totale_xvel <- c(sigma_totale_xvel, results_list_v$sigma)
 dim_shift_mezzi <- (floor(dim_bl*sonic_fqc*0.5))  
 
 for(n in 1:numb){
-  list_x <- expon_fit(results_list_u, dim_shift_mezzi, 1) # doing exponential fit on result_list, x component
+  list_x <- expon_fit(results_list_u, dim_shift_mezzi, n) # doing exponential fit on result_list, x component
   exp_plot(list_x, 'x_vel', n, sonic_fqc) # plotting exponential fits
   list_y <- expon_fit(results_list_v, dim_shift_mezzi, n) # doing exponential fit on result_list, y component
   exp_plot(list_y, 'y_vel', n, sonic_fqc) # plotting exponential fits

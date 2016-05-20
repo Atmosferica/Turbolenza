@@ -44,17 +44,18 @@ expon_fit <- function(result_list, dim_shift_mezzi, n_block){
   #cat(paste('mark2y: ', length(mark2y), '\n', sep=''))
   df <- data.frame(mark2x, mark2y)
   model_exp <- nls(mark2y ~ I(a * exp(-(b * mark2x))), data=df, 
-                   start=list(a=1, b=0.05), trace = T)
-  pred <- seq(from=0.1, to=300, length.out=length(mark2x))
+                   start=list(a=1, b=0.05), trace = T, control = list(maxiter = 500))
+  #pred <- seq(from=0.1, to=300, length.out=length(mark2x))
   #cat(paste('pred: ', length(pred), '\n', sep=''))
-  predictions <- predict(model_exp, newdata=data.frame(pred=pred))
+#   predictions <- predict(model_exp, newdata=data.frame(pred=pred))
+  predictions <- predict(model_exp)
   #cat(paste('predictions: ', length(predictions), '\n', sep=''))
   pars <- model_exp$m$getPars()[2]
   # In the case of last block the length of predictions is usually shorter as
   # the length of mark2x
   if(length(predictions)!=length(mark2x)){
     mark2x <- mark2x[1:length(predictions)]
-    mark2y <- mark2x[1:length(predictions)]
+    mark2y <- mark2y[1:length(predictions)]
     df <- data.frame(mark2x, mark2y)
   }
   to_return <- list(df=df, predictions=predictions, pars=pars)
