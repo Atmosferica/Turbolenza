@@ -4,6 +4,9 @@ line <- readLines(stdin(), n=1)
 cat("frequenza (20 per i LiCor, 10 per gli altri)\n")
 sonic_fqc <- as.numeric(readLines(stdin(), n=1))
 
+cat("Minuti minimi di campionamento\n")
+min_camp <- as.numeric(readLines(stdin(), n=1))
+
 # Defining some "macros" for Fontanella2/LiCor
 if(line =="f2/LiCor" | line=="F2/LiCor" | line =="f2/licor" | 
      line =="F2/LiCor"){

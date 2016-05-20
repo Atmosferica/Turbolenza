@@ -36,6 +36,7 @@ create_directory('grafici_output/Fontanella2/LiCor')
 # sigma_totale_zvel <- NULL
 # sigma_totale_yvel <- NULL
 # sigma_totale_xvel <- NULL
+count <-1
 
 for(i in 1:length(filename_tot))
 {
@@ -43,6 +44,9 @@ for(i in 1:length(filename_tot))
   # Extracted data from csv using the script convert_cvs.awk. 
   # header=TRUE --> Essential! High performance decay for header=FALSE	
   data <- read.csv(filename_tot[i], header=TRUE)
+  
+  if(length(data[,1]) >= min_camp*sonic_fqc*60 & count ==1){filename_dati <-filename[i]; count <-2}
+  if(length(data[,1]) >= min_camp*sonic_fqc*60 & count ==2){filename_dati <-append(filename_dati, filename[i])}
   dati <- read.title.time(filename[i])
  
   # Converted data (of class data.frame) into an object of class turbulence
@@ -67,6 +71,8 @@ for(i in 1:length(filename_tot))
   
 }
 
+filename_dati_tot=paste(data_path,filename_dati, sep="")
+
 # png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
 # plot(sigma_totale_zvel)
 # dev.off()
@@ -79,8 +85,11 @@ for(i in 1:length(filename_tot))
 # plot(sigma_totale_xvel)
 # dev.off()
 
-cat("* Perfoming Gaussian...","\n")
-source('Gaussian.R')
+cat("* Perfoming Gaussian con filtro...","\n")
+#source('Gaussian.R')
+
+cat("* Perfoming Gaussian senza filtro...","\n")
+source('senza_filtro.R')
 
 cat("* Perfoming Wind...","\n")
 source('wind.R')
