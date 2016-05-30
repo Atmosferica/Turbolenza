@@ -16,5 +16,3 @@
 # grid.draw(g)
 # 
 # # to here
-
-#end

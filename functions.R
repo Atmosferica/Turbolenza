@@ -97,7 +97,7 @@ read.title.time <- function(filename_tot) {
 #this function calculates skewness and kurtosis
 sk<- function(x, y, l) {
   skew<-skewness(x, na.rm = TRUE)
-  kurt<-kurtosis(x, na.rm = TRUE)
+  kurt<-(kurtosis(x, na.rm = TRUE) - 3)
   m_sk<- c(y[1],y[2],skew,kurt)
     return(m_sk)
 }
@@ -114,12 +114,56 @@ sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
   return(m_sk)
 }
 
+#returns mean and sd
+gauss<-function(x,dati){
+  
+  m_gauss<-c(dati, mean(x), sd(x)) 
+  m_gauss <-t(m_gauss)
+  
+  return(m_gauss)
+}
+
+#returns mean and sd of one block
+gauss.blocks<-function(time_stamp, x, block, dim_bl, dati){
+  
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  
+  m_gauss<-c(dati, mean(vector_blocks), sd(vector_blocks)) 
+  m_gauss <-t(m_gauss)
+  
+  return(m_gauss)
+}
+
+kolm.test <-function(x, dati){
+  x0<-seq(min(x), max(x), length.out= length(x))
+  y<-pnorm(x0, mean = mean(x), sd= sd(x))
+  ks<-ks.test(x,y)
+  k<-c(dati, as.numeric(ks$statistic), ks$p.value)
+  k<-t(k)
+ 
+  return (k)
+}
+
+kolm.test.blocks <-function(time_stamp, x, block, dim_bl, dati){
+  
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  
+  x0<-seq(min(vector_blocks), max(vector_blocks), length.out= length(vector_blocks))
+  y<-pnorm(x0, mean = mean(vector_blocks), sd= sd(vector_blocks))
+  ks<-ks.test(vector_blocks,y)
+  k<-c(dati, as.numeric(ks$statistic), ks$p.value)
+  k<-t(k)
+  
+  return (k)
+}
+
+
 #plot skewness and kurtosis
 sk_plot <-function(m_sk, path_output, coord ){
   png(paste(path_output, "Skeweness+Kurtosis_", coord, ".png",sep=""));
   par(mfrow=c(2,1));
-  plot(m_sk[,2], m_sk[,3], ylim = c(min(m_sk[,3])-2, max(m_sk[,3])+2), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
-  plot(m_sk[,2], m_sk[,4], xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''))
   plot(m_sk[,2], m_sk[,3], ylim = c(min(m_sk[,3])-1, max(m_sk[,3])+1), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
   abline(h=0)
   plot(m_sk[,2], m_sk[,4], ylim = c(min(m_sk[,4])-1, max(m_sk[,4])+1), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis_',coord, sep=''),bg = "blue",col="blue", pch = 20, cex = 2 )
@@ -127,7 +171,6 @@ sk_plot <-function(m_sk, path_output, coord ){
   dev.off()
 }
 
-#####
 sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_k,path_output ){
   
   max.s <-max(c(max(x_sk[,3]), max(y_sk[,3]), max(z_sk[,3]), max(h_sk[,3]))) +2
@@ -142,14 +185,101 @@ sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_k,path_output ){
   plot(x_sk[,2], x_sk[,3],  ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
   plot(x_sk[,2], x_sk[,4], ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
   plot(x_sk[,2], x_sk[,4], ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
-  
-  m_sk <- matrix(ncol = 4 ,nrow = numb)
-  sig <- signal.partition(time_stamp, x, block, dim_bl)
-  vector_blocks  <- with(sig,value)
-  m_sk[block,]<-sk( vector_blocks, dati) 
-  
-  return(m_sk[block,])
+
+gauss_plot <-function(m_gauss, path_output, coord ){
+  png(paste(path_output, "mean+sd_", coord, ".png",sep=""));
+  par(mfrow=c(2,1));
+  plot(m_gauss[,2], m_gauss[,3], ylim = c(min(m_gauss[,3])-1, max(m_gauss[,3])+1), xlab = 'Time (hours)', ylab = 'mean', type = 'p', main = paste('mean_',coord, sep=''),bg = "red",col="red", pch = 20, cex = 2 )
+  plot(m_gauss[,2], m_gauss[,4], ylim = c(min(m_gauss[,4])-1, max(m_gauss[,4])+1), xlab = 'Time (hours)', ylab = 'sd', type = 'p', main = paste('sd_',coord, sep=''),bg = "red",col="red", pch = 20, cex = 2 )
+  abline(h=0)
+  dev.off()
 }
+
+kolm.test_plot <-function(m_test, path_output, coord ){
+  png(paste(path_output, "kolmogorov.test_", coord, ".png",sep=""));
+  plot(m_test[,2], m_test[,3], ylim = c(min(m_test[,3])-1, max(m_test[,3])+1), xlab = 'Time (hours)', ylab = 'd', type = 'p', main = paste('d_',coord, sep=''),bg = "green",col="green", pch = 20, cex = 2 )
+  dev.off()
+}
+
+
+###plot wind, if index =0 for one day, else for one hour
+wind_plot <-function(h, theta, path_output, tempo, index ){
+  p<-seq(1, length(h), by=1) 
+  if (index == 0){name <- "Wind.png";   t<-p/(600*60)}
+  else {name <- paste("Wind_", tempo[2], ".png",sep="");   t<-p/600}
+
+  png(paste(path_output, name ,sep=""))
+  par(mfrow=c(2,1))
+  plot(t, h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
+  plot(t, theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
+  dev.off()
+}
+
+#plot skewness and kurtosis in x, y and z in the same graphic
+sk_plot.xyz <-function(x_sk, y_sk, z_sk, path_output ){
+  
+  max.s <-max(c(max(x_sk[,3]), max(y_sk[,3]), max(z_sk[,3]))) +2
+  min.s <-min(c(min(x_sk[,3]), min(y_sk[,3]), min(z_sk[,3]))) -2
+  
+  max.k <-max(c(max(x_sk[,4]), max(y_sk[,4]), max(z_sk[,4]))) +2
+  min.k <-min(c(min(x_sk[,4]), min(y_sk[,4]), min(z_sk[,4]))) -2
+
+  png(paste(path_output, "Skeweness+Kurtosis_xyz", ".png",sep=""));
+  par(mfrow=c(2,1));
+  
+  plot(x_sk[,2], x_sk[,3],  ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
+    points(y_sk[,2], y_sk[,3], col="red", pch = 1, cex = 2 )
+    points(z_sk[,2], z_sk[,3], col="green", pch = 1, cex = 2 )
+    abline(h=0)
+  
+  plot(x_sk[,2], x_sk[,4], ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
+    points(y_sk[,2], y_sk[,4], col="red", pch = 1, cex = 2 )
+    points(z_sk[,2], z_sk[,4], col="green", pch = 1, cex = 2 )
+    abline(h=0)
+
+  dev.off()
+}
+
+# graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
+print.hist.gauss<-function(x, path_output, coord, tempo) {
+  
+  if(coord=="x"){ color ="cornflowerblue"; asse="u"}
+  if(coord=="y"){ color ="darkorange"; asse = "v"}
+  if(coord=="z"){ color ="darkorchid"; asse = "w"}
+  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"}
+  if(coord=="theta"){ color ="indianred"; asse = "theta"}
+  
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x))
+  x0<-seq(min(x), max(x), length.out= 100)
+  lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
+  scatplot <- recordPlot()
+  name <- paste(path_output, "/", tempo, "_Histogram_",coord,".png",sep = '')
+  print_plot(scatplot, 1200, 900, name)
+  rm(scatplot)
+}
+
+# graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
+printBlock.hist.gauss<-function(x, path_output, coord, block, dim_bl,tempo) {
+  
+  if(coord=="x"){ color ="cornflowerblue"; asse="u"; div =2}
+  if(coord=="y"){ color ="darkorange"; asse = "v"; div= 2}
+  if(coord=="z"){ color ="darkorchid"; asse = "w"; div=5}
+  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"; div=1}
+  if(coord=="theta"){ color ="indianred"; asse = "theta"; div=3}
+  
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  block_x <- with(sig,value)
+  
+  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/div)
+  x0<-seq(min(block_x), max(block_x), length.out= 100)
+  lines(x0, dnorm(x0, mean = mean(block_x), sd= sd(block_x)), lwd=3, type = "l" )
+  scatplot <- recordPlot()
+  name <- paste(path_output, "/", tempo, "_Histogram_",coord,".png",sep = '')
+  print_plot(scatplot, 1200, 900, name)
+  rm(scatplot)
+  
+}
+
 
 signal.block.mean <- function(time.stamp, signal, block.length=300) {   # lunghezza del blocco 
   time.index <- time.stamp %/% block.length                             # time.index numero di blocchi 

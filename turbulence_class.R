@@ -33,6 +33,8 @@ setMethod('set_direction', signature='turbulence',
 	  dir <- c(1:length(x_vel))
 	  dir <- atan2(-x_vel,-y_vel) # direction of wind from the North: I'm not sure, MUST CHECK!!!
 	  object@dir <- dir*(180/pi)
+	  index <- which(object@dir < 0)
+	  object@dir[index] <- object@dir[index] +360
 	  return(object)
 })
 
@@ -103,6 +105,40 @@ setMethod('get_uvel', signature='turbulence',
             temperature <-object@t
             u_vel <- cbind(u_vel,temperature)
             return(u_vel)
+          }
+          , sealed=FALSE)
+
+#******************************************************************************
+# Method for extracting v velocity slot
+#******************************************************************************
+
+setGeneric('get_vvel', function(object){    # To define an S4 method, I must create a generic first
+  standardGeneric('get_vvel')               # standardGeneric is the S4 equivalent of UseMethod
+})
+
+setMethod('get_vvel', signature='turbulence', 
+          function(object){
+            v_vel <- object@v
+            temperature <-object@t
+            v_vel <- cbind(v_vel,temperature)
+            return(v_vel)
+          }
+          , sealed=FALSE)
+
+#******************************************************************************
+# Method for extracting v velocity slot
+#******************************************************************************
+
+setGeneric('get_vvel', function(object){    # To define an S4 method, I must create a generic first
+  standardGeneric('get_vvel')               # standardGeneric is the S4 equivalent of UseMethod
+})
+
+setMethod('get_vvel', signature='turbulence', 
+          function(object){
+            v_vel <- object@v
+            temperature <-object@t
+            v_vel <- cbind(v_vel,temperature)
+            return(v_vel)
           }
           , sealed=FALSE)
 
