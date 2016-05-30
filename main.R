@@ -1,5 +1,5 @@
 # library(lattice)
-# library(ggplot2)
+library(ggplot2)
 # library(gtable)
 # library(methods)
 library(e1071)
@@ -79,6 +79,10 @@ for(i in 1:length(filename_tot))
 # png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
 # plot(sigma_totale_xvel, type='l')
 # dev.off()
+write.table(sigma_totale_zvel,"Sigma_tot_z.dat")
+write.table(sigma_totale_xvel,"Sigma_tot_x.dat")
+write.table(sigma_totale_yvel,"Sigma_tot_y.dat")
+
 #cat("* Perfoming Gaussian...","\n")
 #source('Gaussian.R')
    
