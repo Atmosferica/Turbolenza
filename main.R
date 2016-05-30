@@ -12,7 +12,6 @@ library(moments)
 source('functions.R')
 source('turbulence_class.R')
 
-sonic_fqc <- 20    #20 for LiCor, 10 for Control and Emission
 data_path <- path_dir
 filename <- list.files(data_path, pattern='*.dat') # listing all the files in the working dir
 var_code <- sub('.dat','', filename) # removing the '.dat' at the end of the filename
@@ -89,9 +88,9 @@ cat("* Perfoming Gaussian con filtro...","\n")
 source('Gaussian.R')
 
 cat("* Perfoming Gaussian senza filtro...","\n")
-source('senza_filtro.R')
+#source('senza_filtro.R')
 
 cat("* Perfoming Wind...","\n")
-source('wind.R')
+#source('wind.R')
    
 

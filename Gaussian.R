@@ -13,6 +13,10 @@ h_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 
 n<-0
 
+
+ f_cut_up <- sonic_fqc/2
+ f_cut_down <- 0.002014619
+
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C
 for(fl in 1:length(filename_dati_tot))
@@ -49,9 +53,6 @@ for(fl in 1:length(filename_dati_tot))
              
               path_output_new<-paste(path_output, "block/", sep ='')
               create_directory(path_output_new)
-             
-              f_cut_up <- 0.1
-              f_cut_down <- 0.05
          
              ##Finding kurtosis-skewness and mean-sd for x-velocity.
              ##firth column: date; second : hour
@@ -225,9 +226,6 @@ for(fl in 1:length(filename_dati_tot))
           ##third column: mean; fourth column: sd
           x_vel <- get_uvel(turb)
           x <- x_vel[,1]  
-          
-          f_cut_up <- 0.1
-          f_cut_down <- 0.05
           
           hamming <- hamming.window(length(x))
           hamming <- hamming/sum(hamming)*length(x)
