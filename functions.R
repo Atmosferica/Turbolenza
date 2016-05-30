@@ -185,6 +185,7 @@ sk_plot.xyzh <-function(x_sk, y_sk, z_sk, h_k,path_output ){
   plot(x_sk[,2], x_sk[,3],  ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Skewness', type = 'p', main = paste('Skewness', sep=''),col="blue", pch = 1, cex = 2, sub = 'x: blue     y: red     z: green    h:black' )
   plot(x_sk[,2], x_sk[,4], ylim = c(min.s, max.s), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
   plot(x_sk[,2], x_sk[,4], ylim = c(-6, 6), xlab = 'Time (hours)', ylab = 'Kurtosis', type = 'p', main = paste('Kurtosis', sep=''), col="blue", pch =1, cex = 2, sub = 'x: blue     y: red     z: green     h:black' )
+}
 
 gauss_plot <-function(m_gauss, path_output, coord ){
   png(paste(path_output, "mean+sd_", coord, ".png",sep=""));
