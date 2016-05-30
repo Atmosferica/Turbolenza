@@ -135,6 +135,30 @@ gauss.blocks<-function(time_stamp, x, block, dim_bl, dati){
   return(m_gauss)
 }
 
+kolm.test <-function(x, dati){
+  x0<-seq(min(x), max(x), length.out= length(x))
+  y<-pnorm(x0, mean = mean(x), sd= sd(x))
+  ks<-ks.test(x,y)
+  k<-c(dati, as.numeric(ks$statistic), ks$p.value)
+  k<-t(k)
+ 
+  return (k)
+}
+
+kolm.test.blocks <-function(time_stamp, x, block, dim_bl, dati){
+  
+  sig <- signal.partition(time_stamp, x, block, dim_bl)
+  vector_blocks  <- with(sig,value)
+  
+  x0<-seq(min(vector_blocks), max(vector_blocks), length.out= length(vector_blocks))
+  y<-pnorm(x0, mean = mean(vector_blocks), sd= sd(vector_blocks))
+  ks<-ks.test(vector_blocks,y)
+  k<-c(dati, as.numeric(ks$statistic), ks$p.value)
+  k<-t(k)
+  
+  return (k)
+}
+
 
 #plot skewness and kurtosis
 sk_plot <-function(m_sk, path_output, coord ){
@@ -153,6 +177,12 @@ gauss_plot <-function(m_gauss, path_output, coord ){
   plot(m_gauss[,2], m_gauss[,3], ylim = c(min(m_gauss[,3])-1, max(m_gauss[,3])+1), xlab = 'Time (hours)', ylab = 'mean', type = 'p', main = paste('mean_',coord, sep=''),bg = "red",col="red", pch = 20, cex = 2 )
   plot(m_gauss[,2], m_gauss[,4], ylim = c(min(m_gauss[,4])-1, max(m_gauss[,4])+1), xlab = 'Time (hours)', ylab = 'sd', type = 'p', main = paste('sd_',coord, sep=''),bg = "red",col="red", pch = 20, cex = 2 )
   abline(h=0)
+  dev.off()
+}
+
+kolm.test_plot <-function(m_test, path_output, coord ){
+  png(paste(path_output, "kolmogorov.test_", coord, ".png",sep=""));
+  plot(m_test[,2], m_test[,3], ylim = c(min(m_test[,3])-1, max(m_test[,3])+1), xlab = 'Time (hours)', ylab = 'd', type = 'p', main = paste('d_',coord, sep=''),bg = "green",col="green", pch = 20, cex = 2 )
   dev.off()
 }
 
@@ -204,7 +234,7 @@ print.hist.gauss<-function(x, path_output, coord, tempo) {
   if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"}
   if(coord=="theta"){ color ="indianred"; asse = "theta"}
   
-  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/4)
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x))
   x0<-seq(min(x), max(x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
@@ -216,16 +246,16 @@ print.hist.gauss<-function(x, path_output, coord, tempo) {
 # graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
 printBlock.hist.gauss<-function(x, path_output, coord, block, dim_bl,tempo) {
   
-  if(coord=="x"){ color ="cornflowerblue"; asse="u"}
-  if(coord=="y"){ color ="darkorange"; asse = "v"}
-  if(coord=="z"){ color ="darkorchid"; asse = "w"}
-  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"}
-  if(coord=="theta"){ color ="indianred"; asse = "theta"}
+  if(coord=="x"){ color ="cornflowerblue"; asse="u"; div =2}
+  if(coord=="y"){ color ="darkorange"; asse = "v"; div= 2}
+  if(coord=="z"){ color ="darkorchid"; asse = "w"; div=5}
+  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"; div=1}
+  if(coord=="theta"){ color ="indianred"; asse = "theta"; div=3}
   
   sig <- signal.partition(time_stamp, x, block, dim_bl)
   block_x <- with(sig,value)
   
-  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/4)
+  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/div)
   x0<-seq(min(block_x), max(block_x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(block_x), sd= sd(block_x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
