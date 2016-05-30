@@ -1,4 +1,3 @@
-##This file studies Kurtosis, Skewness and the Normal path of wind speed.
 
 #Define:
 x_test <-matrix(nrow=length(filename_dati_tot), ncol=4)
@@ -48,13 +47,14 @@ for(fl in 1:length(filename_dati_tot))
         path_output_new<-paste(path_output, "block/", sep ='')
         create_directory(path_output_new)
         
-        ##Finding kurtosis-skewness and mean-sd for x-velocity.
+        ##Performing Kolmogorov-Smirnoff test.
         ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+        ##third column: d ; fourth column: p-value
+        #u
         x_vel <- get_uvel(turb)
         x <- x_vel[,1]  
         
+        #Filtering
         hamming <- hamming.window(length(x))
         hamming <- hamming/sum(hamming)*length(x)
         x <- x*hamming
@@ -62,16 +62,13 @@ for(fl in 1:length(filename_dati_tot))
         down_smooth<-LowPassfilter.data(fft_x$freq,fft_x$fft_vel,f_cut_up)
         tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
         x <- Re(tot_smooth$vel)/hamming 
-
+        
+        #test
         x_test[counter,]<-kolm.test(x, info)
         
-        ##Finding kurtosis-skewness and mean-sd for y-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+        #v
         y_vel <- get_vvel(turb)
         y <- y_vel[,1]   
-        
         
         down_smooth<-NULL
         tot_smooth<-NULL
@@ -84,11 +81,8 @@ for(fl in 1:length(filename_dati_tot))
         y <- Re(tot_smooth$vel)/hamming 
 
         y_test[counter,]<-kolm.test(y, info)
-        
-        ##Finding kurtosis-skewness and mean-sd for z-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+
+        #w
         z_vel <- get_zvel(turb)
         z <- z_vel[,1]
         
@@ -104,11 +98,7 @@ for(fl in 1:length(filename_dati_tot))
         
         z_test[counter,]<-kolm.test(z, info)
         
-        ##Finding kurtosis-skewness and mean-sd for h-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd             
-        
+        #h
         h_vel <- get_hvel(turb)
         h <- h_vel[,1]
         
@@ -116,8 +106,7 @@ for(fl in 1:length(filename_dati_tot))
 
         
         
-        #Here there is the programme that studies the skewness and kurtosis coefficient of our data
-        # Extracting blocks of 5 minutes from original dataset
+         # Extracting blocks of 5 minutes from original dataset
         dim_bl <- 300
         time_stamp <- seq(from=0, to=length(z)-1)*(1/sonic_fqc)
         numb <- length(z)%/%(dim_bl*sonic_fqc) # number of blocks: watch out, blocks are in
@@ -125,8 +114,7 @@ for(fl in 1:length(filename_dati_tot))
         cat("* Number of blocks: ",numb,"\n")
         
         #Creating matrices with 4 columns:
-        #1: dat, 2: blocco, 3: skewness, 4: Kurtosis
-
+        
         m.x_test <- matrix(ncol = 4 ,nrow = numb)
         m.y_test <- matrix(ncol = 4 ,nrow = numb)
         m.z_test <- matrix(ncol = 4 ,nrow = numb)
@@ -180,10 +168,10 @@ for(fl in 1:length(filename_dati_tot))
         path_output_new<-paste(path_output, "block/", sep ='')
         create_directory(path_output_new)
         
-        ##Finding kurtosis-skewness and mean-sd for x-velocity.
+        ##Performing Kolmogorov-Smirnoff test.
         ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+        ##third column: d ; fourth column: p-value
+        #u
         x_vel <- get_uvel(turb)
         x <- x_vel[,1]  
         
@@ -197,10 +185,7 @@ for(fl in 1:length(filename_dati_tot))
         
         x_test[counter,]<-kolm.test(x, info)
         
-        ##Finding kurtosis-skewness and mean-sd for y-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+        #v
         y_vel <- get_vvel(turb)
         y <- y_vel[,1]   
         
@@ -217,10 +202,7 @@ for(fl in 1:length(filename_dati_tot))
         
         y_test[counter,]<-kolm.test(y, info)
         
-        ##Finding kurtosis-skewness and mean-sd for z-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd
+        #w
         z_vel <- get_zvel(turb)
         z <- z_vel[,1]
         
@@ -235,11 +217,8 @@ for(fl in 1:length(filename_dati_tot))
         z <- Re(tot_smooth$vel)/hamming 
 
         z_test[counter,]<-kolm.test(z, info)
-        
-        ##Finding kurtosis-skewness and mean-sd for h-velocity.
-        ##firth column: date; second : hour
-        ##third column: skewness; fourth column: kurtosis
-        ##third column: mean; fourth column: sd             
+
+        #h           
         h_vel <- get_hvel(turb)
         h <- h_vel[,1]
         
@@ -255,9 +234,6 @@ for(fl in 1:length(filename_dati_tot))
         # seconds, not in 0.1s...
         cat("* Number of blocks: ",numb,"\n")
         
-        #Creating matrices with 4 columns:
-        #1: dat, 2: blocco, 3: skewness, 4: Kurtosis
-
         m.x_test <- matrix(ncol = 4 ,nrow = numb)
         m.y_test <- matrix(ncol = 4 ,nrow = numb)
         m.z_test <- matrix(ncol = 4 ,nrow = numb)
