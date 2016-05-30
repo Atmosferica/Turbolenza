@@ -11,6 +11,7 @@ library(e1071)
 #source('estrattore_blocchi.R')
 source('functions.R')
 source('turbulence_class.R')
+source('kwm.R')
 
 sonic_fqc <- 20
 data_path <- path_dir
@@ -37,6 +38,7 @@ z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 sigma_totale_zvel <- NULL
 sigma_totale_yvel <- NULL
 sigma_totale_xvel <- NULL
+minimum<-NULL
 
 for(i in 1:length(filename_tot))
 {
@@ -60,10 +62,9 @@ for(i in 1:length(filename_tot))
   cat("* Performing FFT analysis...","\n")
   source('Periodigram.R')
   
-  #cat("* Performing Markovian test...","\n")
+  cat("* Performing Markovian test...","\n")
   #source('markov_test.R')
   #cat("* File: ",filename_tot[i],"..done!\n")
-  
   #source('orbital_method.R')
 
 }

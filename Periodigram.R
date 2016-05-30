@@ -37,10 +37,11 @@ fft_tm <- system.time(
 # the option header=F in read.csv() (graph superimposed)
 # Note: you don't need print_plot() anymore, you can use ggsave()
 g1 <- ggplot(data=data, aes(x=freq, y=peaks)) + geom_line(, colour='black') + 
-      scale_y_log10() + scale_x_log10() + ggtitle('FFT Z Velocity') +
+      scale_y_log10() + scale_x_log10() + ggtitle(filename[i]) +
       xlab('Frequencies (Hz)') + ylab('FFT Power Spectrum [dB]')
 g1
 ggsave(paste(name_dir[i], '/grafici_fft/fft_nofilter_z.png', sep=''))
+minimum<-c(minimum,kwm(data$freq,data$peaks, -3, -1))
 rm(g1)
 cat("FFT performed in: ",fft_tm,"\n")
 
