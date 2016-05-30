@@ -24,17 +24,20 @@ def periodogram(x,y,z,t,name):
         F.append(f)
         A.append(a)
 
-    plt.figure(1)
+    
+    plt.figure(1,figsize=(11,7))
+    plt.title("Spectral Gap - LiCor Fontanella1 Precampagna")
     plt.subplot(121)
     plt.title("FFT horizontal velocity")
-    #plt.xlim(0.001,0.05)
-    #plt.loglog(F[0],A[0],pF,pA,'ko')
-    plt.loglog(F[0],A[0],'bo', markersize=0.1)
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Power Spectrum [dB]")
+    plt.loglog(F[0],A[0],'k', markersize=0.1)
 
     plt.subplot(122)
     plt.title("FFT vertical velocity")
-    #plt.xlim(0.001,0.05)
-    plt.loglog(F[1],A[1],'bo',markersize=0.1)
+    plt.xlabel("Frequency [Hz]")
+    plt.ylabel("Power Spectrum [dB]")
+    plt.loglog(F[1],A[1],'r',markersize=0.1)
 
     try:
         plt.savefig("graph/"+name+"_FFT.png", figuresize=(8,6), dpi=320, format="png")

@@ -11,6 +11,7 @@ library(e1071)
 #source('estrattore_blocchi.R')
 source('functions.R')
 source('turbulence_class.R')
+source('kwm.R')
 
 sonic_fqc <- 20
 data_path <- path_dir
@@ -37,6 +38,7 @@ z_sk <-matrix(nrow=length(filename_tot), ncol=4)
 sigma_totale_zvel <- NULL
 sigma_totale_yvel <- NULL
 sigma_totale_xvel <- NULL
+minimum<-NULL
 
 for(i in 1:length(filename_tot))
 {
@@ -54,36 +56,35 @@ for(i in 1:length(filename_tot))
   
   create_directory(name_dir[i])
   cat(name_dir[i],"\n")
-  cat("* Perfoming correlation graph...","\n")
+  #cat("* Perfoming correlation graph...","\n")
   #source('Correlation.R')
   
   cat("* Performing FFT analysis...","\n")
-  #source('Periodigram.R')
+  source('Periodigram.R')
   
-#   cat("* Performing Markovian test...","\n")
-#   source('markov_test.R')
-  cat("* File: ",filename_tot[i],"..done!\n")
-  
-  source('orbital_method.R')
+  cat("* Performing Markovian test...","\n")
+  #source('markov_test.R')
+  #cat("* File: ",filename_tot[i],"..done!\n")
+  #source('orbital_method.R')
 
 }
 
-# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-# plot(sigma_totale_zvel, type='l')
-# dev.off()
-#    
-# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-# plot(sigma_totale_yvel, type='l')
-# dev.off()
-# 
-# png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
-# plot(sigma_totale_xvel, type='l')
-# dev.off()
-write.table(sigma_totale_zvel,"Sigma_tot_z.dat")
-write.table(sigma_totale_xvel,"Sigma_tot_x.dat")
-write.table(sigma_totale_yvel,"Sigma_tot_y.dat")
+#png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_zvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+#plot(sigma_totale_zvel, type='l')
+#dev.off()
+   
+#png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_yvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+#plot(sigma_totale_yvel, type='l')
+#dev.off()
+
+#png(paste(paste("grafici_output",sub('data','',path_dir),sep = ""),paste("std_blocks_totale_xvel_",sub(".dat",'',filename[i]),"wvel.png",sep = '')))
+#plot(sigma_totale_xvel, type='l')
+#dev.off()
+#write.table(sigma_totale_zvel,"Sigma_tot_z.dat")
+#write.table(sigma_totale_xvel,"Sigma_tot_x.dat")
+#write.table(sigma_totale_yvel,"Sigma_tot_y.dat")
 
 #cat("* Perfoming Gaussian...","\n")
 #source('Gaussian.R')
    
-
+#

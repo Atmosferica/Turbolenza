@@ -7,7 +7,7 @@ Npoint=length(vel)
 
 # Creating fft-graph directory ----------------------------------------------
 
-create_directory(paste(directory_dataset, '/grafici_fft/', sep=''))
+create_directory(paste(name_dir[i], '/grafici_fft/', sep=''))
 
 # Data windowing ------------------------------------------------------------
 
@@ -26,21 +26,22 @@ cat("Velocity dataset size: ",Npoint,"\n")
 
 # Import cut_freq from file --------------------------------------------------
 
-cut_times <- read.table(paste(data_path, 'cut_freq', sep=''))
+cut_times <- read.table('data/cut_freq')
 cut_freq <- 1/cut_times # Converting times into frequencies
 
 # Perform the FFT ------------------------------------------------------------
 fft_tm <- system.time(
-	data <- dofft(vel, sonic_fqc) #ATTENTION! Some data set are sampled at 20Hz
+	data <- dofft(vel^2, sonic_fqc) #ATTENTION! Some data set are sampled at 20Hz
 )
 # Plotting fft with ggplot() to solve the bug found by Stefano with 
 # the option header=F in read.csv() (graph superimposed)
 # Note: you don't need print_plot() anymore, you can use ggsave()
 g1 <- ggplot(data=data, aes(x=freq, y=peaks)) + geom_line(, colour='black') + 
-      scale_y_log10() + scale_x_log10() + ggtitle('FFT') +
-      xlab('Frequencies (Hz)') + ylab('Amplitude')
+      scale_y_log10() + scale_x_log10() + ggtitle(filename[i]) +
+      xlab('Frequencies (Hz)') + ylab('FFT Power Spectrum [dB]')
 g1
-ggsave(paste(directory_dataset, '/grafici_fft/fft_nofilter.png', sep=''))
+ggsave(paste(name_dir[i], '/grafici_fft/fft_nofilter_z.png', sep=''))
+minimum<-c(minimum,kwm(data$freq,data$peaks, -3, -1))
 rm(g1)
 cat("FFT performed in: ",fft_tm,"\n")
 
@@ -58,9 +59,9 @@ for(k in 1:length(cut_freq[,1])){
   # Printing to plot and saving
   g1 <- ggplot(data=filt, aes(x=freq, y=peaks)) + geom_line(colour='black') + 
     scale_y_log10() + scale_x_log10() + ggtitle(paste('FFT: high-pass filter at ', round(cut_freq[k,1], 4),"Hz.png", sep='')) +
-    xlab('Frequencies (Hz)') + ylab('Amplitude')
+    xlab('Frequencies (Hz)') + ylab('')
   g1
-  ggsave(paste(directory_dataset, '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
+  ggsave(paste(name_dir[i], '/grafici_fft/fft_cut_',round(cut_freq[k,1], 4),"Hz.png", sep=''))
   rm(g1)
 
  }
