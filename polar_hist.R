@@ -1,5 +1,6 @@
 direction <- get_direction(turb)
-hist_temp <- hist(direction, breaks=nclass.FD(direction))
+#hist_temp <- hist(direction, breaks=nclass.FD(direction))
+hist_temp <- hist(direction, breaks=c(seq(1, 360, 1)))
 hist_temp_cont <- hist_temp$counts
 hist_temp_mids <- hist_temp$mids
 df <- data.frame(counts=hist_temp_cont, pos=hist_temp_mids)
