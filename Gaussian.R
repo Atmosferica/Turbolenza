@@ -11,7 +11,11 @@ y_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 z_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 h_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 
+
 n<-0
+
+f_cut_up <- sonic_fqc/2
+f_cut_down <- 0.01048
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C
@@ -50,9 +54,6 @@ for(fl in 1:length(filename_dati_tot))
               path_output_new<-paste(path_output, "block/", sep ='')
               create_directory(path_output_new)
              
-              f_cut_up <- 0.1
-              f_cut_down <- 0.05
-         
              ##Finding kurtosis-skewness and mean-sd for x-velocity.
              ##firth column: date; second : hour
              ##third column: skewness; fourth column: kurtosis
@@ -71,7 +72,7 @@ for(fl in 1:length(filename_dati_tot))
               x_sk[counter,]<-sk(x, info)
               x_gauss[counter, ]<-gauss(x, info)
               print.hist.gauss(x, path_output, "x", info[2])
-         
+ 
              ##Finding kurtosis-skewness and mean-sd for y-velocity.
              ##firth column: date; second : hour
              ##third column: skewness; fourth column: kurtosis
@@ -93,7 +94,7 @@ for(fl in 1:length(filename_dati_tot))
               y_sk[counter,]<-sk(y,info) 
               y_gauss[counter, ]<-gauss(y, info)
               print.hist.gauss(y, path_output, "y", info[2])
-              
+
               ##Finding kurtosis-skewness and mean-sd for z-velocity.
               ##firth column: date; second : hour
               ##third column: skewness; fourth column: kurtosis
@@ -114,7 +115,7 @@ for(fl in 1:length(filename_dati_tot))
               z_sk[counter,]<-sk(z, info)
               z_gauss[counter, ]<-gauss(z, info)
               print.hist.gauss(z, path_output, "z", info[2])
-              
+
               ##Finding kurtosis-skewness and mean-sd for h-velocity.
               ##firth column: date; second : hour
               ##third column: skewness; fourth column: kurtosis
@@ -126,7 +127,7 @@ for(fl in 1:length(filename_dati_tot))
               h_sk[counter,]<-sk(h, info)
               h_gauss[counter, ]<-gauss(h, info)
               print.hist.gauss(h, path_output, "h", info[2])
-              
+
               ##Finding kurtosis-skewness and mean-sd for velocity direction.
               ##firth column: date; second : hour
               ##third column: mean; fourth column: sd   
@@ -154,7 +155,7 @@ for(fl in 1:length(filename_dati_tot))
              m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
              m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
              
- 
+
              tempo<-info
              for(block in 1:numb){
                tempo[2]<-info[2] + (block-1)*0.05
@@ -167,6 +168,7 @@ for(fl in 1:length(filename_dati_tot))
                m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
                m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
                m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
+
                
                printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
                printBlock.hist.gauss(y, path_output_new, "y", block, dim_bl, tempo[2])
@@ -181,22 +183,20 @@ for(fl in 1:length(filename_dati_tot))
              sk_plot(m.z_sk, paste(path_output_new, info[2], "_", sep = ''), "z")
              sk_plot(m.h_sk, paste(path_output_new, info[2], "_", sep = ''), "h")
              
-             gauss_plot(m.x_gauss, paste(path_output_new, info[2], "_", sep = '') ,"x")
-             gauss_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")
-             gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
-             gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
         }
        
 
        
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
-       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
-       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
-       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        sk_plot(h_sk[(n+1):counter, ], path_output, "h")
+
+       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
+       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
+       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       
        sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
        n <- counter
     
@@ -226,9 +226,6 @@ for(fl in 1:length(filename_dati_tot))
           x_vel <- get_uvel(turb)
           x <- x_vel[,1]  
           
-          f_cut_up <- 0.1
-          f_cut_down <- 0.05
-          
           hamming <- hamming.window(length(x))
           hamming <- hamming/sum(hamming)*length(x)
           x <- x*hamming
@@ -240,7 +237,7 @@ for(fl in 1:length(filename_dati_tot))
           x_sk[counter,]<-sk(x, info)
           x_gauss[counter, ]<-gauss(x, info)
           print.hist.gauss(x, path_output, "x", info[2])
-          
+
           ##Finding kurtosis-skewness and mean-sd for y-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
@@ -262,7 +259,7 @@ for(fl in 1:length(filename_dati_tot))
           y_sk[counter,]<-sk(y,info) 
           y_gauss[counter, ]<-gauss(y, info)
           print.hist.gauss(y, path_output, "y", info[2])
-          
+
           ##Finding kurtosis-skewness and mean-sd for z-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
@@ -283,7 +280,7 @@ for(fl in 1:length(filename_dati_tot))
           z_sk[counter,]<-sk(z, info)
           z_gauss[counter, ]<-gauss(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
-          
+
           ##Finding kurtosis-skewness and mean-sd for h-velocity.
           ##firth column: date; second : hour
           ##third column: skewness; fourth column: kurtosis
@@ -320,8 +317,8 @@ for(fl in 1:length(filename_dati_tot))
           m.y_gauss <- matrix(ncol = 4 ,nrow = numb)
           m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
           m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
-
-
+          
+          
           tempo<-info
           for(block in 1:numb){
             tempo[2]<-info[2] + (block-1)*0.05
@@ -334,6 +331,7 @@ for(fl in 1:length(filename_dati_tot))
             m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
             m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
             m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
+            
 
             printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
             printBlock.hist.gauss(y, path_output_new, "y", block, dim_bl, tempo[2])
@@ -354,17 +352,19 @@ for(fl in 1:length(filename_dati_tot))
           gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
           gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
 
-        }
-          
+   
 #plot orari
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
-       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
-       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        sk_plot(z_sk[(n+1):counter, ], path_output, "z")
-       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        sk_plot(h_sk[(n+1):counter, ], path_output, "h")
+       
+       gauss_plot(x_gauss[(n+1):counter, ], path_output ,"x")
+       gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
+       gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       
+
        sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
 
        n <- counter

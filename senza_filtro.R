@@ -193,10 +193,7 @@ for(fl in 1:length(filename_dati_tot))
         ##third column: mean; fourth column: sd
         x_vel <- get_uvel(turb)
         x <- x_vel[,1]  
-        
-        f_cut_up <- 0.015
-        f_cut_down <- 0.005
-        
+  
         x_sk[counter,]<-sk(x, info)
         x_gauss[counter, ]<-gauss(x, info)
         print.hist.gauss(x, path_output, "x", info[2])

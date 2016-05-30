@@ -1,3 +1,4 @@
+
 #working path from stdin
 cat("cartella\n")
 line <- readLines(stdin(), n=1)
