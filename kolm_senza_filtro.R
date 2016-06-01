@@ -92,9 +92,7 @@ for(fl in 1:length(filename_dati_tot))
           m.h_test[block,] <-kolm.test.blocks(time_stamp, h, block, dim_bl, tempo)
           
           
-          
         }
-        
         
         kolm.test_plot(m.x_gauss, paste(path_output_new, info[2], "_", sep = '') ,"x")
         kolm.test_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")

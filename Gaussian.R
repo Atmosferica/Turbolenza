@@ -11,6 +11,11 @@ y_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 z_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 h_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
 
+x_test <-matrix(nrow=length(filename_dati_tot), ncol=3)
+y_test <-matrix(nrow=length(filename_dati_tot), ncol=3)
+z_test <-matrix(nrow=length(filename_dati_tot), ncol=3)
+h_test <-matrix(nrow=length(filename_dati_tot), ncol=3)
+
 
 n<-0
 
@@ -19,8 +24,7 @@ f_cut_down <- 0.01048
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C
-for(fl in 1:length(filename_dati_tot))
-{
+for(fl in 1:length(filename_dati_tot)){
   if (fl==1) {
      # Extracted data from csv using the script convert_cvs.awk. 
      # header=TRUE --> Essential! High performance decay for header=FALSE	
@@ -70,6 +74,7 @@ for(fl in 1:length(filename_dati_tot))
               x <- Re(tot_smooth$vel)/hamming 
              
               x_sk[counter,]<-sk(x, info)
+              x_test[counter, ]<-normality.score(x_sk[counter,],info)
               x_gauss[counter, ]<-gauss(x, info)
               print.hist.gauss(x, path_output, "x", info[2])
  
@@ -93,6 +98,7 @@ for(fl in 1:length(filename_dati_tot))
               
               y_sk[counter,]<-sk(y,info) 
               y_gauss[counter, ]<-gauss(y, info)
+              y_test[counter, ]<-normality.score(y_sk[counter,],info)
               print.hist.gauss(y, path_output, "y", info[2])
 
               ##Finding kurtosis-skewness and mean-sd for z-velocity.
@@ -114,6 +120,7 @@ for(fl in 1:length(filename_dati_tot))
               
               z_sk[counter,]<-sk(z, info)
               z_gauss[counter, ]<-gauss(z, info)
+              z_test[counter, ]<-normality.score(z_sk[counter,],info)
               print.hist.gauss(z, path_output, "z", info[2])
 
               ##Finding kurtosis-skewness and mean-sd for h-velocity.
@@ -126,6 +133,7 @@ for(fl in 1:length(filename_dati_tot))
               
               h_sk[counter,]<-sk(h, info)
               h_gauss[counter, ]<-gauss(h, info)
+              h_test[counter, ]<-normality.score(h_sk[counter,],info)
               print.hist.gauss(h, path_output, "h", info[2])
 
               ##Finding kurtosis-skewness and mean-sd for velocity direction.
@@ -155,6 +163,12 @@ for(fl in 1:length(filename_dati_tot))
              m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
              m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
              
+             m.x_test <- matrix(ncol = 3 ,nrow = numb)
+             m.y_test <- matrix(ncol = 3 ,nrow = numb)
+             m.z_test <- matrix(ncol = 3 ,nrow = numb)
+             m.h_test <- matrix(ncol = 3 ,nrow = numb)
+             
+             
 
              tempo<-info
              for(block in 1:numb){
@@ -168,7 +182,11 @@ for(fl in 1:length(filename_dati_tot))
                m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
                m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
                m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
-
+               
+               m.x_test[block, ]<-normality.score(m.x_sk[block,],tempo)
+               m.y_test[block, ]<-normality.score(m.y_sk[block,],tempo)
+               m.z_test[block, ]<-normality.score(m.z_sk[block,],tempo)
+               m.h_test[block, ]<-normality.score(m.h_sk[block,],tempo)
                
                printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
                printBlock.hist.gauss(y, path_output_new, "y", block, dim_bl, tempo[2])
@@ -183,6 +201,16 @@ for(fl in 1:length(filename_dati_tot))
              sk_plot(m.z_sk, paste(path_output_new, info[2], "_", sep = ''), "z")
              sk_plot(m.h_sk, paste(path_output_new, info[2], "_", sep = ''), "h")
              
+             gauss_plot(m.x_gauss, paste(path_output_new, info[2], "_", sep = '') ,"x")
+             gauss_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")
+             gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
+             gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
+             
+             norm.test_plot(m.x_test, paste(path_output_new, info[2], "_", sep = '') ,"x")
+             norm.test_plot(m.y_test, paste(path_output_new, info[2], "_", sep = '') ,"y")
+             norm.test_plot(m.z_test, paste(path_output_new, info[2], "_", sep = '') ,"z")
+             norm.test_plot(m.h_test, paste(path_output_new, info[2], "_", sep = '') ,"h")
+             
         }
        
 
@@ -196,6 +224,11 @@ for(fl in 1:length(filename_dati_tot))
        gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       
+       norm.test_plot(x_test[(n+1):counter, ], path_output ,"x")
+       norm.test_plot(y_test[(n+1):counter, ], path_output ,"y")
+       norm.test_plot(z_test[(n+1):counter, ], path_output ,"z")
+       norm.test_plot(h_test[(n+1):counter, ], path_output ,"h")
        
        sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)
        n <- counter
@@ -235,6 +268,7 @@ for(fl in 1:length(filename_dati_tot))
           x <- Re(tot_smooth$vel)/hamming 
           
           x_sk[counter,]<-sk(x, info)
+          x_test[counter, ]<-normality.score(x_sk[counter,],info)
           x_gauss[counter, ]<-gauss(x, info)
           print.hist.gauss(x, path_output, "x", info[2])
 
@@ -256,7 +290,8 @@ for(fl in 1:length(filename_dati_tot))
           tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
           y <- Re(tot_smooth$vel)/hamming 
           
-          y_sk[counter,]<-sk(y,info) 
+          y_sk[counter,]<-sk(y,info)
+          y_test[counter, ]<-normality.score(y_sk[counter,],info)
           y_gauss[counter, ]<-gauss(y, info)
           print.hist.gauss(y, path_output, "y", info[2])
 
@@ -278,6 +313,7 @@ for(fl in 1:length(filename_dati_tot))
           z <- Re(tot_smooth$vel)/hamming 
           
           z_sk[counter,]<-sk(z, info)
+          z_test[counter, ]<-normality.score(z_sk[counter,],info)
           z_gauss[counter, ]<-gauss(z, info)
           print.hist.gauss(z, path_output, "z", info[2])
 
@@ -289,6 +325,7 @@ for(fl in 1:length(filename_dati_tot))
           h <- h_vel[,1]
 
           h_sk[counter,]<-sk(h, info)
+          h_test[counter, ]<-normality.score(h_sk[counter,],info)
           h_gauss[counter, ]<-gauss(h, info)
           print.hist.gauss(h, path_output, "h", info[2])
 
@@ -318,6 +355,11 @@ for(fl in 1:length(filename_dati_tot))
           m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
           m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
           
+          m.x_test <- matrix(ncol = 3 ,nrow = numb)
+          m.y_test <- matrix(ncol = 3 ,nrow = numb)
+          m.z_test <- matrix(ncol = 3 ,nrow = numb)
+          m.h_test <- matrix(ncol = 3 ,nrow = numb)
+          
           
           tempo<-info
           for(block in 1:numb){
@@ -331,6 +373,11 @@ for(fl in 1:length(filename_dati_tot))
             m.y_gauss[block,] <-gauss.blocks(time_stamp, y, block, dim_bl, tempo)
             m.z_gauss[block,] <-gauss.blocks(time_stamp, z, block, dim_bl, tempo)
             m.h_gauss[block,] <-gauss.blocks(time_stamp, h, block, dim_bl, tempo)
+            
+            m.x_test[block, ]<-normality.score(m.x_sk[block,],tempo)
+            m.y_test[block, ]<-normality.score(m.y_sk[block,],tempo)
+            m.z_test[block, ]<-normality.score(m.z_sk[block,],tempo)
+            m.h_test[block, ]<-normality.score(m.h_sk[block,],tempo)
             
 
             printBlock.hist.gauss(x, path_output_new, "x", block, dim_bl, tempo[2])
@@ -351,8 +398,14 @@ for(fl in 1:length(filename_dati_tot))
           gauss_plot(m.y_gauss, paste(path_output_new, info[2], "_", sep = '') ,"y")
           gauss_plot(m.z_gauss, paste(path_output_new, info[2], "_", sep = '') ,"z")
           gauss_plot(m.h_gauss, paste(path_output_new, info[2], "_", sep = '') ,"h")
-
-   
+          
+          norm.test_plot(m.x_test, paste(path_output_new, info[2], "_", sep = '') ,"x")
+          norm.test_plot(m.y_test, paste(path_output_new, info[2], "_", sep = '') ,"y")
+          norm.test_plot(m.z_test, paste(path_output_new, info[2], "_", sep = '') ,"z")
+          norm.test_plot(m.h_test, paste(path_output_new, info[2], "_", sep = '') ,"h")
+          
+  
+        } 
 #plot orari
        sk_plot(x_sk[(n+1):counter, ], path_output ,"x")
        sk_plot(y_sk[(n+1):counter, ], path_output, "y")
@@ -363,6 +416,11 @@ for(fl in 1:length(filename_dati_tot))
        gauss_plot(y_gauss[(n+1):counter, ], path_output ,"y")
        gauss_plot(z_gauss[(n+1):counter, ], path_output ,"z")
        gauss_plot(h_gauss[(n+1):counter, ], path_output ,"h")
+       
+       norm.test_plot(x_test[(n+1):counter, ], path_output ,"x")
+       norm.test_plot(y_test[(n+1):counter, ], path_output ,"y")
+       norm.test_plot(z_test[(n+1):counter, ], path_output ,"z")
+       norm.test_plot(h_test[(n+1):counter, ], path_output ,"h")
        
 
        sk_plot.xyz(x_sk[(n+1):counter, ], y_sk[(n+1):counter, ], z_sk[(n+1):counter, ], path_output)

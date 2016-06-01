@@ -102,6 +102,18 @@ sk<- function(x, y, l) {
     return(m_sk)
 }
 
+normality.score <- function(sk, dati) {
+  normal.score <- as.numeric(2)
+  if(abs(sk[3]) < 0.8) {
+    normal.score[1] <- 1
+  }
+  if(abs(sk[4]) < 1) {
+    normal.score[2] <- 1
+  }
+  k<-c(dati[1], dati[2], sum(normal.score)/2)
+  return(k)
+}
+
 
 #returns skewness and kurtosis for one block
 sk.blocks<-function(time_stamp, x, block, dim_bl,dati){
@@ -136,9 +148,9 @@ gauss.blocks<-function(time_stamp, x, block, dim_bl, dati){
 }
 
 kolm.test <-function(x, dati){
-  x0<-seq(min(x), max(x), length.out= length(x))
-  y<-pnorm(x0, mean = mean(x), sd= sd(x))
-  ks<-ks.test(x,y)
+  #x0<-seq(min(x), max(x), length.out= length(x))
+  #y<-pnorm(x0, mean = mean(x), sd= sd(x))
+  ks<-ks.test(x,"pnorm")
   k<-c(dati, as.numeric(ks$statistic), ks$p.value)
   k<-t(k)
  
@@ -182,9 +194,17 @@ gauss_plot <-function(m_gauss, path_output, coord ){
 
 kolm.test_plot <-function(m_test, path_output, coord ){
   png(paste(path_output, "kolmogorov.test_", coord, ".png",sep=""));
-  plot(m_test[,2], m_test[,3], ylim = c(min(m_test[,3])-1, max(m_test[,3])+1), xlab = 'Time (hours)', ylab = 'd', type = 'p', main = paste('d_',coord, sep=''),bg = "green",col="green", pch = 20, cex = 2 )
+  plot(m_test[,2], m_test[,3], ylim = c(min(m_test[,3])-1, max(m_test[,3])+1), xlab = 'Time (hours)', ylab = 'd', type = 'p', main = paste('d_',coord, sep=''),bg = "black",col="black", pch = 20, cex = 2 )
   dev.off()
 }
+
+norm.test_plot <-function(m_test, path_output, coord ){
+  png(paste(path_output, "normality.test_", coord, ".png",sep=""));
+  plot(m_test[,2], m_test[,3], ylim = c(min(m_test[,3])-1, max(m_test[,3])+1), xlab = 'Time (hours)', ylab = 'norm. score', type = 'p', main = paste('norm. score_',coord, sep=''),bg = "black",col="black", pch = 20, cex = 2 )
+  abline(h=1)
+  dev.off()
+}
+
 
 
 ###plot wind, if index =0 for one day, else for one hour
