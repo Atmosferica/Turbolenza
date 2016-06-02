@@ -87,13 +87,13 @@ filename_dati_tot=paste(data_path,filename_dati, sep="")
 cat("* Perfoming Gaussian con filtro...","\n")
 #source('Gaussian.R')
 
-cat("* Perfoming Gaussian senza filtro...","\n")
+#cat("* Perfoming Gaussian senza filtro...","\n")
 #source('senza_filtro.R')
 
-cat("* Perfoming Wind...","\n")
+#cat("* Perfoming Wind...","\n")
 #source('wind.R')
 
 cat("* Perfoming Kolmogorov-Smirnoff test...","\n")
-source('kolmogorov.R')
+#source('kolmogorov.R')
 source('kolm_senza_filtro.R') 
 
