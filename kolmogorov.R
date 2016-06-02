@@ -70,6 +70,7 @@ for(fl in 1:length(filename_dati_tot))
         y_vel <- get_vvel(turb)
         y <- y_vel[,1]   
         
+        #Filtering
         down_smooth<-NULL
         tot_smooth<-NULL
         hamming <- hamming.window(length(y))
@@ -86,6 +87,7 @@ for(fl in 1:length(filename_dati_tot))
         z_vel <- get_zvel(turb)
         z <- z_vel[,1]
         
+        #Filtering
         down_smooth<-NULL
         tot_smooth<-NULL
         hamming <- hamming.window(length(z))
@@ -221,7 +223,6 @@ for(fl in 1:length(filename_dati_tot))
         #h           
         h_vel <- get_hvel(turb)
         h <- h_vel[,1]
-        
         h_test[counter,]<-kolm.test(h, info)
         
 
