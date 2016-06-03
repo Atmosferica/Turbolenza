@@ -87,7 +87,6 @@ filename_dati_tot=paste(data_path,filename_dati, sep="")
 cat("* Perfoming Gaussian con filtro...","\n")
 source('Gaussian.R')
 
-#cat("* Perfoming Gaussian senza filtro...","\n")
 #source('senza_filtro.R')
 
 #cat("* Perfoming Wind...","\n")

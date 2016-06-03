@@ -103,7 +103,7 @@ sk<- function(x, y, l) {
 }
 
 normality.score <- function(sk, dati) {
-  normal.score <- as.numeric(2)
+  normal.score <- numeric(2)
   if(abs(sk[3]) < 0.8) {
     normal.score[1] <- 1
   }
