@@ -5,6 +5,11 @@ y_test <-matrix(nrow=length(filename_dati_tot), ncol=4)
 z_test <-matrix(nrow=length(filename_dati_tot), ncol=4)
 h_test <-matrix(nrow=length(filename_dati_tot), ncol=4)
 
+x_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
+y_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
+z_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
+h_gauss <-matrix(nrow=length(filename_dati_tot), ncol=4)
+
 n<-0
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
@@ -74,13 +79,21 @@ for(fl in 1:length(filename_dati_tot))
         numb <- length(z)%/%(dim_bl*sonic_fqc) # number of blocks: watch out, blocks are in
         # seconds, not in 0.1s...
         cat("* Number of blocks: ",numb,"\n")
-        
-
+       
         m.x_test <- matrix(ncol = 4 ,nrow = numb)
         m.y_test <- matrix(ncol = 4 ,nrow = numb)
         m.z_test <- matrix(ncol = 4 ,nrow = numb)
         m.h_test <- matrix(ncol = 4 ,nrow = numb)
         
+        m.x_gauss <- matrix(ncol = 4 ,nrow = numb)
+        m.y_gauss <- matrix(ncol = 4 ,nrow = numb)
+        m.z_gauss <- matrix(ncol = 4 ,nrow = numb)
+        m.h_gauss <- matrix(ncol = 4 ,nrow = numb)
+        
+        m.x_test <- matrix(ncol = 3 ,nrow = numb)
+        m.y_test <- matrix(ncol = 3 ,nrow = numb)
+        m.z_test <- matrix(ncol = 3 ,nrow = numb)
+        m.h_test <- matrix(ncol = 3 ,nrow = numb)
         
         tempo<-info
         for(block in 1:numb){

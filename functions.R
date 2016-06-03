@@ -248,13 +248,13 @@ sk_plot.xyz <-function(x_sk, y_sk, z_sk, path_output ){
 # graphical display of data using and histogram and plot of the normal distribution with  data's mean and sd
 print.hist.gauss<-function(x, path_output, coord, tempo) {
   
-  if(coord=="x"){ color ="cornflowerblue"; asse="u"}
-  if(coord=="y"){ color ="darkorange"; asse = "v"}
-  if(coord=="z"){ color ="darkorchid"; asse = "w"}
-  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"}
-  if(coord=="theta"){ color ="indianred"; asse = "theta"}
+  if(coord=="x"){ color ="cornflowerblue"; asse="u"; div =2}
+  if(coord=="y"){ color ="darkorange"; asse = "v"; div= 2}
+  if(coord=="z"){ color ="darkorchid"; asse = "w"; div=5}
+  if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"; div=1}
+  if(coord=="theta"){ color ="indianred"; asse = "theta"; div=3}
   
-  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x))
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/div)
   x0<-seq(min(x), max(x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
