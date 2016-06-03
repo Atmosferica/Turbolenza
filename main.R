@@ -88,7 +88,7 @@ cat("* Perfoming Gaussian con filtro...","\n")
 source('Gaussian.R')
 
 cat("* Perfoming Gaussian senza filtro...","\n")
-source('senza_filtro.R')
+#source('senza_filtro.R')
 
 cat("* Perfoming Wind...","\n")
 #source('wind.R')

@@ -49,7 +49,7 @@ for(fl in 1:length(filename_dati_tot))
         turb <- set_direction(turb)  # setting direction
         
         cat(name_dir[counter],"\n")
-        path_output <- paste('grafici_output/', line, '/',info[1], '/con_filtro/', sep = '')  
+        path_output <- paste('grafici_output/', line, '/',info[1], '/senza_filtro/', sep = '')  
         create_directory(path_output)
         
         path_output_new<-paste(path_output, "block/", sep ='')
@@ -214,7 +214,7 @@ for(fl in 1:length(filename_dati_tot))
         turb <- set_direction(turb)  # setting direction
         
         cat(name_dir[counter],"\n")
-        path_output <- paste('grafici_output/', line, '/',info[1], '/con_filtro/', sep = '')
+        path_output <- paste('grafici_output/', line, '/',info[1], '/senza_filtro/', sep = '')
         create_directory(path_output)
         
         path_output_new<-paste(path_output, "block/", sep ='')
