@@ -20,7 +20,9 @@ h_test <-matrix(nrow=length(filename_dati_tot), ncol=3)
 n<-0
 
 f_cut_up <- sonic_fqc/2
-f_cut_down <- 0.01048
+f_cut_down_z <- 0.035337
+f_cut_down_x <- 0.022385
+f_cut_down_y <- 0.022385
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C
@@ -70,7 +72,7 @@ for(fl in 1:length(filename_dati_tot)){
               x <- x*hamming
               fft_x<- dofft(x,sonic_fqc)
               down_smooth<-LowPassfilter.data(fft_x$freq,fft_x$fft_vel,f_cut_up)
-              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_x)
               x <- Re(tot_smooth$vel)/hamming 
              
               x_sk[counter,]<-sk(x, info)
@@ -93,7 +95,7 @@ for(fl in 1:length(filename_dati_tot)){
               y <- y*hamming
               fft_y<- dofft(y,sonic_fqc)
               down_smooth<-LowPassfilter.data(fft_y$freq,fft_y$fft_vel,f_cut_up)
-              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_y)
               y <- Re(tot_smooth$vel)/hamming 
               
               y_sk[counter,]<-sk(y,info) 
@@ -115,7 +117,7 @@ for(fl in 1:length(filename_dati_tot)){
               z <- z*hamming
               fft_z<- dofft(z,sonic_fqc)
               down_smooth<-LowPassfilter.data(fft_z$freq,fft_z$fft_vel,f_cut_up)
-              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+              tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_z)
               z <- Re(tot_smooth$vel)/hamming 
               
               z_sk[counter,]<-sk(z, info)
@@ -264,7 +266,7 @@ for(fl in 1:length(filename_dati_tot)){
           x <- x*hamming
           fft_x<- dofft(x,sonic_fqc)
           down_smooth<-LowPassfilter.data(fft_x$freq,fft_x$fft_vel,f_cut_up)
-          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_x)
           x <- Re(tot_smooth$vel)/hamming 
           
           x_sk[counter,]<-sk(x, info)
@@ -287,7 +289,7 @@ for(fl in 1:length(filename_dati_tot)){
           y <- y*hamming
           fft_y<- dofft(y,sonic_fqc)
           down_smooth<-LowPassfilter.data(fft_y$freq,fft_y$fft_vel,f_cut_up)
-          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_y)
           y <- Re(tot_smooth$vel)/hamming 
           
           y_sk[counter,]<-sk(y,info)
@@ -309,7 +311,7 @@ for(fl in 1:length(filename_dati_tot)){
           z <- z*hamming
           fft_z<- dofft(z,sonic_fqc)
           down_smooth<-LowPassfilter.data(fft_z$freq,fft_z$fft_vel,f_cut_up)
-          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down)
+          tot_smooth<-HiPassfilter.data(down_smooth$freq,down_smooth$fft_vel,f_cut_down_z)
           z <- Re(tot_smooth$vel)/hamming 
           
           z_sk[counter,]<-sk(z, info)
