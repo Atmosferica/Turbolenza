@@ -21,7 +21,7 @@ n<-0
 
 
  f_cut_up <- sonic_fqc/2
- f_cut_down <- 0.002014619
+ f_cut_down <-  0.002014619    #outdoor 0.01048
 
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C

@@ -215,8 +215,8 @@ wind_plot <-function(h, theta, path_output, tempo, index ){
 
   png(paste(path_output, name ,sep=""))
   par(mfrow=c(2,1))
-  plot(t, h, type = 'l', xlab = 'tempo', ylab='|vel|',  main = '|vel|', col = 'blue')
-  plot(t, theta, type = 'l', xlab = 'tempo', ylab='direction (degree)',  main = 'direction', sub= '0=Nord')
+  plot(t, h, type = 'l', xlab = 'time (min)', ylab='|vel| (m/s)',  main = 'Horizontal velocity', col = 'blue')
+  plot(t, theta, type = 'l', xlab = 'time (min)', ylab='direction (degree)',  main = 'Wind direction')
   dev.off()
 }
 
@@ -254,7 +254,7 @@ print.hist.gauss<-function(x, path_output, coord, tempo) {
   if(coord=="h"){ color ="darkseagreen"; asse = "|vel|"; div=1}
   if(coord=="theta"){ color ="indianred"; asse = "theta"; div=3}
   
-  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/div)
+  hist(x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks= nclass.FD(x)/div)
   x0<-seq(min(x), max(x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(x), sd= sd(x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
@@ -275,7 +275,7 @@ printBlock.hist.gauss<-function(x, path_output, coord, block, dim_bl,tempo) {
   sig <- signal.partition(time_stamp, x, block, dim_bl)
   block_x <- with(sig,value)
   
-  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks=nclass.FD(x)/div)
+  hist(block_x, main= paste (tempo, "_Histogram_", coord , sep = ''), xlab = asse, probability = TRUE, col = color, breaks= nclass.FD(x)/div)
   x0<-seq(min(block_x), max(block_x), length.out= 100)
   lines(x0, dnorm(x0, mean = mean(block_x), sd= sd(block_x)), lwd=3, type = "l" )
   scatplot <- recordPlot()
