@@ -28,60 +28,7 @@ f_cut_down_y <- 0.022385
 #Here the cycle starts: it reads all the files.Inside this cycle, there is
 #another for cycle that works C
 for(fl in 1:length(filename_dati_tot)){
-  
-  # Extracted data from csv using the script convert_cvs.awk. 
-  # header=TRUE --> Essential! High performance decay for header=FALSE	
-  data <- read.csv(filename_tot[i], header=TRUE)
-  dati <- read.title.time(filename[i])
-     # Converted data (of class data.frame) into an object of class turbulence
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
-     mem<-dati[1]
-  }
-  
-  if (fl!=1){
-     data <- read.csv(filename_tot[fl], header=TRUE)
-     dati <- read.title.time(filename[fl])
-     turb <- as.turbulence(data)
-     turb <- set_hvel(turb) # setting horizontal velocity
-     turb <- set_direction(turb)  # setting direction
-    
-             turb <- set_hvel(turb) # setting horizontal velocity
-             turb <- set_direction(turb)  # setting direction
-             
-             # Converted data (of class data.frame) into an object of class turbulence
-              # # Finding kurtosis-skewness for h-velocity
-             
-
-  
-  # turb <- set_hvel(turb) # setting horizontal velocity
-
-  #create_directory(name_dir[i])
-  cat(name_dir[i],"\n")
-       n <- counter
-             
-             # Converted data (of class data.frame) into an object of class turbulence
-             
-
-  ##Firt column: skewness; second column: kurtosis
-  #Finding kurtosis-skewness for x-velocity
-  x_vel <- get_uvel(turb)
-  x <- x_vel[,1]   
-  x_sk[i,]<-sk(x, dati) 
-  
-  
-  # Finding kurtosis-skewness for y-velocity
-  y_vel <- get_vvel(turb)
-  y <- y_vel[,1]   
-  y_sk[i,]<-sk(y, dati) 
-  
-  # Finding kurtosis-skewness for z-velocity
-  z_vel <- get_zvel(turb)
-  z <- z_vel[,1]   
-  z_sk[i,]<-sk(z, dati) 
-
-          # # Finding kurtosis-skewness for h-velocity
+  # # Finding kurtosis-skewness for h-velocity
   if (fl==1) {
      # Extracted data from csv using the script convert_cvs.awk. 
      # header=TRUE --> Essential! High performance decay for header=FALSE	
